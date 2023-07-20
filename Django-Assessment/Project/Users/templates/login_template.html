@@ -1,46 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Document</title>
-    <style>table {
-        border: 8px outset;
-        border-radius: 10px;
-        border-spacing: 10px;
-        padding: 20px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    th,td {
-        padding: 5px;
-    }
-    </style>
+    <title>Login Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
+    <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
 </head>
 <body>
     <div>
         <div>
-            <h1 style="text-align:center">Login Portal</h1>
+            <h2 style="text-align:center;color: gray;">Login Portal</h2>
             <form action="" method="post">
                 {% csrf_token %}
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Email id:</td>
-                            <td><input type="text" name="usermail" id="usermail"></td>
-                        </tr>
-                        <tr>
-                            <td>Password:</td>
-                            <td><input type="text" name="userpassword" id="userpassword"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"><input type="submit" value="submit"></td>
-                        </tr>
+                <div class="d-flex justify-content-center m-3">
+                    <div class="w-25 p-3 border border rounded">
+                        <div class="form-group m-3">
+                            <label for="usermail">Email-Id</label>
+                            <input type="text" class="form-control" name="usermail" id="usermail" required>
+                        </div>
+                        <div class="form-group m-3">
+                            <label for="usermail">Password</label>
+                            <input type="text" class="form-control" name="userpassword" id="userpassword" required>
+                        </div>
+                        <div class="form-group m-3">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
                         {% if exception %}
-                        <tr>
-                            <td colspan="2">{{ exception }}</td>
-                        </tr>
+                        <div class="alert alert-danger" role="alert">
+                            {{exception}}
+                        </div>
                         {% endif %}
-                    </tbody>
-                </table>
+                    </div>
+
+                </div>
             </form>
         </div>
     </div>
