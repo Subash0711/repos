@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
+    <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.7.0.min..js' %}"></script>
+</head>
+<body>
+    <div class="">
+        <div class="row">
+            <div class="text-bg-light p-4 border col-md-10">
+                <H1 class="text-secondary-emphasis">My Blog</H1>
+            </div>
+            <div class="text-bg-secondary p-4 col-md-2">
+                <h3>Hi,{{ user }}</h3>
+                <h6>This is my Blog</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="text-bg-light p-4 border">
+                {% for list in bloglists %}
+                <div class="border rounded col-md-10 p-3 m-4" style="background-color: rgb(192, 192, 192);">
+                    <div class="m-2">
+                        <h2>{{ list.blog_title }}</h2>
+                        <p style="font-size: 10px;">published {{ list.created_at }} by {{ list.userid__fullname }}</p>
+                        <P style="font-size: 15px;"> {{ list.blog_content }}</P>
+                    </div>
+                    <div>
+                        <button class="btn btn-outline-dark p-2 m-2 commentButton" data-listId="{{list.blog_id}}">Add comment</button>
+                        <button class="btn btn-outline-dark p-2 m-2 shareButton" data-listId="{{list.blog_id}}">Share Blog</button>
+                    </div>
+                    <div class="m-2 commentDiv" style="display: none;" data-listId="{{list.blog_id}}">
+                        <input type="text" class="form-control" id="user_comment" name="user_comment" placeholder="Your Opinion" aria-label="user-opinion" aria-describedby="basic-addon2">
+                        <div class="mt-2 ml-3">
+                            <button type="button" class="btn btn-outline-dark" > Add </button>
+                            <button type="button" class="btn btn-outline-dark comment-cancel-btn" data-listId="{{list.blog_id}}"> Cancel </button>
+                        </div>
+                    </div>
+                    <div class="input-group m-2 shareDiv" style="display: none;" data-listId="{{list.blog_id}}">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >From </span>
+                        </div>
+                        <input type="text" class="form-control" value="{{usermail}}" disabled>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">To</span>
+                        </div>
+                        <input type="text" class="form-control">
+                        <div>
+                            <input type="button" value="Send" class="btn btn-outline-dark">
+                            <input type="button" value="Cancel" class="btn btn-outline-dark share-cancel-btn" data-listId="{{list.blog_id}}">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+$(document).ready(function(){
+    $(".commentButton").click(function () {
+        var listid = $(this).attr('data-listId');
+        $(".commentDiv[data-listId='"+listid+"']").toggle()
+        $(this).hide()
+        $(this).siblings('.shareButton').hide()
+    })
+    $(".shareButton").click(function () {
+        var listid = $(this).attr('data-listId');
+        $(".shareDiv[data-listId='"+listid+"']").toggle()
+        $(this).hide()
+        $(this).siblings('.commentButton').hide()
+    })
+    $(".comment-cancel-btn").click(function() {
+        var listid = $(this).attr('data-listId');
+        $(".commentDiv[data-listId='"+listid+"']").hide()
+        $(".commentButton[data-listId='"+listid+"']").show()
+        $(".shareButton[data-listId='"+listid+"']").show()
+    })
+    $(".share-cancel-btn").click(function() {
+        var listid = $(this).attr('data-listId');
+        $(".shareDiv[data-listId='"+listid+"']").hide()
+        $(".commentButton[data-listId='"+listid+"']").show()
+        $(".shareButton[data-listId='"+listid+"']").show()
+    })
+})
+</script>

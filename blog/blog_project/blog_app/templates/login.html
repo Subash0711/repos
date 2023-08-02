@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
+    <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
+</head>
+<body>
+    <div>
+        <div>
+            <h2 style="text-align:center;color: gray;">Login</h2>
+            <form  method="post">
+                <div class="d-flex justify-content-center m-3">
+                    <div class="w-50 p-3 border border rounded">
+                        <div class="form-group m-3">
+                            <label for="usermail">User Name</label>
+                            <input type="text" class="form-control" name="username" id="username" required>
+                        </div>
+                        <div class="form-group m-3">
+                            <label for="usermail">Password</label>
+                            <input type="text" class="form-control" name="userpassword" id="userpassword" required>
+                        </div>
+                        <div class="form-group m-3">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+            
+                        <div class="form-group m-3">
+                            <label for="full_name" class="col-md-4 col-form-label text-md-right" style="font-size: smaller;">Not a member ?<a href="{% url 'Signup-View' %}" style="text-decoration: none;"> Create Now</a></label>   
+                        </div>
+                        {% if exception %}
+                        <div class="alert alert-danger" role="alert">
+                            {{exception}}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
