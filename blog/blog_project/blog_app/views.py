@@ -24,3 +24,12 @@ def home_View(request):
 def blogList_View(request,userid):
     return BlogListServices.getAllBlog(request,userid)
 
+@csrf_exempt
+def addBlog_View(request,userid):
+    if request.method == 'POST':
+        return BlogListServices.addBlog(request,int(userid))
+    if request.method == 'GET':
+        contx={
+            'userid':int(userid)
+        }
+        return render (request=None,template_name='add_blog.html',context=contx)

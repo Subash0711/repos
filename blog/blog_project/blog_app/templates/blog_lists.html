@@ -6,26 +6,34 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
     <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
     <script src="{% static 'js/jquery-3.7.0.min..js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <div class="">
-        <div class="row">
-            <div class="text-bg-light p-4 border col-md-10">
-                <H1 class="text-secondary-emphasis">My Blog</H1>
+    <div class="container-fluid">
+        <div class="row" >
+            <div class="p-4  col-md-10" style="background-color: #52BEDB;">
+                <H1 style="color: #BEE7F1;">My Blog</H1>
             </div>
-            <div class="text-bg-secondary p-4 col-md-2">
-                <h3>Hi,{{ user }}</h3>
-                <h6>This is my Blog</h6>
+            <div class="p-4 col-md-2" style="background-color: #86D2E6;">
+                <h3 style="color: #5794a5;">Hi,{{ user }}</h3>
             </div>
         </div>
-        <div class="row">
-            <div class="text-bg-light p-4 border">
+        <div class="row ">
+            <div class="p-4 border" style="background-color: #BEE7F1;">
+                <div class="mx-auto col-md-10 d-flex flex-row-reverse">
+                    <a class="btn m-2 p-2"  id="add-Blog-btn" href="{% url 'AddBlog-View' userid=userid %}" style="text-decoration: none; background-color: #52BEDB;">Add Blog</a>
+                    {% if msg %}
+                    <div class="alert alert-success" id="add-success-msg" style="background-color: #8EE6CA;">
+                        <strong>{{ msg }}</strong> 
+                    </div>
+                    {% endif %}
+                </div>
                 {% for list in bloglists %}
-                <div class="border rounded col-md-10 p-3 m-4" style="background-color: rgb(192, 192, 192);">
+                <div class="border rounded col-md-10 p-3 m-4 mx-auto" style="background-color: #52BEDB;">
                     <div class="m-2">
                         <h2>{{ list.blog_title }}</h2>
                         <p style="font-size: 10px;">published {{ list.created_at }} by {{ list.userid__fullname }}</p>
-                        <P style="font-size: 15px;"> {{ list.blog_content }}</P>
+                        <P style="font-size: 15px; text-indent: 50px; text-transform: capitalize;"> {{ list.blog_content }}</P>
                     </div>
                     <div>
                         <button class="btn btn-outline-dark p-2 m-2 commentButton" data-listId="{{list.blog_id}}">Add comment</button>
@@ -85,5 +93,13 @@ $(document).ready(function(){
         $(".commentButton[data-listId='"+listid+"']").show()
         $(".shareButton[data-listId='"+listid+"']").show()
     })
+    var msg=document.getElementById('add-success-msg');
+    var addbtn=document.getElementById('add-Blog-btn');
+    msg.style.display='block';
+    addbtn.style.display='none';
+    setTimeout(function () {
+    msg.style.display='none';
+    addbtn.style.display='block';   
+    },3000)
 })
 </script>

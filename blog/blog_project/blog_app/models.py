@@ -3,10 +3,10 @@ from django.db import models
 # Create your models here.
 class BlogLists(models.Model):
     blog_id = models.AutoField(primary_key=True)
-    blog_title = models.CharField(max_length=255, blank=True, null=True)
-    blog_content = models.CharField(max_length=255, blank=True, null=True)
+    blog_title = models.TextField(blank=True, null=True)
+    blog_content = models.TextField(blank=True, null=True)
     userid = models.ForeignKey('BlogUsers', models.DO_NOTHING, db_column='userid', blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(null=True)
 
     class Meta:
         managed = False

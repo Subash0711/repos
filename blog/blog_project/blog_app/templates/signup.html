@@ -6,45 +6,47 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
     <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
 </head>
-<body>
-    <div class="cotainer">
+<body style="background-color: #c7eef8">
+    <div class="container-fluid" style="background-color: #c7eef8">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header"><H2 style="color: grey;">Create Account</H2></div>
-                        <div class="card-body">
+                    <div class="card" style="margin-top: 35px;">
+                        <div class="card-header" style="background-color: #93d4e4;">
+                            <H2 style="color: #ecfbff;">Create Account</H2>
+                        </div>
+                        <div class="card-body" style="background-color: #BEE7F1;">
                             <form method="post">
                                 <div class="form-group row m-3">
                                     <label for="full_name" class="col-md-4 col-form-label text-md-right">Full Name</label>
                                     <div class="col-md-6">
-                                        <input type="text" id="full_name" class="form-control" name="full_name" required>
+                                        <input type="text" id="full_name" class="form-control" name="full_name" style="background-color: #d9f4fa" required>
                                     </div>
                                 </div>
     
                                 <div class="form-group row m-3">
                                     <label for="email_address" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
                                     <div class="col-md-6">
-                                        <input type="text" id="email_address" class="form-control" name="email_address" required>
+                                        <input type="text" id="email_address" class="form-control" name="email_address" style="background-color: #d9f4fa" required>
                                     </div>
                                 </div>
     
                                 <div class="form-group row m-3">
                                     <label for="user_name" class="col-md-4 col-form-label text-md-right">User Name</label>
                                     <div class="col-md-6">
-                                        <input type="text" id="user_name" class="form-control" name="user_name" required>
+                                        <input type="text" id="user_name" class="form-control" name="user_name" style="background-color: #d9f4fa" required>
                                     </div>
                                 </div>
     
                                 <div class="form-group row m-3">
                                     <label for="phone_number" class="col-md-4 col-form-label text-md-right">Phone Number</label>
                                     <div class="col-md-6">
-                                        <input type="text" id="phone_number" name="phone_number" class="form-control">
+                                        <input type="text" id="phone_number" name="phone_number" style="background-color: #d9f4fa" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row m-3">
                                     <label for="userpassword" class="col-md-4 col-form-label text-md-right">Password</label>
                                     <div class="col-md-6">
-                                        <input type="password" class="form-control" name="user_password" id="user_password" required>
+                                        <input type="password" class="form-control" name="user_password" id="user_password" style="background-color: #d9f4fa" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6 offset-md-5">
@@ -53,7 +55,7 @@
                                     </button>
                                 </div>
                                 <div class="form-group row m-3">
-                                    <label for="full_name" class="col-md-4 col-form-label text-md-right" style="font-size: smaller;">Already a Member ?<a href="{% url 'Login-View' %}"  style="text-decoration: none;"> Login Now</a></label>   
+                                    <label for="full_name" class="col-md-4 col-form-label text-md-right" style="font-size: smaller;">Already a Member ?<a href="{% url 'Login-View' %}"  style="text-decoration: none; background-color: #55c2de;font-size: small;"  class="btn mx-2"> Login Now</a></label>   
                                 </div>
                             </form>
                         </div>

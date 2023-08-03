@@ -6,27 +6,26 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
     <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
 </head>
-<body>
+<body style="background-color: #BEE7F1;">
     <div>
         <div>
-            <h2 style="text-align:center;color: gray;">Login</h2>
+            <h2 style="text-align:center;color: #5794a5;">Login</h2>
             <form  method="post">
                 <div class="d-flex justify-content-center m-3">
-                    <div class="w-50 p-3 border border rounded">
+                    <div class="w-50 p-3  rounded" style="background-color: #a1d9e7;">
                         <div class="form-group m-3">
                             <label for="usermail">User Name</label>
-                            <input type="text" class="form-control" name="username" id="username" required>
+                            <input type="text" class="form-control" name="username" id="username" style="background-color: #d8f6fe;" required>
                         </div>
                         <div class="form-group m-3">
                             <label for="usermail">Password</label>
-                            <input type="text" class="form-control" name="userpassword" id="userpassword" required>
+                            <input type="text" class="form-control" name="userpassword" id="userpassword" style="background-color: #d8f6fe;" required>
+                        </div>  
+                        <div class="form-group m-3">
+                            <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                         <div class="form-group m-3">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-            
-                        <div class="form-group m-3">
-                            <label for="full_name" class="col-md-4 col-form-label text-md-right" style="font-size: smaller;">Not a member ?<a href="{% url 'Signup-View' %}" style="text-decoration: none;"> Create Now</a></label>   
+                            <label for="full_name" class="col-md-4 col-form-label text-md-right " style="font-size: smaller;">Not a member ?<a href="{% url 'Signup-View' %}" class="btn mx-2" style="text-decoration: none; background-color: #55c2de;font-size: small;"> Create Now</a></label>   
                         </div>
                         {% if exception %}
                         <div class="alert alert-danger" role="alert">
@@ -34,7 +33,6 @@
                         </div>
                         {% endif %}
                     </div>
-
                 </div>
             </form>
         </div>

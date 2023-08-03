@@ -15,7 +15,11 @@ class userLoginService:
             hashPassword=existUser.password
             if check_password(password,hashPassword):
                     userid=existUser.id
+                    context={
+                        'message':'Your have Login Successfully'
+                    }
                     url=reverse('BlogList_View',kwargs={'userid':userid})
+                    url+=f'?msg={context["message"]}'
                     return redirect(url)
             return render(request,'login.html',{'exception':'Please Check your Password'})
         else:
@@ -38,13 +42,27 @@ class userLoginService:
 
 class BlogListServices:
         @classmethod
-        def getAllBlog(cls,request,userid):
+        def getAllBlog(cls,request,userid,ctx=None):
             blog_data=BlogLists.objects.select_related('userid').values(
                  'blog_id','userid__fullname','blog_title','blog_content','created_at'
             ).order_by('-created_at')
             user=BlogUsers.objects.get(id=userid)
             username = user.fullname
             usermail = user.emailid
-            ctxData={'bloglists':blog_data,'user':username,'usermail':usermail}
+            ctxData={'bloglists':blog_data,'user':username,'usermail':usermail,'userid':userid,}
             return render(request=None,template_name='blog_lists.html',context=ctxData)
+        
+        @classmethod
+        def addBlog(cls,request,userId):
+            title=request.POST.get('blog_title')
+            content=request.POST.get('blog_content')
+            blog_user = BlogUsers.objects.get(id=userId)
+            data=BlogLists(blog_title=title,blog_content=content,userid=blog_user)
+            data.save()
+            context={
+                'message':'Your Blog Added Successfully'
+            }
+            url=reverse('BlogList_View',kwargs={'userid':userId})
+            url+=f'?msg={context["message"]}'
+            return redirect(url)
         
