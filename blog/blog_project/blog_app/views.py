@@ -1,25 +1,28 @@
 from django.shortcuts import render,redirect
 from django.views import View
-from blog_app.service import (userLoginService,BlogListServices)
+from blog_app.service import (userLoginService,BlogListServices,BlogCommentServices)
 from django.views.decorators.csrf import csrf_exempt
-# Create your views here.
+from django.contrib.auth.decorators import login_required
+from blog_app.models import (BlogLists,BlogUsers,UserComments)
 
 @csrf_exempt
 def login_View(request):
     if request.method == 'POST':
         return userLoginService.userAuthentication(request)
     elif request.method == 'GET':
-        return render (request=None,template_name='login.html',)
+        title='Digital Diary : Login '
+        return render (request=None,template_name='login.html',context={'title':title})
     
 @csrf_exempt
 def  signup_View(request):
     if request.method == 'POST':
         return userLoginService.adduser(request=request)
     elif request.method == 'GET':
-        return render (request=None,template_name='signup.html')
+        title='Digital Diary : Sign Up '
+        return render (request=None,template_name='signup.html',context={'title':title})
     
 def home_View(request):
-    return redirect ('Signup-View')
+    return redirect ('Login-View')
 
 def blogList_View(request,userid):
     return BlogListServices.getAllBlog(request,userid)
@@ -27,9 +30,19 @@ def blogList_View(request,userid):
 @csrf_exempt
 def addBlog_View(request,userid):
     if request.method == 'POST':
-        return BlogListServices.addBlog(request,int(userid))
+        return BlogListServices.addBlog(request,userid)
     if request.method == 'GET':
         contx={
             'userid':int(userid)
         }
         return render (request=None,template_name='add_blog.html',context=contx)
+
+def logout_view(request):
+    return userLoginService.logoutUser(request)
+
+def commentView(request,blogid,user):
+    return BlogCommentServices.BlogComments(request,blogid,user)
+
+@csrf_exempt
+def addCommentView(request,id):
+    return BlogCommentServices.addBlogComment(request,id)

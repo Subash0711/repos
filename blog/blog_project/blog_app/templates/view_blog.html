@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="p-4 border" style="background-color: #BEE7F1;">
+        <div class="mx-auto col-md-10 d-flex flex-row-reverse">
+            <!-- Add Blog Button -->
+            {% if status %}
+            <div class="alert alert-success m-2 p-2" id="add-success-msg-view" style="background-color: #8EE6CA;">
+                <strong>{{ status }}</strong>
+            </div>
+            {% endif %}
+        </div>
+        <div class="border rounded col-md-10 p-3 m-4 mx-auto" style="background-color: #52BEDB;">
+            {% for list in bloglist%}
+            <div class="m-2">
+                <h2>{{ list.blog_title }}</h2>
+                <p style="font-size: 10px;">published {{ list.created_at }} by {{ list.userid__fullname }}</p>
+                <P style="font-size: 15px; text-indent: 50px; text-transform: capitalize;"> {{ list.blog_content }}</P>
+            </div>
+            <div>
+                <!-- Add comment Button -->
+                <button class="btn btn-outline-dark p-2 m-2 " id="commentButton" data-listId="{{list.blog_id}}"><svg
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path
+                            d="M1.75 1h12.5c.966 0 1.75.784 1.75 1.75v9.5A1.75 1.75 0 0 1 14.25 14H8.061l-2.574 2.573A1.458 1.458 0 0 1 3 15.543V14H1.75A1.75 1.75 0 0 1 0 12.25v-9.5C0 1.784.784 1 1.75 1ZM1.5 2.75v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Z">
+                        </path>
+                        <path
+                            d="M22.5 8.75a.25.25 0 0 0-.25-.25h-3.5a.75.75 0 0 1 0-1.5h3.5c.966 0 1.75.784 1.75 1.75v9.5A1.75 1.75 0 0 1 22.25 20H21v1.543a1.457 1.457 0 0 1-2.487 1.03L15.939 20H10.75A1.75 1.75 0 0 1 9 18.25v-1.465a.75.75 0 0 1 1.5 0v1.465c0 .138.112.25.25.25h5.5a.75.75 0 0 1 .53.22l2.72 2.72v-2.19a.75.75 0 0 1 .75-.75h2a.25.25 0 0 0 .25-.25v-9.5Z">
+                        </path>
+                    </svg></button>
+                <!-- Add share button -->
+                <button class="btn btn-outline-dark p-2 m-2 " id="shareButton" data-listId="{{list.blog_id}}"><svg
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                        <path
+                            d="M15 3a3 3 0 0 1-5.175 2.066l-3.92 2.179a2.994 2.994 0 0 1 0 1.51l3.92 2.179a3 3 0 1 1-.73 1.31l-3.92-2.178a3 3 0 1 1 0-4.133l3.92-2.178A3 3 0 1 1 15 3Zm-1.5 10a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 13.5 13Zm-9-5a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 4.5 8Zm9-5a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 13.5 3Z">
+                        </path>
+                    </svg></button>
+                <!-- Add back button -->
+                <button class="btn btn-outline-dark p-2 m-2 " id="backButton" data-listId="{{list.blog_id}}">
+                    <a href="{% url 'BlogList_View' userid=list.userid %}"><svg xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" width="24" height="24">
+                            <path
+                                d="M10.53 5.03a.75.75 0 1 0-1.06-1.06l-6.25 6.25a.75.75 0 0 0 0 1.06l6.25 6.25a.75.75 0 1 0 1.06-1.06L5.56 11.5H17a3.248 3.248 0 0 1 3.25 3.248v4.502a.75.75 0 0 0 1.5 0v-4.502A4.748 4.748 0 0 0 17 10H5.56l4.97-4.97Z">
+                            </path>
+                        </svg>
+                    </a>
+                </button>
+            </div>
+            <!-- comment Div -->
+            <div class="m-2 " id="commentDiv" style="display: none;" data-listId="{{list.blog_id}}">
+                <form action="{% url 'Add-Comment-View' id=1 %}" method="post">
+                    <input type="text" class="form-control" id="user_comment" name="user_comment"
+                        placeholder="Your Opinion" aria-label="user-opinion" aria-describedby="basic-addon2">
+                        <input type="text" name="userId" value="{{ loginUserId }}" style="display: none;">
+                        <input type="text" name="blogId" value="{{ list.blog_id }}" style="display: none;">
+                    <div class="mt-2 ml-3">
+                        <!-- Comment Buttons -->
+                        <button type="submit" class="btn btn-outline-dark">Add </button>
+                        <button type="button" class="btn btn-outline-dark" id="comment-cancel-btn"
+                            data-listId="{{list.blog_id}}">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Share Div -->
+            <div class="input-group m-2" id="shareDiv" style="display: none;" data-listId="{{list.blog_id}}">
+                <form class="row g-3">
+                    <div class="col-auto">
+                        <label for="staticEmail2" class="visually-hidden">From</label>
+                        <input type="text" readonly class="form-control-plaintext" id="staticEmail2"
+                            value="{{usermail}}">
+                    </div>
+                    <div class="col-auto">
+                        <label for="inputPassword2" class="visually-hidden">To</label>
+                        <input type="password" class="form-control" id="inputPassword2" placeholder="To">
+                    </div>
+                    <div class="col-auto  justify-content-center">
+                        <!-- Share Buttons -->
+                        <button type="submit" class="btn btn-outline-dark mb-3">Send</button>
+                        <button type="button" class="btn btn-outline-dark  mb-3 mx-2" id="share-cancel-btn"
+                            data-listId="{{list.blog_id}}">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            {% endfor %}
+            <hr>
+            <div>
+                <div class="p-2">
+                    <h4>Comments</h4>
+                </div>
+                <div class="d-flex flex-column rounded" style="background-color: #BEE7F1;">
+                    {% for cmt in cmtCtx %}
+                    <div class="rounded m-3 p-2 " style="background-color: #52BEDB;">
+                        <h4 class="m-1 p-1">{{ cmt.user.fullname }}</h4>
+                        <p class="ps-4">
+                            {{cmt.cmt_content}}
+                        </p>
+                    </div>
+                    {% endfor %}
+                    {% if not cmtCtx %}
+                    <div class="rounded m-3 p-2 " style="background-color: #BEE7F1;">
+                        <h3 class="m-1 p-1 justify-content-center" style="color: lightslategrey;">No Comments</h3>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

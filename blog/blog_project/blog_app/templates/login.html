@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Login</title>
+    <title>{{title}}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
     <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
 </head>
-<body style="background-color: #BEE7F1;">
-    <div>
-        <div>
-            <h2 style="text-align:center;color: #5794a5;">Login</h2>
-            <form  method="post">
-                <div class="d-flex justify-content-center m-3">
-                    <div class="w-50 p-3  rounded" style="background-color: #a1d9e7;">
-                        <div class="form-group m-3">
-                            <label for="usermail">User Name</label>
-                            <input type="text" class="form-control" name="username" id="username" style="background-color: #d8f6fe;" required>
-                        </div>
-                        <div class="form-group m-3">
-                            <label for="usermail">Password</label>
-                            <input type="text" class="form-control" name="userpassword" id="userpassword" style="background-color: #d8f6fe;" required>
-                        </div>  
-                        <div class="form-group m-3">
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                        <div class="form-group m-3">
-                            <label for="full_name" class="col-md-4 col-form-label text-md-right " style="font-size: smaller;">Not a member ?<a href="{% url 'Signup-View' %}" class="btn mx-2" style="text-decoration: none; background-color: #55c2de;font-size: small;"> Create Now</a></label>   
-                        </div>
-                        {% if exception %}
-                        <div class="alert alert-danger" role="alert">
-                            {{exception}}
-                        </div>
-                        {% endif %}
+<body style="background-color: #c7eef8">
+    <div class="container-fluid" style="background-color: #c7eef8">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card" style="margin-top: 35px;">
+                    <div class="card-header" style="background-color: #93d4e4;">
+                        <H2 style="color: #ecfbff;">Login</H2>
+                    </div>
+                    <div class="card-body" style="background-color: #BEE7F1;">
+                        <form method="post">
+                            <div class="form-group row m-3">
+                                <label for="username" class="col-md-4 col-form-label text-md-right">User Name</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="username" class="form-control" name="username"
+                                        style="background-color: #d9f4fa" required>
+                                </div>
+                            </div>
+                            <div class="form-group row m-3">
+                                <label for="userpassword" class="col-md-4 col-form-label text-md-right">Password</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="userpassword" class="form-control" name="userpassword"
+                                        style="background-color: #d9f4fa" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 offset-md-5">
+                                <button type="submit" class="btn btn-success">
+                                 Submit   
+                                </button>
+                            </div>
+                            <div class="form-group row m-3">
+                                <label class="col-md-4 col-form-label text-md-right" style="font-size: smaller;">Not a
+                                    member ?<a href="{% url 'Signup-View' %}"
+                                        style="text-decoration: none; background-color: #55c2de;font-size: small;"
+                                        class="btn mx-2"> Create Now</a></label>
+                            </div>
+                            {% if exception %}
+                            <div class="alert alert-danger" role="alert">
+                                {{exception}}
+                            </div>
+                            {% endif %}
+                        </form>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </body>
+
 </html>

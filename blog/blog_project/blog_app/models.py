@@ -6,7 +6,7 @@ class BlogLists(models.Model):
     blog_title = models.TextField(blank=True, null=True)
     blog_content = models.TextField(blank=True, null=True)
     userid = models.ForeignKey('BlogUsers', models.DO_NOTHING, db_column='userid', blank=True, null=True)
-    created_at = models.DateTimeField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         managed = False
@@ -20,7 +20,7 @@ class BlogUsers(models.Model):
     username = models.CharField(unique=True, max_length=255, blank=True, null=True)
     mobile_no = models.IntegerField(blank=True, null=True)
     password = models.CharField(max_length=255, blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         managed = False
@@ -32,9 +32,9 @@ class UserComments(models.Model):
     cmt_content = models.TextField(blank=True, null=True)
     blog = models.ForeignKey(BlogLists, models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey(BlogUsers, models.DO_NOTHING, blank=True, null=True)
-    is_deleted = models.BooleanField()
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    is_deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = False
