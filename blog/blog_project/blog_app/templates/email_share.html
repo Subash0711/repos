@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="../../static/css/bootstrap-5.min.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="m-2 card">
+            <div style="background-color: #8ebfcb; padding: 10px;text-align: center;" class="card-header">
+                <h2>{{ blog.blog_title }}</h2>
+                <br>
+            </div>
+            <div style="background-color: #BEE7F1;padding: 10px;" class="card-body">
+                <P style="font-size: 15px; text-indent: 50px; text-transform: capitalize;">{{ blog.blog_content }}</P><br>
+                <p style="font-size: 15px;"><i>by</i></p>
+                <p>{{ blog.userid__fullname }}</p>
+            </div>
+        </div>
+    </div>
+</body>

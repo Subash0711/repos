@@ -1,10 +1,14 @@
 import datetime
+from django.db.models import F
 from blog_app.models import (BlogLists,BlogUsers,UserComments)
 from django.contrib.auth.hashers import make_password,check_password
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponseRedirect
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMessage
 from django.urls import reverse
-from urllib.parse import urlencode,parse_qs
+from urllib.parse import urlencode,parse_qs,unquote
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.core.paginator import Paginator
@@ -66,7 +70,7 @@ class BlogListServices:
             page_number=request.GET.get('page')
             page=paginator.get_page(page_number)
             queryParams=parse_qs(request.META['QUERY_STRING'])
-            msg=queryParams.get('message',[''])[0]
+            msg=unquote(queryParams.get('message',[''])[0])
             ctxData={'bloglists':page,'user':userdata['userfullname'],'usermail':userdata['usermail'],'userid':userid,'status':msg,'loginUserId':userdata['userid'],'title':title}
             return render(request=None,template_name='blog_lists.html',context=ctxData)
         
@@ -93,7 +97,7 @@ class BlogCommentServices:
             userdata=getUser(userid)
             title='Post | Blog | Digital Diary'
             queryParams=parse_qs(request.META['QUERY_STRING'])
-            msg=queryParams.get('message',[''])[0]
+            msg=unquote(queryParams.get('message',[''])[0])
             cmtdata=UserComments.objects.select_related('blog','user').filter(is_deleted=False,blog=blogid).prefetch_related('blog__userid').order_by('-cmt_id')
             return render(request,'view_blog.html',{'cmtCtx':cmtdata,'bloglist':blogCtx,'status':msg,'user':userdata['userfullname'],'usermail':userdata['usermail'],'loginUserId':userdata['userid'],'title':title})
         
@@ -114,3 +118,25 @@ class BlogCommentServices:
             msg=urlencode(msg)
             url+=f'?{msg}'
             return redirect(url)
+        
+class BlogShareServices:
+     def shareBlog(request):
+        blogId=request.POST.get('blogid')
+        userid=request.POST.get('userid')
+        id=int(request.POST.get('pageId'))
+        receive_mail=request.POST.get('receiverMail')
+        blog_data=BlogLists.objects.filter(blog_id=blogId).values('blog_id','blog_title','blog_content','userid__fullname').annotate(fullname=F('userid__fullname')).first()
+        subject=f"Check Out This Blog: {blog_data['blog_title']}"
+        print(blog_data)
+        emailCnt = render_to_string('email_share.html',{'blog':blog_data})
+        email= EmailMessage(subject,emailCnt,to=[receive_mail])
+        email.content_subtype='html'
+        email.send()
+        if id == 0:
+            url=reverse('BlogList_View',kwargs={'userid':userid})
+        elif id == 1:
+            url=reverse('Blog-Comment_View',kwargs={'user':userid,'blogid':blogId})
+        msg={'message':' Blog Shared Sucessfully'}
+        querparam=urlencode(msg)
+        url+=f'?{querparam}'
+        return redirect(url)

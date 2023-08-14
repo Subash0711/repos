@@ -51,10 +51,11 @@
                             </path>
                         </svg></a></button>
             </div>
+            <!-- comment div -->
             <div class="m-2 commentDiv" style="display: none;" data-listId="{{list.blog_id}}">
                 <form method="post" action="{% url 'Add-Comment-View' id=0 %}">
                     <input type="text" class="form-control" id="user_comment" name="user_comment" placeholder="Your Opinion"
-                        aria-label="user-opinion" aria-describedby="basic-addon2">
+                        aria-label="user-opinion" aria-describedby="basic-addon2" required>
                     <input type="text" name="userId" value="{{ loginUserId }}" style="display: none;">
                     <input type="text" name="blogId" value="{{ list.blog_id }}" style="display: none;">
                     <div class="mt-2 ml-3">
@@ -64,16 +65,20 @@
                     </div>
                 </form>
             </div>
+            <!-- share div -->
             <div class="input-group m-2 shareDiv" style="display: none;" data-listId="{{list.blog_id}}">
-                <form method="post" class="row g-3">
+                <form method="post" action="{% url 'Share-Blog-View' %}" class="row g-3">
                     <div class="col-auto">
-                        <label for="staticEmail2" class="visually-hidden">From</label>
-                        <input type="text" readonly class="form-control-plaintext" id="staticEmail2"
-                            value="{{usermail}}">
+                        <input type="text" readonly class="form-control-plaintext" name="blogid"
+                            value="{{list.blog_id}}" style="display: none;">
+                            <input type="text" readonly class="form-control-plaintext" name="userid"
+                            value="{{ loginUserId }}" style="display: none;">
+                            <input type="text" readonly class="form-control-plaintext" name="pageId"
+                            value="0" style="display: none;">
                     </div>
                     <div class="col-auto">
                         <label for="inputPassword2" class="visually-hidden">To</label>
-                        <input type="password" class="form-control" id="inputPassword2" placeholder="To">
+                        <input type="text" class="form-control" id="receiverMail" name="receiverMail" placeholder="To" required>
                     </div>
                     <div class="col-auto  justify-content-center">
                         <!-- Share Buttons -->

@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views import View
-from blog_app.service import (userLoginService,BlogListServices,BlogCommentServices)
+from blog_app.service import (userLoginService,BlogListServices,BlogCommentServices,BlogShareServices)
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from blog_app.models import (BlogLists,BlogUsers,UserComments)
@@ -46,3 +46,9 @@ def commentView(request,blogid,user):
 @csrf_exempt
 def addCommentView(request,id):
     return BlogCommentServices.addBlogComment(request,id)
+
+@csrf_exempt
+def shareBlogView(request):
+    if request.method == 'POST':
+        return BlogShareServices.shareBlog(request)
+        

@@ -63,23 +63,24 @@
             </div>
             <!-- Share Div -->
             <div class="input-group m-2" id="shareDiv" style="display: none;" data-listId="{{list.blog_id}}">
-                <form class="row g-3">
+                <form method="post" action="{% url 'Share-Blog-View' %}" class="row g-3">
                     <div class="col-auto">
-                        <label for="staticEmail2" class="visually-hidden">From</label>
-                        <input type="text" readonly class="form-control-plaintext" id="staticEmail2"
-                            value="{{usermail}}">
+                        <input type="text" readonly class="form-control-plaintext" name="blogid"
+                            value="{{list.blog_id}}" style="display: none;">
+                            <input type="text" readonly class="form-control-plaintext" name="userid"
+                            value="{{ loginUserId }}" style="display: none;">
+                            <input type="text" readonly class="form-control-plaintext" name="pageId"
+                            value="1" style="display: none;">
                     </div>
                     <div class="col-auto">
                         <label for="inputPassword2" class="visually-hidden">To</label>
-                        <input type="password" class="form-control" id="inputPassword2" placeholder="To">
+                        <input type="text" class="form-control" id="receiverMail" name="receiverMail" placeholder="To" required>
                     </div>
                     <div class="col-auto  justify-content-center">
                         <!-- Share Buttons -->
                         <button type="submit" class="btn btn-outline-dark mb-3">Send</button>
-                        <button type="button" class="btn btn-outline-dark  mb-3 mx-2" id="share-cancel-btn"
-                            data-listId="{{list.blog_id}}">Cancel</button>
+                        <button type="button" class="btn btn-outline-dark share-cancel-btn mb-3 mx-2"data-listId="{{list.blog_id}}">Cancel</button>
                     </div>
-                </form>
             </div>
             {% endfor %}
             <hr>
