@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-    <div class="p-4 border" style="background-color: #BEE7F1;">
+    <div class="p-4 border-none " style="background-color: #191c27">
         <div class="mx-auto col-md-10 d-flex flex-row-reverse">
             <!-- Add Blog Button -->
             <a class="btn m-2 p-2" id="add-Blog-btn" href="{% url 'AddBlog-View' userid=userid %}"
                 style="text-decoration: none; background-color: #52BEDB;"><svg xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16" width="16" height="16">
+                    viewBox="0 0 16 16" width="16" height="16" style="fill: white;">
                     <path
                         d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177l-2.914-2.914a.25.25 0 0 0-.177-.073Zm4.48 3.758a.75.75 0 0 1 .755.745l.01 1.497h1.497a.75.75 0 0 1 0 1.5H9v1.507a.75.75 0 0 1-1.5 0V9.005l-1.502.01a.75.75 0 0 1-.01-1.5l1.507-.01-.01-1.492a.75.75 0 0 1 .745-.755Z">
                     </path>
@@ -18,16 +18,17 @@
             {% endif %}
         </div>
         {% for list in bloglists %}
-        <div class="border rounded col-md-10 p-3 m-4 mx-auto" style="background-color: #52BEDB;">
+        <div class="border-none rounded col-md-10 p-3 m-4 mx-auto" style="background-color: #47a4be;">
             <div class="m-2">
-                <h2>{{ list.blog_title }}</h2>
-                <p style="font-size: 10px;">published {{ list.created_at }} by {{ list.userid__fullname }}</p>
-                <P style="font-size: 15px; text-indent: 50px; text-transform: capitalize;"> {{ list.blog_content }}</P>
+                <h2 style="color: white;">{{ list.blog_title }}</h2>
+                <p style="font-size: 10px;color: white;">published {{ list.created_at }} by {{ list.userid__fullname }}</p>
+                <P style="font-size: 15px; text-indent: 50px;color: white; text-transform: capitalize;"> {{ list.blog_content }}</P>
             </div>
             <div>
+                <hr style="color: white;">
                 <!-- Add comment Button -->
-                <button class="btn btn-outline-dark p-2 m-2 commentButton" data-listId="{{list.blog_id}}"><svg
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <button class="btn btn-outline-light p-2 m-2 commentButton" data-listId="{{list.blog_id}}"><svg
+                        xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 24 24" width="24" height="24">
                         <path
                             d="M1.75 1h12.5c.966 0 1.75.784 1.75 1.75v9.5A1.75 1.75 0 0 1 14.25 14H8.061l-2.574 2.573A1.458 1.458 0 0 1 3 15.543V14H1.75A1.75 1.75 0 0 1 0 12.25v-9.5C0 1.784.784 1 1.75 1ZM1.5 2.75v9.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h6.5a.25.25 0 0 0 .25-.25v-9.5a.25.25 0 0 0-.25-.25H1.75a.25.25 0 0 0-.25.25Z">
                         </path>
@@ -36,16 +37,16 @@
                         </path>
                     </svg></button>
                 <!-- Add share button -->
-                <button class="btn btn-outline-dark p-2 m-2 shareButton" data-listId="{{list.blog_id}}"><svg
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                <button class="btn btn-outline-light p-2 m-2 shareButton" data-listId="{{list.blog_id}}"><svg
+                        xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 16 16" width="16" height="16">
                         <path
                             d="M15 3a3 3 0 0 1-5.175 2.066l-3.92 2.179a2.994 2.994 0 0 1 0 1.51l3.92 2.179a3 3 0 1 1-.73 1.31l-3.92-2.178a3 3 0 1 1 0-4.133l3.92-2.178A3 3 0 1 1 15 3Zm-1.5 10a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 13.5 13Zm-9-5a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 4.5 8Zm9-5a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 13.5 3Z">
                         </path>
                     </svg></button>
                 <!-- Add extend button -->
-                <button class="btn btn-outline-dark p-2 m-2 extendButton" data-listId="{{list.blog_id}}">
+                <button class="btn btn-outline-light p-2 m-2 extendButton" data-listId="{{list.blog_id}}">
                     <a href="{% url 'Blog-Comment_View' blogid=list.blog_id user=list.userid  %}"><svg
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                            xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 16 16" width="16" height="16">
                             <path
                                 d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z">
                             </path>
@@ -60,8 +61,8 @@
                     <input type="text" name="blogId" value="{{ list.blog_id }}" style="display: none;">
                     <div class="mt-2 ml-3">
                         <!-- Comment Buttons -->
-                        <button type="submit" class="btn btn-outline-dark">Add</button>
-                        <button type="button" class="btn btn-outline-dark comment-cancel-btn" data-listId="{{list.blog_id}}">Cancel</button>
+                        <button type="submit" class="m-1 btn btn-outline-light">Add</button>
+                        <button type="button" class="m-1 btn btn-outline-light comment-cancel-btn" data-listId="{{list.blog_id}}">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -82,8 +83,8 @@
                     </div>
                     <div class="col-auto  justify-content-center">
                         <!-- Share Buttons -->
-                        <button type="submit" class="btn btn-outline-dark mb-3">Send</button>
-                        <button type="button" class="btn btn-outline-dark share-cancel-btn mb-3 mx-2"data-listId="{{list.blog_id}}">Cancel</button>
+                        <button type="submit" class="btn btn-outline-light mb-3">Send</button>
+                        <button type="button" class="btn btn-outline-light share-cancel-btn mb-3 mx-2"data-listId="{{list.blog_id}}">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -93,20 +94,21 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     {% if bloglists.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ bloglists.previous_page_number }}" aria-label="Previous">
+                    <li class="page-item" >
+                        <a class="page-link"
+                        href="?page={{ bloglists.previous_page_number }}"  style="color: #191c27;" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     {% endif %}
                     {% for i in bloglists.paginator.page_range %}
                     <li class="page-item  {% if bloglists.number == i %}active{% endif %}">
-                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        <a class="page-link" href="?page={{ i }}" style="color: #191c27;">{{ i }}</a>
                     </li>
                     {% endfor %}
                     {% if bloglists.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ bloglists.next_page_number }}" aria-label="Next">
+                        <a class="page-link" href="?page={{ bloglists.next_page_number }}" style="color: #191c27;" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

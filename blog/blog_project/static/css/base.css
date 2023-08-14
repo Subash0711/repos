@@ -1,0 +1,37 @@
+.commentButton:hover {
+    background-color: #ffffff; 
+}
+.commentButton:hover svg path {
+    fill: #191c27; 
+}
+.shareButton:hover {
+    background-color: #ffffff; 
+}
+.shareButton:hover svg path {
+    fill: #191c27; 
+}
+.extendButton:hover {
+    background-color: #ffffff; 
+}
+.extendButton:hover svg path {
+    fill: #191c27; 
+}
+
+#commentButton:hover {
+    background-color: #ffffff; 
+}
+#commentButton:hover svg path {
+    fill: #191c27; 
+}
+#shareButton:hover {
+    background-color: #ffffff; 
+}
+#shareButton:hover svg path {
+    fill: #191c27; 
+}
+#backButton:hover {
+    background-color: #ffffff; 
+}
+#backButton:hover svg path {
+    fill: #191c27; 
+}
