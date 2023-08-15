@@ -1,28 +1,9 @@
 from django.shortcuts import render,redirect
-from django.views import View
-from blog_app.service import (userLoginService,BlogListServices,BlogCommentServices,BlogShareServices)
+from blog_app.service import (BlogListServices,BlogCommentServices,BlogShareServices)
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from blog_app.models import (BlogLists,BlogUsers,UserComments)
-
-@csrf_exempt
-def login_View(request):
-    if request.method == 'POST':
-        return userLoginService.userAuthentication(request)
-    elif request.method == 'GET':
-        title='Digital Diary : Login '
-        return render (request=None,template_name='login.html',context={'title':title})
+from blog_app.service import getUser
     
-@csrf_exempt
-def  signup_View(request):
-    if request.method == 'POST':
-        return userLoginService.adduser(request=request)
-    elif request.method == 'GET':
-        title='Digital Diary : Sign Up '
-        return render (request=None,template_name='signup.html',context={'title':title})
-    
-def home_View(request):
-    return redirect ('Login-View')
 
 def blogList_View(request,userid):
     return BlogListServices.getAllBlog(request,userid)
@@ -32,13 +13,13 @@ def addBlog_View(request,userid):
     if request.method == 'POST':
         return BlogListServices.addBlog(request,userid)
     if request.method == 'GET':
+        userdata=getUser(userid)
         contx={
-            'userid':int(userid)
+            'userid':int(userid),
+            'user':userdata['userfullname'],
+            'title':'Post | BlogNest'
         }
         return render (request=None,template_name='add_blog.html',context=contx)
-
-def logout_view(request):
-    return userLoginService.logoutUser(request)
 
 def commentView(request,blogid,user):
     return BlogCommentServices.BlogComments(request,blogid,user)

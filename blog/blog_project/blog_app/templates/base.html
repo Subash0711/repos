@@ -11,7 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 
-<body style="height: 100%;">
+<body style="height: 100%; background-color: #14161f;">
     <div class="page_loader"
         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #BEE7F1;">
         <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
@@ -20,21 +20,24 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid page_content">
+    <div class="container-fluid page_content" style="display: none;">
         <div class="row" style="background-color: #303745;">
-                <div class="p-4 col-md-10 d-flex align-items-center" >
-                    <H1 style="color: #66d9ef;">Digital Diary</H1>
-                </div>
-                <div class="p-4 col-md-2">
-                    <h3 style="color: #5cc4d9;">Hi,{{ user }}</h3>
-                    <!-- <a class="btn btn-danger m-2 p-2" href="{% url 'Logout-View'  %}"
-                        style="text-decoration: none;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            width="24" height="24">
-                            <path
-                                d="M3 3.25c0-.966.784-1.75 1.75-1.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.25.25 0 0 0-.25.25v17.5c0 .138.112.25.25.25h5.5a.75.75 0 0 1 0 1.5h-5.5A1.75 1.75 0 0 1 3 20.75Zm16.006 9.5H10.75a.75.75 0 0 1 0-1.5h8.256l-3.3-3.484a.75.75 0 0 1 1.088-1.032l4.5 4.75a.75.75 0 0 1 0 1.032l-4.5 4.75a.75.75 0 0 1-1.088-1.032Z">
-                            </path>
-                        </svg></a> -->
-                </div>
+            <div class="p-4 col-md-10 d-flex align-items-center">
+                <H1 style="color: #66d9ef;">BlogNest</H1>
+            </div>
+            <div class="p-4 col-md-2 d-flex">
+                <div class="dropdown mx-auto my-auto">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #303745;border: none;color: #66d9ef;font-size: 1.5rem;">
+                        {{ user }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><a class="dropdown-item active" href="{% url 'User-Profile-View' userid=userid %}">Profile</a></li>
+                      <!-- <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                      <li><a class="dropdown-item" href="{% url 'Logout-View' %}">Logout</a></li>
+                    </ul>
+                  </div>
+            </div>
         </div>
         {% block content %}
         {% endblock %}
@@ -104,13 +107,18 @@
         setTimeout(function () {
             msg.style.display = 'none';
             addbtn.style.display = 'block';
-        }, 3000)
+        }, 4000)
 
         var viewMsg = document.getElementById('add-success-msg-view');
         viewMsg.style.display = 'block';
         setTimeout(function () {
             viewMsg.style.display = 'none';
-        }, 3000)
+        }, 4000)
+
+        $('#dropdown-menu-btn').click(function () {
+            
+            $('.dropdown-menu').toggle()
+        })      
     })
     $(window).on('load', function () {
         $('.page_loader').fadeOut(1000);

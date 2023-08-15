@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{{ title }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css' %}">
+    <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/base.css'%}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+
+<body style="background-color: #1e212e">
+    <div class="page_loader"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #BEE7F1;">
+        <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
+            <div class="spinner-border" style="width: 4rem; height: 4rem; color:#5794a5;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div class="container my-4 page_content" style="display: none;">
+        <div class="row">
+            <div class="col-12">
+                <!-- Page title -->
+                <div class="my-5">
+                    <div class="row justify-content-between">
+                        <div class="col-4">
+                            <h3 class="text-color">My Profile</h3>
+                        </div>
+                        <div class="col-4 d-flex flex-row-reverse">
+                            <a class="btn" href="{% url 'BlogList_View' userid=userid %}"><svg
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="36" height="36"
+                                    style="fill: #66d9ef;">
+                                    <path
+                                        d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z">
+                                    </path>
+                                </svg></a>
+                        </div>
+                    </div>
+                    <hr style="color: white;">
+                </div>
+                <!-- Form START -->
+                <form>
+                    <div class="row mb-5 gx-5" style="background-color: #252b38">
+                        <!-- Contact detail -->
+                        <div class="col-xxl-8 mb-5 mb-xxl-0">
+                            <div class="bg-secondary-soft px-4 py-5 rounded">
+                                <div class="row g-3">
+                                    <h4 class="mb-4 mt-0 text-color">Contact detail</h4>
+                                    <!-- First Name -->
+                                    <div class="col-md-6">
+                                        <label class="form-label text-color">First Name *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="First name"
+                                            value="Scaralet">
+                                    </div>
+                                    <!-- Last name -->
+                                    <div class="col-md-6">
+                                        <label class="form-label text-color">Last Name *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Last name"
+                                            value="Doe">
+                                    </div>
+                                    <!-- Phone number -->
+                                    <div class="col-md-6">
+                                        <label class="form-label text-color">Phone number *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Phone number"
+                                            value="(333) 000 555">
+                                    </div>
+                                    <!-- Mobile number -->
+                                    <div class="col-md-6">
+                                        <label class="form-label text-color">Mobile number *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Phone number"
+                                            value="+91 9852 8855 252">
+                                    </div>
+                                    <!-- Email -->
+                                    <div class="col-md-6">
+                                        <label for="inputEmail4" class="form-label text-color">Email *</label>
+                                        <input type="email" class="form-control" id="inputEmail4"
+                                            value="example@homerealty.com">
+                                    </div>
+                                    <!-- Skype -->
+                                    <div class="col-md-6">
+                                        <label class="form-label text-color">Skype *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Phone number"
+                                            value="Scaralet D">
+                                    </div>
+                                </div> <!-- Row END -->
+                            </div>
+                        </div>
+                        <!-- Upload profile -->
+                    </div> <!-- Row END -->
+
+                    <!-- Social media detail -->
+                    <div class="row mb-5 gx-5" style="background-color: #252b38">
+                        <div class="col-xxl-6 mb-5 mb-xxl-0">
+                            <div class="bg-secondary-soft px-4 py-5 rounded">
+                                <div class="row g-3">
+                                    <h4 class="mb-4 mt-0 text-color">Social media detail</h4>
+                                    <!-- Facebook -->
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i
+                                                class="fab fa-fw fa-facebook me-2 text-facebook text-color"></i>Facebook
+                                            *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Facebook"
+                                            value="http://www.facebook.com">
+                                    </div>
+                                    <!-- Twitter -->
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i
+                                                class="fab fa-fw fa-twitter text-twitter me-2 text-color"></i>Twitter
+                                            *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Twitter"
+                                            value="http://www.twitter.com">
+                                    </div>
+                                    <!-- Linkedin -->
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i
+                                                class="fab fa-fw fa-linkedin-in text-linkedin me-2 text-color"></i>Linkedin
+                                            *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Linkedin"
+                                            value="http://www.linkedin.com">
+                                    </div>
+                                    <!-- Instragram -->
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i
+                                                class="fab fa-fw fa-instagram text-instagram me-2 text-color"></i>Instagram
+                                            *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Instragram"
+                                            value="http://www.instragram.com">
+                                    </div>
+                                    <!-- Dribble -->
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i
+                                                class="fas fa-fw fa-basketball-ball text-dribbble me-2 text-color"></i>Dribble
+                                            *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Dribble"
+                                            value="http://www.dribble.com">
+                                    </div>
+                                    <!-- Pinterest -->
+                                    <div class="col-md-6">
+                                        <label class="form-label"><i
+                                                class="fab fa-fw fa-pinterest text-pinterest text-color"></i>Pinterest
+                                            *</label>
+                                        <input type="text" class="form-control" placeholder="" aria-label="Pinterest"
+                                            value="http://www.pinterest.com">
+                                    </div>
+                                </div> <!-- Row END -->
+                            </div>
+                        </div>
+
+                        <!-- change password -->
+                        <div class="col-xxl-6">
+                            <div class="bg-secondary-soft px-4 py-5 rounded">
+                                <div class="row g-3">
+                                    <h4 class="my-4 text-color">Change Password</h4>
+                                    <!-- Old password -->
+                                    <div class="col-md-6">
+                                        <label for="exampleInputPassword1" class="form-label text-color">Old password
+                                            *</label>
+                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                    </div>
+                                    <!-- New password -->
+                                    <div class="col-md-6">
+                                        <label for="exampleInputPassword2" class="form-label text-color">New password
+                                            *</label>
+                                        <input type="password" class="form-control" id="exampleInputPassword2">
+                                    </div>
+                                    <!-- Confirm password -->
+                                    <div class="col-md-12">
+                                        <label for="exampleInputPassword3" class="form-label text-color">Confirm
+                                            Password *</label>
+                                        <input type="password" class="form-control" id="exampleInputPassword3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- Row END -->
+                    <!-- button -->
+                    <div class="gap-3 d-md-flex justify-content-md-end text-center">
+                        <button type="button" class="btn btn-outline-danger btn-lg">Delete profile</button>
+                        <button type="button" class="btn btn-outline-primary btn-lg">Update profile</button>
+                    </div>
+                </form> <!-- Form END -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    $(window).on('load', function () {
+        $('.page_loader').fadeOut(1000);
+        $('.page_content').fadeIn(1000);
+    })
+</script>

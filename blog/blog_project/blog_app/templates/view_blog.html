@@ -5,7 +5,7 @@
         <div class="mx-auto col-md-10 d-flex flex-row-reverse">
             <!-- Add Blog Button -->
             {% if status %}
-            <div class="alert alert-success m-2 p-2" id="add-success-msg-view" style="background-color: #8EE6CA;">
+            <div class="alert alert-success m-2 p-2 msg_box" id="add-success-msg-view" style="background-color: #8EE6CA;">
                 <strong>{{ status }}</strong>
             </div>
             {% endif %}
@@ -99,8 +99,8 @@
                     </div>
                     {% endfor %}
                     {% if not cmtCtx %}
-                    <div class="rounded m-3 p-2 " style="background-color: #BEE7F1;">
-                        <h3 class="m-1 p-1 justify-content-center" style="color: lightslategrey;">No Comments</h3>
+                    <div class="rounded m-3 p-2 " style="background-color: #52BEDB;">
+                        <h3 class="m-1 p-1 justify-content-center" style="color: white;">No Comments</h3>
                     </div>
                     {% endif %}
                 </div>

@@ -1,16 +1,12 @@
-import datetime
 from django.db.models import F
-from blog_app.models import (BlogLists,BlogUsers,UserComments)
-from django.contrib.auth.hashers import make_password,check_password
-from django.shortcuts import render,redirect,get_object_or_404
-from django.http import HttpResponseRedirect
+from blog_app.models import (BlogLists,UserComments)
+from user.models import (BlogUsers)
+from django.shortcuts import render,redirect
 from django.template.loader import render_to_string
-from django.utils.html import strip_tags
 from django.core.mail import EmailMessage
 from django.urls import reverse
 from urllib.parse import urlencode,parse_qs,unquote
 from django.contrib import messages
-from django.contrib.auth import logout
 from django.core.paginator import Paginator
 
 def getUser(id):
@@ -21,42 +17,6 @@ def getBlog(id):
     blog=BlogLists.objects.get(blog_id=id)
     return {'blog_id':blog.blog_id,'blog_title':blog.blog_title,'blog_content':blog.blog_content}
 
-
-class userLoginService:
-    @classmethod
-    def userAuthentication(cls,request):
-        username=request.POST.get('username')
-        password=request.POST.get('userpassword')
-        
-        existUser=BlogUsers.objects.filter(username=username).first()
-        if existUser:
-            hashPassword=existUser.password
-            if check_password(password,hashPassword):
-                    userid=existUser.id
-                    url=reverse('BlogList_View',kwargs={'userid':userid})
-                    return redirect(url)
-            return render(request,'login.html',{'exception':'Please Check your Password'})
-        else:
-            return render(request,'login.html',{'exception':'Please Check your Username'})
-            
-    @classmethod
-    def adduser(cls,request):
-        print(request)
-        fullname=request.POST.get('full_name')
-        emailId=request.POST.get('email_address')
-        username=request.POST.get('user_name')
-        phonenumber=request.POST.get('phone_number')
-        password=request.POST.get('user_password')
-        encPassword=make_password(password=password)
-        data=BlogUsers(fullname=fullname,emailid=emailId,username=username,mobile_no=phonenumber,password=encPassword)
-        data.save()
-        return redirect('Login-View')
-        
-    @classmethod
-    def logoutUser(cls,request):
-        logout(request)
-        return redirect('Login-View')
-
 class BlogListServices:
         @classmethod
         def getAllBlog(cls,request,userid):
@@ -65,7 +25,7 @@ class BlogListServices:
             ).order_by('-blog_id')
             userdata=getUser(userid)
             item_per_page=5
-            title='Feed | Digital Diary'
+            title='Feed | BlogNest'
             paginator=Paginator(blog_data,item_per_page)
             page_number=request.GET.get('page')
             page=paginator.get_page(page_number)
@@ -88,14 +48,14 @@ class BlogListServices:
             return redirect(url)
 
 class BlogCommentServices:  
-            
+        
         @classmethod
         def BlogComments(cls,request,blogid,userid):
             blogCtx=BlogLists.objects.select_related('userid').filter(blog_id=blogid).values(
                  'userid','blog_id','userid__fullname','blog_title','blog_content','created_at'
             ).order_by('-blog_id')
             userdata=getUser(userid)
-            title='Post | Blog | Digital Diary'
+            title='Post | Blog | BlogNest'
             queryParams=parse_qs(request.META['QUERY_STRING'])
             msg=unquote(queryParams.get('message',[''])[0])
             cmtdata=UserComments.objects.select_related('blog','user').filter(is_deleted=False,blog=blogid).prefetch_related('blog__userid').order_by('-cmt_id')
@@ -112,12 +72,14 @@ class BlogCommentServices:
             data.save()
             if id == 0:
                 url=reverse('BlogList_View',kwargs={'userid':userid})
+                msg={'message':'Your Comment Addded Sucessfully'}
+                msg=urlencode(msg)
+                url+=f'?{msg}'
+                return redirect(url)
             elif id == 1:
                  url=reverse('Blog-Comment_View',kwargs={'user':userid,'blogid':blogid})
-            msg={'message':'Your Comment Addded Sucessfully'}
-            msg=urlencode(msg)
-            url+=f'?{msg}'
-            return redirect(url)
+                 return redirect(url)
+            
         
 class BlogShareServices:
      def shareBlog(request):

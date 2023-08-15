@@ -35,3 +35,14 @@
 #backButton:hover svg path {
     fill: #191c27; 
 }
+#logout-btn:hover {
+    background-color: #ffffff; 
+}
+#logout-btn:hover svg path {
+    fill: #191c27; 
+}
+
+
+.text-color{
+    color:#66d9ef;
+}
