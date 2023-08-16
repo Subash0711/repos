@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
-from user.service import (userLoginService)
-from blog_app.service import getUser
+from user.service import (userLoginService,userProfileService)
+
 def home_View(request):
     return redirect ('Login-View')
 
@@ -24,10 +24,9 @@ def  signup_View(request):
 def logout_view(request):
     return userLoginService.logoutUser(request)
 
+@csrf_exempt
 def user_Profile_View(request,userid):
     if request.method == 'POST':
-        return
+        return userProfileService.updateUser(request,userid)
     elif request.method == 'GET':
-        data=getUser(userid)
-        title= (f"{data['userfullname']}| BlogNest")
-        return render (request=None,template_name='user_profile.html',context={'title':title,'userid':userid})
+        return userProfileService.getProfile(request,userid)

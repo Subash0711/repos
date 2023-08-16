@@ -5,6 +5,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
     <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.7.0.min..js' %}"></script>
 </head>
 <body style="background-color: #14161f">
     <div class="container-fluid" style="background-color: #14161f">
@@ -24,21 +25,21 @@
                                 </div>
     
                                 <div class="form-group row m-3">
-                                    <label for="email_address" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">E-Mail Address</label>
+                                    <label for="email_address" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Mail Id</label>
                                     <div class="col-md-6">
                                         <input type="text" id="email_address" class="form-control" name="email_address" style="background-color: #2b3246; color: #ffffff;" required>
                                     </div>
                                 </div>
     
                                 <div class="form-group row m-3">
-                                    <label for="user_name" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">User Name</label>
+                                    <label for="user_name" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Username</label>
                                     <div class="col-md-6">
                                         <input type="text" id="user_name" class="form-control" name="user_name" style="background-color: #2b3246; color: #ffffff;" required>
                                     </div>
                                 </div>
     
                                 <div class="form-group row m-3">
-                                    <label for="phone_number" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Phone Number</label>
+                                    <label for="phone_number" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Mobile number</label>
                                     <div class="col-md-6">
                                         <input type="text" id="phone_number" name="phone_number" style="background-color: #2b3246; color: #ffffff;" class="form-control">
                                     </div>
@@ -49,8 +50,14 @@
                                         <input type="password" class="form-control" name="user_password" id="user_password" style="background-color: #2b3246; color: #ffffff;" required>
                                     </div>
                                 </div>
+                                <div class="form-group row m-3">
+                                    <label for="userpassword" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Confirm Password</label>
+                                    <div class="col-md-6">
+                                        <input type="password" class="form-control" name="confirm_password" id="confirm_password" style="background-color: #2b3246; color: #ffffff;" required>
+                                    </div>
+                                </div>
                                 <div class="col-md-6 offset-md-5">
-                                    <button type="submit" class="btn" style="background-color: #36c4e0;  color: #ffffff;">
+                                    <button type="submit" class="btn border-none" style="background-color: #36c4e0;  color: #ffffff;" id ="register-btn" disabled>
                                     Register
                                     </button>
                                 </div>
@@ -65,3 +72,16 @@
     </div>
 </body>
 </html>
+<script>
+    $(document).ready(function(){
+        $("#confirm_password").on("input",function () {
+            valuNew=$("#user_password").val()
+            ValuConf=$("#confirm_password").val()
+            if (valuNew == ValuConf && valuNew != "" && ValuConf != ""){
+                $("#register-btn").prop("disabled", false);
+            } else {
+                $("#register-btn").prop("disabled", true);
+            }
+        })
+    })
+</script>

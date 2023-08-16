@@ -41,8 +41,9 @@
 #logout-btn:hover svg path {
     fill: #191c27; 
 }
-
-
-.text-color{
+.base_text_color{
     color:#66d9ef;
+}
+.base_text_color-2{
+    color: whitesmoke;
 }

@@ -59,7 +59,7 @@ class BlogCommentServices:
             queryParams=parse_qs(request.META['QUERY_STRING'])
             msg=unquote(queryParams.get('message',[''])[0])
             cmtdata=UserComments.objects.select_related('blog','user').filter(is_deleted=False,blog=blogid).prefetch_related('blog__userid').order_by('-cmt_id')
-            return render(request,'view_blog.html',{'cmtCtx':cmtdata,'bloglist':blogCtx,'status':msg,'user':userdata['userfullname'],'usermail':userdata['usermail'],'loginUserId':userdata['userid'],'title':title})
+            return render(request,'view_blog.html',{'cmtCtx':cmtdata,'bloglist':blogCtx,'status':msg,'user':userdata['userfullname'],'usermail':userdata['usermail'],'userid':userdata['userid'],'title':title})
         
         @classmethod
         def addBlogComment(cls,request,id):
