@@ -67,7 +67,7 @@
                             </div>
                         </div>
                 </div>
-                <form action="" method="post">
+                <form action="{% url 'User-Profile-View' userid=userid %}" method="post">
                     <div class="row mb-5 gx-5 rounded" style="background-color: #252b38">
                         <!-- Contact detail -->
                         <div class="col-xxl-8 mb-5 mb-xxl-0">
@@ -77,37 +77,63 @@
                                     <!-- First Name -->
                                     <div class="col-md-6">
                                         <label class="form-label base_text_color">First Name *</label>
-                                        <input type="text" class="form-control" placeholder="" aria-label="First name"
-                                            >
+                                        <input type="text" class="form-control" name="update-full-name" value="{{user.userfullname}}" disabled data-list="1" aria-label="First name">
+                                    </div>
+                                    <!-- Gender -->
+                                    <div class="col-md-6">
+                                        <label class="form-label base_text_color">Gender *</label>
+                                        <select class="form-select" name="usergender"> 
+                                            <option style="color: #252b38;" {% if user.usergender == 'male' %} selected {% endif %} value="male">Male</option>
+                                            <option style="color: #252b38;" {% if user.usergender == 'female' %} selected {% endif %}  value="female">Female</option>
+                                            <option style="color: #252b38;" {% if user.usergender == 'transgender' %} selected {% endif %}  value="transgender">Transgender</option>
+                                            <option style="color: #252b38;" {% if user.usergender == 'not_say' %} selected {% endif %}  value="not_say">Prefer Not to Say</option>
+                                          </select>
+                                        <!-- <input type="text" class="form-control" name="update-user-gender" value="{{ user.usergender }}" aria-label="Phone number" data-list="1" disabled> -->
+                                        <input type="text" name="column-name" value="contact-col" style="display: none;">
                                     </div>
                                     <!-- Mobile number -->
                                     <div class="col-md-6">
                                         <label class="form-label base_text_color">Mobile number *</label>
-                                        <input type="text" class="form-control" placeholder="" aria-label="Phone number"
-                                            >
+                                        <input type="text" class="form-control" name="update-mobile-no" value="{{user.userMobileNo}}"  disabled data-list="1" aria-label="Phone number">
                                     </div>
                                     <!-- Email -->
                                     <div class="col-md-6">
                                         <label for="inputEmail4" class="form-label base_text_color">Email *</label>
-                                        <input type="email" class="form-control" id="inputEmail4">
-                                    </div>
-                                    <!-- Skype -->
-                                    <div class="col-md-6">
-                                        <label class="form-label base_text_color">Skype *</label>
-                                        <input type="text" class="form-control" placeholder="" aria-label="Phone number">
-                                        <input type="text" name="colum-name" value="contact-col" style="display: none;">
-                                        <input type="text" name="userid" value="{{userid}}" style="display: none;">
+                                        <input type="email" class="form-control" name="update-email" id="inputEmail4" value="{{user.usermail}}" data-list="1" disabled>
                                     </div>
                                 </div> 
                                 <div class="gap-3 d-md-flex justify-content-md-start text-center my-4">
-                                    <button type="button" class="btn btn-outline-info btn-lg" id="cntct-update-btn" >Update</button>
-                                    <button type="button" class="btn btn-outline-success btn-lg" id="cntct-save-btn" style="display: none;">Save</button>
-                                    <button type="button" class="btn btn-outline-danger btn-lg" id="cntct-cncl-btn" style="display: none;">Cancel</button>
+                                    <button type="button" class="btn btn-outline-info btn-lg update-btn" data-list="1" >Update</button>
+                                    <button type="submit" class="btn btn-outline-success btn-lg save-btn" data-list="1" style="display: none;">Save</button>
+                                    <button type="button" class="btn btn-outline-danger btn-lg cancel-btn" data-list="1" style="display: none;">Cancel</button>
                                 </div>
                             </div>
                         </div>
                     </div> 
                 </form>
+                <form action="{% url 'User-Profile-View' userid=userid %}" method="post">
+                    <div class="row mb-5 gx-5 rounded" style="background-color: #252b38">
+                        <!-- change password -->
+                        <div class="col-xxl-6">
+                            <div class="bg-secondary-soft px-4 py-5 rounded">
+                                <div class="row g-3">
+                                    <h4 class="my-4 base_text_color">Change Username</h4>
+                                    <!-- Username -->
+                                    <div class="col-md-8">
+                                        <label  class="form-label base_text_color">Username *</label>
+                                        <input type="password" class="form-control" name="update-user-name" id="update-user-name" data-list="2" disabled> 
+                                        <input type="text" name="column-name" value="username-col" style="display: none;">
+                                    </div>
+                                </div>
+                                <div class="gap-3 d-md-flex justify-content-md-start text-center my-4">
+                                    <button type="button" class="btn btn-outline-info btn-lg update-btn" data-list="2" >Update</button>
+                                    <button type="submit" class="btn btn-outline-success btn-lg save-btn" data-list="2" style="display: none;">Save</button>
+                                    <button type="button" class="btn btn-outline-danger btn-lg cancel-btn" data-list="2" style="display: none;">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </form> 
                 {% if errormessage %}
                 <div class="row mb-5 gx-5 rounded justify-content-md-end" style="position: fixed; top: 0; right: 0;width: 50rem;">
                     <div class="col-md-12 m-5 p-3 rounded alert alert-danger"  id="alert-box" style="display: inline-block;width: auto;">
@@ -135,26 +161,26 @@
                                     <div class="col-md-8">
                                         <label for="exampleInputPassword1" class="form-label base_text_color">Old password
                                             *</label>
-                                        <input type="password" class="form-control" id="old-password" name="old-password" disabled>
+                                        <input type="password" class="form-control" id="old-password"  data-list="3" name="old-password" disabled>
                                     </div>
                                     <!-- New password -->
                                     <div class="col-md-8">
                                         <label for="exampleInputPassword2" class="form-label base_text_color">New password
                                             *</label>
-                                        <input type="password" class="form-control" id="new-password" name="new-password" disabled>
+                                        <input type="password" class="form-control " id="new-password" data-list="3" name="new-password" disabled>
                                     </div>
                                     <!-- Confirm password -->
                                     <div class="col-md-8">
-                                        <label for="exampleInputPassword3" class="form-label base_text_color">Confirm
+                                        <label  class="form-label base_text_color">Confirm
                                             Password *</label>
-                                        <input type="password" class="form-control" id="cnf-new-password" disabled> 
-                                        <input type="text" name="colum-name" value="password-col" style="display: none;">
+                                        <input type="password" class="form-control " id="cnf-new-password" data-list="3" disabled> 
+                                        <input type="text" name="column-name" value="password-col" style="display: none;">
                                     </div>
                                 </div>
                                 <div class="gap-3 d-md-flex justify-content-md-start text-center my-4">
-                                    <button type="button" class="btn btn-outline-info btn-lg" id="pass-update-btn" >Update</button>
-                                    <button type="submit" class="btn btn-outline-success btn-lg" id="pass-save-btn" style="display: none;" disabled>Save</button>
-                                    <button type="button" class="btn btn-outline-danger btn-lg" id="pass-cancel-btn" style="display: none;">Cancel</button>
+                                    <button type="button" class="btn btn-outline-info btn-lg update-btn" data-list="3" >Update</button>
+                                    <button type="submit" class="btn btn-outline-success btn-lg save-btn" data-list="3" style="display: none;" disabled>Save</button>
+                                    <button type="button" class="btn btn-outline-danger btn-lg cancel-btn" data-list="3" style="display: none;">Cancel</button>
                                 </div>
                             </div>
                         </div>
@@ -172,43 +198,36 @@
         $(".page_content").fadeIn(1000);
     })
     $(document).ready(function () {
-        $("#cntct-update-btn").click(function () {
-            $(this).hide()  
-            $("#cntct-save-btn").toggle()
-            $("#cntct-cncl-btn").toggle()
-        })
-        $("#cntct-cncl-btn").click(function () {
-            $(this).hide()  
-            $("#cntct-save-btn").hide()
-            $("#cntct-update-btn").toggle()
-        })
-        $("#pass-update-btn").click(function () {
+        $(".update-btn").click(function () {
+            var val=$(this).attr('data-list')
             $(this).hide()
-            $("#pass-save-btn").toggle()
-            $("#pass-cancel-btn").toggle()
-            $("#old-password").prop("disabled", false);
-            $("#new-password").prop("disabled", false);
-            $("#cnf-new-password").prop("disabled", false);
+            $(this).siblings('.save-btn').toggle()
+            $(this).siblings('.cancel-btn').toggle()
+            $(".form-control[data-list='" +val+ "']").prop('disabled',false)
         })
-        $("#pass-cancel-btn").click(function () {
-            $(this).hide()  
-            $("#pass-save-btn").hide()
-            $("#pass-update-btn").toggle()
-            $("#old-password").prop("disabled", true).val("");
-            $("#new-password").prop("disabled", true).val("");
-            $("#cnf-new-password").prop("disabled", true).val("");
+        $(".cancel-btn").click(function () {
+            var val=$(this).attr('data-list')
+            $(this).hide()
+            $(this).siblings('.save-btn').hide()
+            $(this).siblings('.update-btn').toggle()
+            if (val == '3' || val == '2') {
+                $(".form-control[data-list='" +val+ "']").val('')
+            }
+            $(".form-control[data-list='" +val+ "']").prop('disabled',true)
         })
         setTimeout(function() {
         $("#alert-box").fadeOut("slow");
         }, 3500); 
 
         $("#cnf-new-password").on("input",function () {
-            valuNew=$("#new-password").val()
-            ValuConf=$("#cnf-new-password").val()
-            if (valuNew == ValuConf && valuNew != "" && ValuConf != ""){
-                $("#pass-save-btn").prop("disabled", false);
+            var val=$(this).attr('data-list')
+            old_password=$("#old-password").val()
+            new_password=$("#new-password").val()
+            conf_password=$("#cnf-new-password").val()
+            if (new_password == conf_password && new_password != "" && conf_password != "" && old_password != "" ){
+                $(".save-btn[data-list='"+val+"']").prop("disabled", false);
             } else {
-                $("#pass-save-btn").prop("disabled", true);
+                $("..save-btn[data-list='"+val+"']").prop("disabled", true);
             }
         })
     })

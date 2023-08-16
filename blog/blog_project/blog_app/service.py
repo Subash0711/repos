@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 
 def getUser(id):
     user=BlogUsers.objects.get(id=id)
-    return {'userfullname':user.fullname,'username':user.username,'usermail':user.emailid,'userMobileNo':user.mobile_no,'userid':user.id}
+    return {'userfullname':user.fullname,'username':user.username,'usermail':user.emailid,'userMobileNo':user.mobile_no,'userid':user.id,'usergender':user.gender}
 
 def getBlog(id):
     blog=BlogLists.objects.get(blog_id=id)
