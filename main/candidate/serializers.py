@@ -33,7 +33,6 @@ class EducationSerializer(serializers.ModelSerializer):
             'education_specialization_other',
             'education_institution',
             'education_institution_other',
-            'related_data'
         )
 
 class WorkSerializer(serializers.ModelSerializer):
