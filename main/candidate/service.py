@@ -12,7 +12,7 @@ class CoreServices:
 
     @classmethod
     def deleteprofile(cls, id):
-        instance = Candidatedirectory.objects.get(id=id)
+        instance = cls.getAllDeatils(id)
         if instance:
             instance.delete()
             return Response({'Message': 'User Profile Deleted Successfully'}, status=status.HTTP_202_ACCEPTED)
