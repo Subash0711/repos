@@ -41,7 +41,7 @@ class PersonalDetailsServices:
     @classmethod
     def update_personal_details(cls, request, id):
         instances = CoreServices.getAllDeatils(id)
-        serializer = PersonalSerializer(instances, data=request.data)
+        serializer = PersonalSerializer(instances, data=request.data,partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response({'Message': 'Personal Details updated Successfully)'}, status=status.HTTP_201_CREATED)
@@ -63,7 +63,10 @@ class EducationDetailsServices:
         if not request.data:
             return Response({'Message': 'Data Not Provided'}, status=status.HTTP_400_BAD_REQUEST)
         if instance:
-            serializer = EducationSerializer(instance, data=request.data)
+            if method == 'POST':
+                serializer = EducationSerializer(instance, data=request.data)
+            else:
+                serializer = EducationSerializer(instance, data=request.data,partial=True)
             if serializer.is_valid():
                 if method == 'POST':
                     serializer.save()
@@ -92,8 +95,12 @@ class WorkDetailsServices:
         if not request.data:
             return Response({'Message': 'Data Not Provided'}, status=status.HTTP_400_BAD_REQUEST)
         if instance:
-            serializer = WorkSerializer(instance, data=request.data)
-            if serializer.is_valid():
+            if method == 'POST':
+                serializer = WorkSerializer(instance, data=request.data)
+            else:
+                serializer = WorkSerializer(instance, data=request.data,partial=True)
+
+            if serializer.is_valid() :
                 if method == 'POST':
                     serializer.save()
                     return Response({'Message': 'Work Details Added Successfully'}, status=status.HTTP_201_CREATED)
@@ -121,7 +128,10 @@ class ApplicationDetailsServices:
         if not request.data:
             return Response({'Message': 'Data Not Provided'}, status=status.HTTP_400_BAD_REQUEST)
         if instance:
-            serializer = ApplicationSerializer(instance, data=request.data)
+            if method == 'POST':
+                serializer = WorkSerializer(instance, data=request.data)
+            else:
+                serializer = WorkSerializer(instance, data=request.data,partial=True)
             if serializer.is_valid():
                 if method == 'POST':
                     serializer.save()
@@ -150,7 +160,11 @@ class CandidateLoginDetailsServices:
         if not request.data:
             return Response({'Message': 'Data Not Provided'}, status=status.HTTP_400_BAD_REQUEST)
         if instance:
-            serializer = LoginSerializer(instance, data=request.data)
+            if method == 'POST':
+                serializer = LoginSerializer(instance, data=request.data)
+            else:
+                serializer = LoginSerializer(instance, data=request.data,partial=True)
+
             if serializer.is_valid():
                 if method == 'POST':
                     serializer.save()

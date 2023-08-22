@@ -29,7 +29,7 @@ class CityServices:
                 return Response({'Message': 'City Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=CitySerializer(instances,data=request.data)
+            serializer=CitySerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'City Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -65,7 +65,7 @@ class EducationlevelServices:
                 return Response({'Message': 'Educationlevel Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         if method == 'PUT' and instances:
-            serializer=EducationlevelSerializer(instances,data=request.data)
+            serializer=EducationlevelSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Educationlevel Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -101,7 +101,7 @@ class EducationqualificationServices:
                 return Response({'Message': 'Educationqualification Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=EducationqualificationSerializer(instances,data=request.data)
+            serializer=EducationqualificationSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Educationqualification Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -137,7 +137,7 @@ class EducationspecializationServices:
                 return Response({'Message': 'Educationspecialization Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=EducationspecializationSerializer(instances,data=request.data)
+            serializer=EducationspecializationSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Educationspecialization Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -173,7 +173,7 @@ class EmployeedirectoryServices:
                 return Response({'Message': 'Employeedirectory Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=EmployeedirectorySerializer(instances,data=request.data)
+            serializer=EmployeedirectorySerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Employeedirectory Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -209,7 +209,7 @@ class EventdetailsServices:
                 return Response({'Message': 'Eventdetails Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=EventdetailsSerializer(instances,data=request.data)
+            serializer=EventdetailsSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Eventdetails Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -245,7 +245,7 @@ class ExperiencelevelServices:
                 return Response({'Message': 'Experiencelevel Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=ExperiencelevelSerializer(instances,data=request.data)
+            serializer=ExperiencelevelSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Experiencelevel Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -281,7 +281,7 @@ class GenderServices:
                 return Response({'Message': 'Gender Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=GenderSerializer(instances,data=request.data)
+            serializer=GenderSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Gender Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -317,7 +317,7 @@ class JobrequisitionServices:
                 return Response({'Message': 'Jobrequisition Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=JobrequisitionSerializer(instances,data=request.data)
+            serializer=JobrequisitionSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Jobrequisition Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -353,7 +353,7 @@ class MaritalstatusServices:
                 return Response({'Message': 'Maritalstatus Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=MaritalstatusSerializer(instances,data=request.data)
+            serializer=MaritalstatusSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Maritalstatus Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -389,7 +389,7 @@ class PersonaServices:
                 return Response({'Message': 'Persona Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=PersonaSerializer(instances,data=request.data)
+            serializer=PersonaSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Persona Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -425,7 +425,7 @@ class ReasonforchangeServices:
                 return Response({'Message': 'Reasonforchange Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=ReasonforchangeSerializer(instances,data=request.data)
+            serializer=ReasonforchangeSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Reasonforchange Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -461,7 +461,7 @@ class ScreeningmodeServices:
                 return Response({'Message': 'Screeningmode Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=ScreeningmodeSerializer(instances,data=request.data)
+            serializer=ScreeningmodeSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Screeningmode Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -497,7 +497,7 @@ class SourceServices:
                 return Response({'Message': 'Source Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=SourceSerializer(instances,data=request.data)
+            serializer=SourceSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Source Updated Successfully'}, status=status.HTTP_201_CREATED)
@@ -533,7 +533,7 @@ class SourcetypeServices:
                 return Response({'Message': 'Sourcetype Added Successfully'}, status=status.HTTP_201_CREATED)
             return Response({'data': serialize_data.errors}, status=status.HTTP_200_OK)
         elif method == 'PUT' and instances:
-            serializer=SourcetypeSerializer(instances,data=request.data)
+            serializer=SourcetypeSerializer(instances,data=request.data,partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'Message': 'Sourcetype Updated Successfully'}, status=status.HTTP_201_CREATED)
