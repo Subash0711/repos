@@ -34,8 +34,8 @@ class PersonalDetailsServices:
     def create_personal_details(cls, request):
         serializer = PersonalSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response({'Message': 'Personal Details Added Successfully)'}, status=status.HTTP_201_CREATED)
+            instance = serializer.save()
+            return Response({'Message': 'Personal Details Added Successfully and Use this Userid for next level updates.','userid':instance.id}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @classmethod

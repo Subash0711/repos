@@ -1,12 +1,13 @@
 from rest_framework.views  import APIView
 from  rest_framework.response import Response
+from django.shortcuts import redirect
 from rest_framework import status
 from candidate.service import (
 PersonalDetailsServices,ApplicationDetailsServices,EducationDetailsServices,CandidateLoginDetailsServices,
 WorkDetailsServices,CoreServices
 )   
-class PersonalDetailsView(APIView):
 
+class PersonalDetailsView(APIView):
     def get(self,request):
         id = request.query_params.get('id')
         return PersonalDetailsServices.get_personal_details(id)
