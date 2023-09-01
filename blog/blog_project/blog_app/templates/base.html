@@ -100,15 +100,10 @@
             $('#backButton').toggle()
         })
 
-        var msg = document.getElementById('add-success-msg');
-        var addbtn = document.getElementById('add-Blog-btn');
-        msg.style.display = 'block';
-        addbtn.style.display = 'none';
-        setTimeout(function () {
-            msg.style.display = 'none';
-            addbtn.style.display = 'block';
-        }, 4000)
-
+        setTimeout(function() {
+        $("#alert-box").fadeOut("slow");
+        }, 3500); 
+        
         var viewMsg = document.getElementById('add-success-msg-view');
         viewMsg.style.display = 'block';
         setTimeout(function () {

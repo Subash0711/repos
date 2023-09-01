@@ -20,6 +20,6 @@ from user.views import (home_View)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_View,name='Home-View'),
-    path('blog-nest/', include('blog_app.urls')),
-    path('blog-nest/', include('user.urls')),
+    path('Blog-nest/', include('blog_app.urls')),
+    path('Blog-nest/', include('user.urls')),
 ]

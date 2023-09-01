@@ -1,9 +1,8 @@
 from django.shortcuts import render,redirect
 from blog_app.service import (BlogListServices,BlogCommentServices,BlogShareServices)
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
 from blog_app.service import getUser
-    
+from rest_framework.decorators import authentication_classes,permission_classes,api_view
 
 def blogList_View(request,userid):
     return BlogListServices.getAllBlog(request,userid)
@@ -20,13 +19,13 @@ def addBlog_View(request,userid):
             'title':'Post | BlogNest'
         }
         return render (request=None,template_name='add_blog.html',context=contx)
-
-def commentView(request,blogid,user):
-    return BlogCommentServices.BlogComments(request,blogid,user)
+    
+def commentView(request,blogid,userid):
+    return BlogCommentServices.BlogComments(request,blogid,userid)
 
 @csrf_exempt
-def addCommentView(request,id):
-    return BlogCommentServices.addBlogComment(request,id)
+def addCommentView(request):
+    return BlogCommentServices.addBlogComment(request)
 
 @csrf_exempt
 def shareBlogView(request):

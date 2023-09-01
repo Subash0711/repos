@@ -11,18 +11,21 @@
                         d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177l-2.914-2.914a.25.25 0 0 0-.177-.073Zm4.48 3.758a.75.75 0 0 1 .755.745l.01 1.497h1.497a.75.75 0 0 1 0 1.5H9v1.507a.75.75 0 0 1-1.5 0V9.005l-1.502.01a.75.75 0 0 1-.01-1.5l1.507-.01-.01-1.492a.75.75 0 0 1 .745-.755Z">
                     </path>
                 </svg></a>
-            {% if status %}
-            <div class="alert alert-success m-2 p-2" id="add-success-msg" style="background-color: #8EE6CA;">
-                <strong>{{ status }}</strong>
-            </div>
-            {% endif %}
+                {% if message %}
+                <div class="row mb-5 gx-5 rounded justify-content-md-end" style="position: fixed; top: 0; right: 0;width: 50rem;">
+                    <div class="col-md-12 m-5 p-3 rounded alert alert-success"  id="alert-box" style="display: inline-block;width: auto;">
+                        <svg  class="m-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><path d="M6 0a6 6 0 1 1 0 12A6 6 0 0 1 6 0Zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938Z"></path></svg>
+                        <strong>{{ message }}</strong>
+                    </div>
+                </div>
+                {% endif %}
         </div>
         {% for list in bloglists %}
         <div class="border-none rounded col-md-10 p-3 m-4 mx-auto" style="background-color: #47a4be;">
             <div class="m-2">
                 <h2 style="color: white;">{{ list.blog_title }}</h2>
                 <p style="font-size: 10px;color: white;">published {{ list.created_at }} by {{ list.userid__fullname }}</p>
-                <P style="font-size: 15px; text-indent: 50px;color: white; text-transform: capitalize;"> {{ list.blog_content }}</P>
+                <P style="font-size: 15px; text-indent: 50px;color: white; text-transform: capitalize;"> {{ list.blog_content|truncatewords:70 }}</P>
             </div>
             <div>
                 <hr style="color: white;">
@@ -45,7 +48,7 @@
                     </svg></button>
                 <!-- Add extend button -->
                 <button class="btn btn-outline-light p-2 m-2 extendButton" data-listId="{{list.blog_id}}">
-                    <a href="{% url 'Blog-Comment_View' blogid=list.blog_id user=list.userid  %}"><svg
+                    <a href="{% url 'Blog-Comment_View' blogid=list.blog_id userid=list.userid  %}"><svg
                             xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 16 16" width="16" height="16">
                             <path
                                 d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z">
@@ -54,10 +57,11 @@
             </div>
             <!-- comment div -->
             <div class="m-2 commentDiv" style="display: none;" data-listId="{{list.blog_id}}">
-                <form method="post" action="{% url 'Add-Comment-View' id=0 %}">
+                <form method="post" action="{% url 'Add-Comment-View' %}">
                     <input type="text" class="form-control" id="user_comment" name="user_comment" placeholder="Your Opinion"
                         aria-label="user-opinion" aria-describedby="basic-addon2" required>
-                    <input type="text" name="userId" value="{{ loginUserId }}" style="display: none;">
+                    <input type="text" name="userId" value="{{ userid }}" style="display: none;">
+                    <input type="text" name="Page-id" value="0" style="display: none;">
                     <input type="text" name="blogId" value="{{ list.blog_id }}" style="display: none;">
                     <div class="mt-2 ml-3">
                         <!-- Comment Buttons -->
@@ -73,7 +77,7 @@
                         <input type="text" readonly class="form-control-plaintext" name="blogid"
                             value="{{list.blog_id}}" style="display: none;">
                             <input type="text" readonly class="form-control-plaintext" name="userid"
-                            value="{{ loginUserId }}" style="display: none;">
+                            value="{{ userid }}" style="display: none;">
                             <input type="text" readonly class="form-control-plaintext" name="pageId"
                             value="0" style="display: none;">
                     </div>

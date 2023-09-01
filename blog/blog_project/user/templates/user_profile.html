@@ -50,13 +50,13 @@
                 <div class="row mb-5 gx-5 rounded" style="background-color: #252b38">
                         <div class="col-4">
                             <div class="d-flex flex-column m-2 p-2">
-                               <strong class="base_text_color-2 text-center" style="font-size: 20px;">16</strong>
+                               <strong class="base_text_color-2 text-center" style="font-size: 20px;">{{ userblogCount }}</strong>
                                 <p class="base_text_color text-center">Blogs</p>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="d-flex flex-column m-2 p-2">
-                                <strong class="base_text_color-2 text-center" style="font-size: 20px;">200</strong>
+                                <strong class="base_text_color-2 text-center" style="font-size: 20px;">{{ userCmtsCount }}</strong>
                                 <p class="base_text_color text-center">Comments</p>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                     <!-- Gender -->
                                     <div class="col-md-6">
                                         <label class="form-label base_text_color">Gender *</label>
-                                        <select class="form-select" name="usergender"> 
+                                        <select class="form-select form-control" data-list="1" name="usergender" disabled> 
                                             <option style="color: #252b38;" {% if user.usergender == 'male' %} selected {% endif %} value="male">Male</option>
                                             <option style="color: #252b38;" {% if user.usergender == 'female' %} selected {% endif %}  value="female">Female</option>
                                             <option style="color: #252b38;" {% if user.usergender == 'transgender' %} selected {% endif %}  value="transgender">Transgender</option>
@@ -113,7 +113,7 @@
                 </form>
                 <form action="{% url 'User-Profile-View' userid=userid %}" method="post">
                     <div class="row mb-5 gx-5 rounded" style="background-color: #252b38">
-                        <!-- change password -->
+                        <!-- change Username -->
                         <div class="col-xxl-6">
                             <div class="bg-secondary-soft px-4 py-5 rounded">
                                 <div class="row g-3">
@@ -121,7 +121,7 @@
                                     <!-- Username -->
                                     <div class="col-md-8">
                                         <label  class="form-label base_text_color">Username *</label>
-                                        <input type="password" class="form-control" name="update-user-name" id="update-user-name" data-list="2" disabled> 
+                                        <input type="text" class="form-control" name="update-user-name" id="update-user-name" value="{{ user.username}}" data-list="2" disabled> 
                                         <input type="text" name="column-name" value="username-col" style="display: none;">
                                     </div>
                                 </div>
@@ -210,7 +210,7 @@
             $(this).hide()
             $(this).siblings('.save-btn').hide()
             $(this).siblings('.update-btn').toggle()
-            if (val == '3' || val == '2') {
+            if (val == '3') {
                 $(".form-control[data-list='" +val+ "']").val('')
             }
             $(".form-control[data-list='" +val+ "']").prop('disabled',true)

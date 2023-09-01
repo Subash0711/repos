@@ -4,10 +4,13 @@ from blog_app.views import (
     addBlog_View,
     commentView,addCommentView,shareBlogView
     )
+
+# handler404=custom_errors
+
 urlpatterns = [
-    path('addblog/<int:userid>', addBlog_View,name='AddBlog-View'),
+    path('Addblog/<int:userid>', addBlog_View,name='AddBlog-View'),
     path('DashBoard/<int:userid>',blogList_View,name='BlogList_View'),
-    path('viewblog/<int:user>/<int:blogid>',commentView,name='Blog-Comment_View'),
-    path('addComment/<int:id>',addCommentView,name='Add-Comment-View'),
-    path('shareBlog/',shareBlogView,name='Share-Blog-View') 
+    path('Viewblog/<int:userid>/<int:blogid>',commentView,name='Blog-Comment_View'),
+    path('AddComment/',addCommentView,name='Add-Comment-View'),
+    path('ShareBlog/',shareBlogView,name='Share-Blog-View'),
 ]

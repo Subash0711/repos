@@ -8,6 +8,7 @@ from django.urls import reverse
 from urllib.parse import urlencode,parse_qs,unquote
 from django.contrib import messages
 from django.core.paginator import Paginator
+from  blog_app.messages import (ADD_COMMENT_MESSAGE,ADD_BLOG_MESSAGE,BLOG_SHARED_MESSAGE)
 
 def getUser(id):
     user=BlogUsers.objects.get(id=id)
@@ -29,9 +30,12 @@ class BlogListServices:
             paginator=Paginator(blog_data,item_per_page)
             page_number=request.GET.get('page')
             page=paginator.get_page(page_number)
-            queryParams=parse_qs(request.META['QUERY_STRING'])
-            msg=unquote(queryParams.get('message',[''])[0])
-            ctxData={'bloglists':page,'user':userdata['userfullname'],'usermail':userdata['usermail'],'userid':userid,'status':msg,'loginUserId':userdata['userid'],'title':title}
+            msg = request.GET.get('message', '')
+            ctxData={'bloglists':page,
+                     'user':userdata['userfullname'],
+                     'usermail':userdata['usermail'],
+                     'userid':userid,'message':msg,
+                     'title':title}
             return render(request=None,template_name='blog_lists.html',context=ctxData)
         
         @classmethod
@@ -42,7 +46,7 @@ class BlogListServices:
             data=BlogLists(blog_title=title,blog_content=content,userid=blog_user)
             data.save()
             url=reverse('BlogList_View',kwargs={'userid':userId})
-            msg={'message':'Your Blog Added Successfully'}
+            msg={'message':ADD_BLOG_MESSAGE}
             msg=urlencode(msg)
             url+=f"?{msg}"
             return redirect(url)
@@ -56,49 +60,55 @@ class BlogCommentServices:
             ).order_by('-blog_id')
             userdata=getUser(userid)
             title='Post | Blog | BlogNest'
-            queryParams=parse_qs(request.META['QUERY_STRING'])
-            msg=unquote(queryParams.get('message',[''])[0])
+            msg = request.GET.get('message', '')
             cmtdata=UserComments.objects.select_related('blog','user').filter(is_deleted=False,blog=blogid).prefetch_related('blog__userid').order_by('-cmt_id')
-            return render(request,'view_blog.html',{'cmtCtx':cmtdata,'bloglist':blogCtx,'status':msg,'user':userdata['userfullname'],'usermail':userdata['usermail'],'userid':userdata['userid'],'title':title})
+            return render(request,'view_blog.html',
+                          {'cmtCtx':cmtdata,
+                           'bloglist':blogCtx,
+                           'message':msg,
+                           'user':userdata['userfullname'],
+                           'usermail':userdata['usermail'],
+                           'userid':userdata['userid'],
+                           'title':title})
         
         @classmethod
-        def addBlogComment(cls,request,id):
+        def addBlogComment(cls,request):
             blogid=request.POST.get('blogId')
             userid=request.POST.get('userId')
+            id=request.POST.get('Page-id')
             CmtCont=request.POST.get('user_comment')
             blog_instances=BlogLists.objects.get(blog_id=blogid)
             user_instances=BlogUsers.objects.get(id=userid)
             data=UserComments(blog=blog_instances,cmt_content=CmtCont,user=user_instances)
             data.save()
-            if id == 0:
+            if int(id) == 0:
                 url=reverse('BlogList_View',kwargs={'userid':userid})
-                msg={'message':'Your Comment Addded Sucessfully'}
+                msg={'message':ADD_COMMENT_MESSAGE}
                 msg=urlencode(msg)
                 url+=f'?{msg}'
                 return redirect(url)
-            elif id == 1:
-                 url=reverse('Blog-Comment_View',kwargs={'user':userid,'blogid':blogid})
+            elif int(id) == 1:
+                 url=reverse('Blog-Comment_View',kwargs={'userid':userid,'blogid':blogid})
                  return redirect(url)
             
         
 class BlogShareServices:
      def shareBlog(request):
         blogId=request.POST.get('blogid')
-        userid=request.POST.get('userid')
+        userid=(request.POST.get('userid'))
         id=int(request.POST.get('pageId'))
         receive_mail=request.POST.get('receiverMail')
         blog_data=BlogLists.objects.filter(blog_id=blogId).values('blog_id','blog_title','blog_content','userid__fullname').annotate(fullname=F('userid__fullname')).first()
         subject=f"Check Out This Blog: {blog_data['blog_title']}"
-        print(blog_data)
         emailCnt = render_to_string('email_share.html',{'blog':blog_data})
         email= EmailMessage(subject,emailCnt,to=[receive_mail])
         email.content_subtype='html'
         email.send()
         if id == 0:
-            url=reverse('BlogList_View',kwargs={'userid':userid})
+            url=reverse('BlogList_View',kwargs={'userid':int(userid)})
         elif id == 1:
-            url=reverse('Blog-Comment_View',kwargs={'user':userid,'blogid':blogId})
-        msg={'message':' Blog Shared Sucessfully'}
+            url=reverse('Blog-Comment_View',kwargs={'userid':userid,'blogid':blogId})
+        msg={'message':BLOG_SHARED_MESSAGE}
         querparam=urlencode(msg)
         url+=f'?{querparam}'
         return redirect(url)

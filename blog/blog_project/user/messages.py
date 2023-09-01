@@ -1,0 +1,8 @@
+PASSWORD_UPDATE_MSG='Password Updated Sucessfully'
+PASSWORD_CHECK_MSG='Please check your old Password'
+DETAILS_UPDATE_MSG='Details Updated Sucessfully'
+USERNAME_UPDATE_MSG='Username Updated Sucessfully'
+USERNAME_UNAVAILABLE_MSG='Username is not avialbale'
+INCORRECT_USERNAME_MSG='Please Check your Username'
+INCORRECT_PASSWORD_MSG='Please Check your Password'
+CREATE_USER_SUCCESS_MSG='User Created Successfully'

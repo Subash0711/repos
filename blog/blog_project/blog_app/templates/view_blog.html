@@ -4,9 +4,12 @@
     <div class="p-4 border-none" style="background-color: #191c27;">
         <div class="mx-auto col-md-10 d-flex flex-row-reverse">
             <!-- Add Blog Button -->
-            {% if status %}
-            <div class="alert alert-success m-2 p-2 msg_box" id="add-success-msg-view" style="background-color: #8ee6ca;">
-                <strong>{{ status }}</strong>
+            {% if message %}
+            <div class="row mb-5 gx-5 rounded justify-content-md-end" style="position: fixed; top: 0; right: 0;width: 50rem;">
+                <div class="col-md-12 m-5 p-3 rounded alert alert-success"  id="alert-box" style="display: inline-block;width: auto;">
+                    <svg  class="m-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><path d="M6 0a6 6 0 1 1 0 12A6 6 0 0 1 6 0Zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938Z"></path></svg>
+                    <strong>{{ message }}</strong>
+                </div>
             </div>
             {% endif %}
         </div>
@@ -38,7 +41,7 @@
                     </svg></button>
                 <!-- Add back button -->
                 <button class="btn btn-outline-light p-2 m-2 " id="backButton" data-listId="{{list.blog_id}}">
-                    <a href="{% url 'BlogList_View' userid=list.userid %}"><svg xmlns="http://www.w3.org/2000/svg"
+                    <a href="{% url 'BlogList_View' userid=userid %}"><svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" width="24" height="24" style="fill: white;">
                             <path
                                 d="M10.53 5.03a.75.75 0 1 0-1.06-1.06l-6.25 6.25a.75.75 0 0 0 0 1.06l6.25 6.25a.75.75 0 1 0 1.06-1.06L5.56 11.5H17a3.248 3.248 0 0 1 3.25 3.248v4.502a.75.75 0 0 0 1.5 0v-4.502A4.748 4.748 0 0 0 17 10H5.56l4.97-4.97Z">
@@ -49,10 +52,11 @@
             </div>
             <!-- comment Div -->
             <div class="m-2 " id="commentDiv" style="display: none;" data-listId="{{list.blog_id}}">
-                <form action="{% url 'Add-Comment-View' id=1 %}" method="post">
+                <form action="{% url 'Add-Comment-View' %}" method="post">
                     <input type="text" class="form-control" id="user_comment" name="user_comment"
                         placeholder="Your Opinion" aria-label="user-opinion" aria-describedby="basic-addon2">
-                        <input type="text" name="userId" value="{{ loginUserId }}" style="display: none;">
+                        <input type="text" name="userId" value="{{ userid }}" style="display: none;">
+                        <input type="text" name="Page-id" value="1" style="display: none;">
                         <input type="text" name="blogId" value="{{ list.blog_id }}" style="display: none;">
                     <div class="mt-2 ml-3">
                         <!-- Comment Buttons -->
@@ -69,7 +73,7 @@
                         <input type="text" readonly class="form-control-plaintext" name="blogid"
                             value="{{list.blog_id}}" style="display: none;">
                             <input type="text" readonly class="form-control-plaintext" name="userid"
-                            value="{{ loginUserId }}" style="display: none;">
+                            value="{{ userid }}" style="display: none;">
                             <input type="text" readonly class="form-control-plaintext" name="pageId"
                             value="1" style="display: none;">
                     </div>
@@ -91,11 +95,13 @@
                 </div>
                 <div class="d-flex flex-column rounded" style="background-color: #191c27;">
                     {% for cmt in cmtCtx %}
-                    <div class="rounded m-3 p-2 " style="background-color: #52BEDB;">
-                        <h4 class="m-1 p-1">{{ cmt.user.fullname }}</h4>
-                        <p class="ps-4">
-                            {{cmt.cmt_content}}
-                        </p>
+                    <div  style="width: 97%;">
+                        <div class="rounded m-3 p-2 " style="display: inline-block;background-color: #52BEDB; width: auto;">
+                            <h4 class="m-1 p-1">{{ cmt.user.fullname }}</h4>
+                            <p class="ps-4">
+                                {{cmt.cmt_content}}
+                            </p>
+                        </div>
                     </div>
                     {% endfor %}
                     {% if not cmtCtx %}

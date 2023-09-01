@@ -1,14 +1,27 @@
 from user.models import (BlogUsers)
+from blog_app.models import (BlogLists,UserComments)
 from django.contrib.auth.hashers import make_password,check_password
 from django.urls import reverse
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from django.contrib.auth import logout
 from blog_app.service import getUser
+from rest_framework.response import Response
 from urllib.parse import urlencode,parse_qs,unquote
+from user.messages import (PASSWORD_UPDATE_MSG,PASSWORD_CHECK_MSG,
+DETAILS_UPDATE_MSG,USERNAME_UPDATE_MSG,USERNAME_UNAVAILABLE_MSG,
+INCORRECT_USERNAME_MSG,INCORRECT_PASSWORD_MSG,CREATE_USER_SUCCESS_MSG)
+
+
+class userCoreService:
+    def getBlogsCount(userid):
+        userBlogCounts=BlogLists.objects.filter(userid=userid).count()
+        return userBlogCounts
+    def getCommentsCount(userid):
+        userCommentCounts=UserComments.objects.filter(user=userid).count()
+        return userCommentCounts
 
 class userLoginService:
-
     @classmethod
     def userAuthentication(cls,request):
         username=request.POST.get('username')
@@ -21,9 +34,9 @@ class userLoginService:
                     userid=existUser.id
                     url=reverse('BlogList_View',kwargs={'userid':userid})
                     return redirect(url)
-            return render(request,'login.html',{'exception':'Please Check your Password'})
+            return render(request,'login.html',{'exception':INCORRECT_PASSWORD_MSG})
         else:
-            return render(request,'login.html',{'exception':'Please Check your Username'})
+            return render(request,'login.html',{'exception':INCORRECT_USERNAME_MSG})
             
     @classmethod
     def adduser(cls,request):
@@ -36,7 +49,11 @@ class userLoginService:
         encPassword=make_password(password=password)
         data=BlogUsers(fullname=fullname,gender=gender,emailid=emailId,username=username,mobile_no=phonenumber,password=encPassword)
         data.save()
-        return redirect('Login-View')
+        url= reverse('Login-View')
+        msg={'message': CREATE_USER_SUCCESS_MSG}
+        msg=urlencode(msg)
+        url+=f'?{msg}'
+        return redirect(url)
         
     @classmethod
     def logoutUser(cls,request):
@@ -47,15 +64,19 @@ class userProfileService:
     @classmethod
     def getProfile(cls,request,userid):
         data=getUser(userid)
+        blogCount=userCoreService.getBlogsCount(userid)
+        blogcmtCount=userCoreService.getCommentsCount(userid)
         title= (f"{data['userfullname']}| BlogNest")
-        queryParams=parse_qs(request.META['QUERY_STRING'])
-        msg=unquote(queryParams.get('message',[''])[0])
-        return render (request=None,template_name='user_profile.html',context={'title':title,'userid':userid,'message':msg,'user':data})
+        msg = request.GET.get('message','')
+        return render (request=None,template_name='user_profile.html',context={'title':title,'userid':userid,'message':msg,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount})
      
     @classmethod
     def updateUser(cls,request,userid):
         columnName=request.POST.get('column-name')
         userdata=BlogUsers.objects.get(id=userid)
+        data=getUser(userid)
+        blogCount=userCoreService.getBlogsCount(userid)
+        blogcmtCount=userCoreService.getCommentsCount(userid)
         if columnName == 'password-col':
             oldPassword=request.POST.get('old-password')
             newPassword=request.POST.get('new-password')
@@ -64,13 +85,12 @@ class userProfileService:
                 encpasword=make_password(newPassword)
                 userdata.password=encpasword
                 userdata.save()
-
                 url=reverse('User-Profile-View',kwargs={'userid':userid})
-                msg={'message':'Password Updated Sucessfully'}
+                msg={'message':PASSWORD_UPDATE_MSG}
                 msg=urlencode(msg)
                 url+=f'?{msg}'
                 return redirect(url)
-            msg={'errormessage':'Please check your old Password','userid':userid}
+            msg={'errormessage':PASSWORD_CHECK_MSG,'userid':userid,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount}
             return render(request=None,template_name='user_profile.html',context=msg)
         elif columnName == 'contact-col':
             updateName=request.POST.get('update-full-name')
@@ -82,11 +102,10 @@ class userProfileService:
             userdata.emailid=updateEmail
             userdata.save()
             url=reverse('User-Profile-View',kwargs={'userid':userid})
-            msg={'message':'Details Updated Sucessfully'}
+            msg={'message':DETAILS_UPDATE_MSG}
             msg=urlencode(msg)
             url+=f'?{msg}'
-            return redirect(url)
-            
+            return redirect(url)   
         elif columnName == 'username-col':
             updateUsername=request.POST.get('update-user-name')
             userNameCount=BlogUsers.objects.filter(username=updateUsername).count()
@@ -94,9 +113,9 @@ class userProfileService:
                 userdata.username=updateUsername
                 userdata.save()
                 url=reverse('User-Profile-View',kwargs={'userid':userid})
-                msg={'message':'Username Updated Sucessfully'}
+                msg={'message':USERNAME_UPDATE_MSG}
                 msg=urlencode(msg)
                 url+=f'?{msg}'
                 return redirect(url)
-            msg={'errormessage':'Username is not avialbale','userid':userid}
+            msg={'errormessage':USERNAME_UNAVAILABLE_MSG,'userid':userid,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount}
             return render(request=None,template_name='user_profile.html',context=msg)
