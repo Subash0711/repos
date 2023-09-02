@@ -7,6 +7,8 @@ class BlogLists(models.Model):
     blog_title = models.TextField(blank=True, null=True)
     blog_content = models.TextField(blank=True, null=True)
     userid = models.ForeignKey(BlogUsers, models.DO_NOTHING, db_column='userid', blank=True, null=True)
+    isUpdate = models.BooleanField(default=False, blank=True, null=True)
+    isDelete = models.BooleanField(default=False,blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -21,8 +23,10 @@ class UserComments(models.Model):
     user = models.ForeignKey(BlogUsers, models.DO_NOTHING, blank=True, null=True)
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    isUpdate = models.BooleanField(default=False, blank=True, null=True)
+
 
     class Meta:
         managed = False
-        db_table = 'user_comments'
+        db_table = 'blog_user_comments'
+

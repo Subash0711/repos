@@ -3,11 +3,9 @@ from blog_app.models import (BlogLists,UserComments)
 from django.contrib.auth.hashers import make_password,check_password
 from django.urls import reverse
 from django.shortcuts import render,redirect
-from django.http import JsonResponse
 from django.contrib.auth import logout
-from blog_app.service import getUser
-from rest_framework.response import Response
-from urllib.parse import urlencode,parse_qs,unquote
+from blog_app.service import coreservices
+from urllib.parse import urlencode
 from user.messages import (PASSWORD_UPDATE_MSG,PASSWORD_CHECK_MSG,
 DETAILS_UPDATE_MSG,USERNAME_UPDATE_MSG,USERNAME_UNAVAILABLE_MSG,
 INCORRECT_USERNAME_MSG,INCORRECT_PASSWORD_MSG,CREATE_USER_SUCCESS_MSG)
@@ -63,7 +61,7 @@ class userLoginService:
 class userProfileService: 
     @classmethod
     def getProfile(cls,request,userid):
-        data=getUser(userid)
+        data=coreservices.getUser(userid)
         blogCount=userCoreService.getBlogsCount(userid)
         blogcmtCount=userCoreService.getCommentsCount(userid)
         title= (f"{data['userfullname']}| BlogNest")
@@ -74,7 +72,7 @@ class userProfileService:
     def updateUser(cls,request,userid):
         columnName=request.POST.get('column-name')
         userdata=BlogUsers.objects.get(id=userid)
-        data=getUser(userid)
+        data=coreservices.getUser(userid)
         blogCount=userCoreService.getBlogsCount(userid)
         blogcmtCount=userCoreService.getCommentsCount(userid)
         if columnName == 'password-col':

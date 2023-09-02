@@ -16,9 +16,20 @@
         <div class="border rounded col-md-10 p-3 m-4 mx-auto" style="background-color: #52BEDB;">
             {% for list in bloglist%}
             <div class="m-2">
-                <h2>{{ list.blog_title }}</h2>
-                <p style="font-size: 10px;">published {{ list.created_at }} by {{ list.userid__fullname }}</p>
-                <P style="font-size: 15px; text-indent: 50px; text-transform: capitalize;"> {{ list.blog_content }}</P>
+                <div>
+                    <div class="d-flex flex-row justify-content-between">
+                        <h2>{{ list.blog_title }}</h2>
+                        <a class="btn" href="{% url 'BlogList_View' userid=userid %}"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="36" height="36"
+                                style="fill: #e5edef;">
+                                <path
+                                    d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z">
+                                </path>
+                            </svg></a>
+                    </div>
+                </div>
+                <p style="font-size: 10px;">published {{ list.created_at }} by {{ list.userid__fullname }} {%if list.isUpdate %} - Edited{% endif %} </p>
+                <div class="form-control m-2" rows="50" cols="50"  style="color: #e5edef;border: none; font-size: 16px; text-indent: 50px; text-transform: capitalize;background-color: #52BEDB;resize: none;"> {{ list.blog_content }}</div>
             </div>
             <hr>
             <div>
@@ -39,16 +50,14 @@
                             d="M15 3a3 3 0 0 1-5.175 2.066l-3.92 2.179a2.994 2.994 0 0 1 0 1.51l3.92 2.179a3 3 0 1 1-.73 1.31l-3.92-2.178a3 3 0 1 1 0-4.133l3.92-2.178A3 3 0 1 1 15 3Zm-1.5 10a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 13.5 13Zm-9-5a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 4.5 8Zm9-5a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 13.5 3Z">
                         </path>
                     </svg></button>
-                <!-- Add back button -->
+                <!-- Add Edit button -->
+                {% if userid == list.userid %}
                 <button class="btn btn-outline-light p-2 m-2 " id="backButton" data-listId="{{list.blog_id}}">
-                    <a href="{% url 'BlogList_View' userid=userid %}"><svg xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24" width="24" height="24" style="fill: white;">
-                            <path
-                                d="M10.53 5.03a.75.75 0 1 0-1.06-1.06l-6.25 6.25a.75.75 0 0 0 0 1.06l6.25 6.25a.75.75 0 1 0 1.06-1.06L5.56 11.5H17a3.248 3.248 0 0 1 3.25 3.248v4.502a.75.75 0 0 0 1.5 0v-4.502A4.748 4.748 0 0 0 17 10H5.56l4.97-4.97Z">
-                            </path>
-                        </svg>
+                    <a href="{% url 'UpdateBlog-View' userid=userid blogid=list.blog_id %}" >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="fill: white;"><path d="M17.263 2.177a1.75 1.75 0 0 1 2.474 0l2.586 2.586a1.75 1.75 0 0 1 0 2.474L19.53 10.03l-.012.013L8.69 20.378a1.753 1.753 0 0 1-.699.409l-5.523 1.68a.748.748 0 0 1-.747-.188.748.748 0 0 1-.188-.747l1.673-5.5a1.75 1.75 0 0 1 .466-.756L14.476 4.963ZM4.708 16.361a.26.26 0 0 0-.067.108l-1.264 4.154 4.177-1.271a.253.253 0 0 0 .1-.059l10.273-9.806-2.94-2.939-10.279 9.813ZM19 8.44l2.263-2.262a.25.25 0 0 0 0-.354l-2.586-2.586a.25.25 0 0 0-.354 0L16.061 5.5Z"></path></svg>
                     </a>
                 </button>
+                {% endif %}
             </div>
             <!-- comment Div -->
             <div class="m-2 " id="commentDiv" style="display: none;" data-listId="{{list.blog_id}}">
@@ -88,20 +97,30 @@
                     </div>
             </div>
             {% endfor %}
-            
             <div>
                 <div class="p-2">
                     <h4>Comments</h4>
                 </div>
                 <div class="d-flex flex-column rounded" style="background-color: #191c27;">
                     {% for cmt in cmtCtx %}
-                    <div  style="width: 97%;">
+                    <div  style="width: 97%;" class="d-flex flex-row">
                         <div class="rounded m-3 p-2 " style="display: inline-block;background-color: #52BEDB; width: auto;">
                             <h4 class="m-1 p-1">{{ cmt.user.fullname }}</h4>
                             <p class="ps-4">
                                 {{cmt.cmt_content}}
                             </p>
+                            <!-- <input class="form-control" type="text" name="" id="" value="{{cmt.cmt_content}}"> -->
                         </div>
+                        {% if cmt.user.id == userid %}
+                        <div class="my-auto ">
+                            <button class="btn" type="submit" formaction="#" style="background-color: #191c27;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="fill: #52BEDB;"><path d="M17.263 2.177a1.75 1.75 0 0 1 2.474 0l2.586 2.586a1.75 1.75 0 0 1 0 2.474L19.53 10.03l-.012.013L8.69 20.378a1.753 1.753 0 0 1-.699.409l-5.523 1.68a.748.748 0 0 1-.747-.188.748.748 0 0 1-.188-.747l1.673-5.5a1.75 1.75 0 0 1 .466-.756L14.476 4.963ZM4.708 16.361a.26.26 0 0 0-.067.108l-1.264 4.154 4.177-1.271a.253.253 0 0 0 .1-.059l10.273-9.806-2.94-2.939-10.279 9.813ZM19 8.44l2.263-2.262a.25.25 0 0 0 0-.354l-2.586-2.586a.25.25 0 0 0-.354 0L16.061 5.5Z"></path></svg>
+                            </button>
+                            <button class="btn" type="button" name="deletebutton" data-toggle="modal" data-target="#exampleModalCenter" style="background-color: #191c27;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="fill: #52BEDB;"><path d="M16 1.75V3h5.25a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5H8V1.75C8 .784 8.784 0 9.75 0h4.5C15.216 0 16 .784 16 1.75Zm-6.5 0V3h5V1.75a.25.25 0 0 0-.25-.25h-4.5a.25.25 0 0 0-.25.25ZM4.997 6.178a.75.75 0 1 0-1.493.144L4.916 20.92a1.75 1.75 0 0 0 1.742 1.58h10.684a1.75 1.75 0 0 0 1.742-1.581l1.413-14.597a.75.75 0 0 0-1.494-.144l-1.412 14.596a.25.25 0 0 1-.249.226H6.658a.25.25 0 0 1-.249-.226L4.997 6.178Z"></path><path d="M9.206 7.501a.75.75 0 0 1 .793.705l.5 8.5A.75.75 0 1 1 9 16.794l-.5-8.5a.75.75 0 0 1 .705-.793Zm6.293.793A.75.75 0 1 0 14 8.206l-.5 8.5a.75.75 0 0 0 1.498.088l.5-8.5Z"></path></svg>
+                            </button>
+                        </div>
+                        {% endif %}
                     </div>
                     {% endfor %}
                     {% if not cmtCtx %}
@@ -109,7 +128,7 @@
                         <h3 class="m-1 p-1 justify-content-center" style="color: white;">No Comments</h3>
                     </div>
                     {% endif %}
-                </div>
+                </div>            
             </div>
         </div>
     </div>

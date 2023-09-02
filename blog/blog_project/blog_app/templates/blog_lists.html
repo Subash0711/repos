@@ -23,8 +23,10 @@
         {% for list in bloglists %}
         <div class="border-none rounded col-md-10 p-3 m-4 mx-auto" style="background-color: #47a4be;">
             <div class="m-2">
-                <h2 style="color: white;">{{ list.blog_title }}</h2>
-                <p style="font-size: 10px;color: white;">published {{ list.created_at }} by {{ list.userid__fullname }}</p>
+                <div class="d-flex flex-row justify-content-between">
+                    <h2 style="color: white;">{{ list.blog_title }}</h2>
+                </div>
+                <p style="font-size: 10px;color: white;">published {{ list.created_at }} by {{ list.userid__fullname }} {%if list.isUpdate %} - Edited{% endif %}</p>
                 <P style="font-size: 15px; text-indent: 50px;color: white; text-transform: capitalize;"> {{ list.blog_content|truncatewords:70 }}</P>
             </div>
             <div>
@@ -48,7 +50,7 @@
                     </svg></button>
                 <!-- Add extend button -->
                 <button class="btn btn-outline-light p-2 m-2 extendButton" data-listId="{{list.blog_id}}">
-                    <a href="{% url 'Blog-Comment_View' blogid=list.blog_id userid=list.userid  %}"><svg
+                    <a href="{% url 'Blog-Comment_View' blogid=list.blog_id userid=userid  %}"><svg
                             xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 16 16" width="16" height="16">
                             <path
                                 d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z">
