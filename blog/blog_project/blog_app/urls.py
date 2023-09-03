@@ -2,7 +2,7 @@ from django.urls import path
 from blog_app.views import (
     blogList_View,
     addBlog_View,updateBlog_View,
-    commentView,addCommentView,shareBlogView
+    commentView,addCommentView,shareBlogView,deleteCommentView
     )
 
 # handler404=custom_errors
@@ -14,4 +14,5 @@ urlpatterns = [
     path('Viewblog/<int:userid>/<int:blogid>',commentView,name='Blog-Comment_View'),
     path('AddComment/',addCommentView,name='Add-Comment-View'),
     path('ShareBlog/',shareBlogView,name='Share-Blog-View'),
+    path('DeleteComment',deleteCommentView,name='BlogComment-delete-View')
 ]

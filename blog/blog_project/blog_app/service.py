@@ -7,7 +7,8 @@ from django.core.mail import EmailMessage
 from django.urls import reverse
 from urllib.parse import urlencode
 from django.core.paginator import Paginator
-from  blog_app.messages import (ADD_COMMENT_MESSAGE,ADD_BLOG_MESSAGE,BLOG_SHARED_MESSAGE,BLOG_UPDATE_MSG)
+from  blog_app.messages import (ADD_COMMENT_MESSAGE,ADD_BLOG_MESSAGE,BLOG_SHARED_MESSAGE,BLOG_UPDATE_MSG,BLOG_CMT_DELETE_MSG)
+
 class coreservices:
     @staticmethod
     def getUser(id):
@@ -58,7 +59,7 @@ class BlogListServices:
             existBlogData=BlogLists.objects.get(blog_id=blogid)
             existBlogData.blog_title=title
             existBlogData.blog_content=content
-            existBlogData.isupdate=True
+            existBlogData.isUpdate = True
             existBlogData.save()
             url=reverse('Blog-Comment_View',kwargs={'userid':userId,'blogid':blogid})
             msg={'message':BLOG_UPDATE_MSG}
@@ -90,13 +91,13 @@ class BlogCommentServices:
                 # Accessing values from the related User object through Blog
                 blog_user_fullname = comment.blog.userid.fullname
 
-                print(f"Comment ID: {cmt_id}")
-                print(f"USER ID: {user}")
-                print(f"Comment Content: {cmt_content}")
-                print(f"Blog Title: {blog_title}")
-                print(f"Commenting User's Fullname: {user_fullname}")
-                print(f"Blog Owner's Fullname: {blog_user_fullname}")
-                print("-----------------------------")
+                # print(f"Comment ID: {cmt_id}")
+                # print(f"USER ID: {user}")
+                # print(f"Comment Content: {cmt_content}")
+                # print(f"Blog Title: {blog_title}")
+                # print(f"Commenting User's Fullname: {user_fullname}")
+                # print(f"Blog Owner's Fullname: {blog_user_fullname}")
+                # print("-----------------------------")
             return render(request,'view_blog.html',
                           {'cmtCtx':cmtdata,
                            'bloglist':blogCtx,
@@ -126,6 +127,19 @@ class BlogCommentServices:
                  url=reverse('Blog-Comment_View',kwargs={'userid':userid,'blogid':blogid})
                  return redirect(url)
             
+        @classmethod
+        def deleteBlogComments(cls,request):
+            blogId=request.POST.get('blogid')
+            userid=request.POST.get('userid')
+            commentid=request.POST.get('deleteCommentId')
+            cmtdata=UserComments.objects.get(cmt_id=commentid)
+            cmtdata.is_deleted=True
+            cmtdata.save()
+            url=reverse('Blog-Comment_View',kwargs={'userid':userid,'blogid':blogId})
+            msg={'message':BLOG_CMT_DELETE_MSG}
+            msg=urlencode(msg)
+            url+=f'?{msg}'
+            return redirect(url)
         
 class BlogShareServices:
      def shareBlog(request):

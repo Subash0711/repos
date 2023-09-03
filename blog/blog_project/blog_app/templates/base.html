@@ -10,7 +10,9 @@
     <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
     <script src="{% static 'js/jquery-3.7.0.min..js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 
 </head>
@@ -103,22 +105,28 @@
             $('#commentButton').toggle()
             $('#backButton').toggle()
         })
+        $(".cmt_delete_button").click(function() {
+        var cmtId= $(this).data('id');
+        var cmt_content=$(this).data('content');
+        console.log(cmtId,'-----------',cmt_content);
+        $("#cmtContentPlaceholder").text("'"+cmt_content+"'");
+        $("#cmtIdPlaceholder").val(cmtId);
+        })
+        $('#dropdown-menu-btn').click(function () {  
+            $('.dropdown-menu').toggle()
+        })
 
         setTimeout(function() {
         $("#alert-box").fadeOut("slow");
         }, 3500); 
-        
         var viewMsg = document.getElementById('add-success-msg-view');
         viewMsg.style.display = 'block';
         setTimeout(function () {
             viewMsg.style.display = 'none';
-        }, 4000)
+        }, 4000);
 
-        $('#dropdown-menu-btn').click(function () {
-            
-            $('.dropdown-menu').toggle()
-        })      
-    })
+
+    });
     $(window).on('load', function () {
         $('.page_loader').fadeOut(1000);
         $('.page_content').fadeIn(1000);

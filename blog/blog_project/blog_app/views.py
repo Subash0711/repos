@@ -50,4 +50,7 @@ def addCommentView(request):
 def shareBlogView(request):
     if request.method == 'POST':
         return BlogShareServices.shareBlog(request)
-        
+
+@csrf_exempt
+def deleteCommentView(request):
+    return BlogCommentServices.deleteBlogComments(request)        
