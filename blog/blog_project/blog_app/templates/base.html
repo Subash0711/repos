@@ -108,9 +108,14 @@
         $(".cmt_delete_button").click(function() {
         var cmtId= $(this).data('id');
         var cmt_content=$(this).data('content');
-        console.log(cmtId,'-----------',cmt_content);
         $("#cmtContentPlaceholder").text("'"+cmt_content+"'");
         $("#cmtIdPlaceholder").val(cmtId);
+        })
+        $(".cmt_edit_button").click(function() {
+        var cmtId= $(this).data('id');
+        var cmt_content=$(this).data('content');
+        $("#editContentPlaceholder").val(cmt_content);
+        $("#editIdPlaceholder").val(cmtId);
         })
         $('#dropdown-menu-btn').click(function () {  
             $('.dropdown-menu').toggle()

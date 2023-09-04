@@ -53,4 +53,7 @@ def shareBlogView(request):
 
 @csrf_exempt
 def deleteCommentView(request):
-    return BlogCommentServices.deleteBlogComments(request)        
+    return BlogCommentServices.deleteBlogComments(request)  
+@csrf_exempt
+def updateCommentView(request):
+    return BlogCommentServices.updateBlogComments(request)

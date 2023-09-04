@@ -5,7 +5,7 @@
             <h3 class="d-flex justify-content-center" style="color: #66d9ef;">{{headline}}</h3>
         </div>
             {% if method == 'Add' %}
-            <form method="post" action="{% url 'AddBlog-View' userid=userid %}">
+            <form method="post" action="{% url 'AddBlog_View' userid=userid %}">
             {% elif method == 'Update' %}
             <form method="post" action="{% url 'UpdateBlog-View' userid=userid blogid=blogid %}">
             {% endif %}  
@@ -24,7 +24,7 @@
                     {% if method == 'Add' %}
                     <a class="btn btn-outline-danger m-2 p-2"   href="{% url 'BlogList_View' userid=userid %}" style="text-decoration: none;">CANCEL</a>
                     {% elif method == 'Update' %}
-                    <a class="btn btn-outline-danger m-2 p-2"   href="{% url 'Blog-Comment_View' userid=userid blogid=blogid %}" style="text-decoration: none;">CANCEL</a>
+                    <a class="btn btn-outline-danger m-2 p-2"   href="{% url 'Blog_Comments_View' userid=userid blogid=blogid %}" style="text-decoration: none;">CANCEL</a>
                     {% endif %}
                 </div>
             </div>
