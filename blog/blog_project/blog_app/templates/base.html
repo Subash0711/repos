@@ -11,8 +11,8 @@
     <script src="{% static 'js/jquery-3.7.0.min..js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 
 
 </head>
@@ -38,8 +38,6 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark">
                       <li><a class="dropdown-item active" href="{% url 'User-Profile-View' userid=userid %}">Profile</a></li>
-                      <!-- <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                       <li><a class="dropdown-item" href="{% url 'Logout-View' %}">Logout</a></li>
                     </ul>
                   </div>
@@ -130,9 +128,12 @@
             viewMsg.style.display = 'none';
         }, 4000);
 
-
     });
-    $(window).on('load', function () {
+    $(document).ready( function () {
+        $.ajax({
+            type:'GET',
+            url:'/Blog-nest/clear',
+        })
         $('.page_loader').fadeOut(1000);
         $('.page_content').fadeIn(1000);
     })

@@ -7,7 +7,7 @@
             {% if method == 'Add' %}
             <form method="post" action="{% url 'AddBlog_View' userid=userid %}">
             {% elif method == 'Update' %}
-            <form method="post" action="{% url 'UpdateBlog-View' userid=userid blogid=blogid %}">
+            <form method="post" action="{% url 'UpdateBlog_View' userid=userid blogid=blogid %}">
             {% endif %}  
             <div class="form-row p-3 m-3" >
                 <div class="form-group col-md-10 mx-auto">

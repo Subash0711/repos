@@ -7,9 +7,15 @@ from django.core.mail import EmailMessage
 from django.urls import reverse
 from urllib.parse import urlencode
 from django.core.paginator import Paginator
-from  blog_app.messages import (ADD_COMMENT_MESSAGE,ADD_BLOG_MESSAGE,BLOG_SHARED_MESSAGE,BLOG_UPDATE_MSG,BLOG_CMT_DELETE_MSG,BLOG_CMT_UPdATE_MSG)
+from . import messages 
+from django.http import HttpResponse
 
 class coreservices:
+    @staticmethod
+    def clearsession(request):
+        request.session.clear()
+        return HttpResponse()
+    
     @staticmethod
     def getUser(id):
         user=BlogUsers.objects.get(id=id)
@@ -18,6 +24,15 @@ class coreservices:
     def getBlog(id):
         blog=BlogLists.objects.get(blog_id=id)
         return {'blog_id':blog.blog_id,'blog_title':blog.blog_title,'blog_content':blog.blog_content,'blog_userid':blog.userid}
+
+
+class blogCoreService:
+    def getBlogsCount(userid):
+        userBlogCounts=BlogLists.objects.filter(userid=userid).count()
+        return userBlogCounts
+    def getCommentsCount(userid):
+        userCommentCounts=UserComments.objects.filter(user=userid).count()
+        return userCommentCounts
 
 class BlogListServices:
         @classmethod
@@ -31,7 +46,7 @@ class BlogListServices:
             paginator=Paginator(blog_data,item_per_page)
             page_number=request.GET.get('page')
             page=paginator.get_page(page_number)
-            msg = request.GET.get('message', '')
+            msg = request.session.get('message')
             ctxData={'bloglists':page,
                      'user':userdata['userfullname'],
                      'usermail':userdata['usermail'],
@@ -47,9 +62,7 @@ class BlogListServices:
             data=BlogLists(blog_title=title,blog_content=content,userid=blog_user)
             data.save()
             url=reverse('BlogList_View',kwargs={'userid':userId})
-            msg={'message':ADD_BLOG_MESSAGE}
-            msg=urlencode(msg)
-            url+=f"?{msg}"
+            request.session['message'] = messages.ADD_BLOG_MESSAGE
             return redirect(url)
         
         @classmethod
@@ -62,13 +75,10 @@ class BlogListServices:
             existBlogData.isUpdate = True
             existBlogData.save()
             url=reverse('Blog_Comments_View',kwargs={'userid':userId,'blogid':blogid})
-            msg={'message':BLOG_UPDATE_MSG}
-            msg=urlencode(msg)
-            url+=f'?{msg}'
+            request.session['message'] = messages.BLOG_UPDATE_MSG
             return redirect(url)
 
 class BlogCommentServices:  
-           
         @classmethod
         def BlogComments(cls,request,blogid,userid):
             blogCtx=BlogLists.objects.select_related('userid').filter(blog_id=blogid).values(
@@ -77,7 +87,7 @@ class BlogCommentServices:
                     
             userdata=coreservices.getUser(userid)
             title='Post | Blog | BlogNest'
-            msg = request.GET.get('message', '')
+            msg = request.session.get('message')
             cmtdata=UserComments.objects.select_related('blog','user').filter(is_deleted=False,blog=blogid).prefetch_related('blog__userid').order_by('-cmt_id')
             return render(request,'view_blog.html',
                           {'cmtCtx':cmtdata,
@@ -100,15 +110,11 @@ class BlogCommentServices:
             data.save()
             if int(id) == 0:
                 url=reverse('BlogList_View',kwargs={'userid':userid})
-                msg={'message':ADD_COMMENT_MESSAGE}
-                msg=urlencode(msg)
-                url+=f'?{msg}'
+                request.session['message'] = messages.ADD_COMMENT_MESSAGE
                 return redirect(url)
             elif int(id) == 1:
                 url=reverse('Blog_Comments_View',kwargs={'userid':userid,'blogid':blogid})
-                msg={'message':ADD_COMMENT_MESSAGE}
-                msg=urlencode(msg)
-                url+=f'?{msg}'
+                request.session['message'] = messages.ADD_COMMENT_MESSAGE
                 return redirect(url)
             
         @classmethod
@@ -120,9 +126,7 @@ class BlogCommentServices:
             cmtdata.is_deleted=True
             cmtdata.save()
             url=reverse('Blog_Comments_View',kwargs={'userid':userid,'blogid':blogId})
-            msg={'message':BLOG_CMT_DELETE_MSG}
-            msg=urlencode(msg)
-            url+=f'?{msg}'
+            request.session['message'] = messages.BLOG_CMT_DELETE_MSG
             return redirect(url)
 
         @classmethod
@@ -136,9 +140,7 @@ class BlogCommentServices:
             cmtdata.isUpdate=True
             cmtdata.save()
             url=reverse('Blog_Comments_View',kwargs={'userid':userid,'blogid':blogId})
-            msg={'message':BLOG_CMT_UPdATE_MSG}
-            msg=urlencode(msg)
-            url+=f'?{msg}'
+            request.session['message'] = messages.BLOG_CMT_UPDATE_MSG
             return redirect(url)
         
 class BlogShareServices:
@@ -158,7 +160,5 @@ class BlogShareServices:
             url=reverse('BlogList_View',kwargs={'userid':int(userid)})
         elif id == 1:
             url=reverse('Blog_Comments_View',kwargs={'userid':userid,'blogid':blogId})
-        msg={'message':BLOG_SHARED_MESSAGE}
-        querparam=urlencode(msg)
-        url+=f'?{querparam}'
+        request.session['message'] = messages.BLOG_SHARED_MESSAGE
         return redirect(url)

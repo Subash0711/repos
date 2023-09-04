@@ -1,9 +1,15 @@
 from django.shortcuts import render,redirect
 from blog_app.service import (BlogListServices,BlogCommentServices,BlogShareServices)
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from rest_framework.decorators import api_view,permission_classes
+from rest_framework.permissions import IsAuthenticated
 from blog_app.service import coreservices
 
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
 def blogList_View(request,userid):
+    access_token = request.session.get('access_token')
     return BlogListServices.getAllBlog(request,userid)
 
 @csrf_exempt
@@ -54,6 +60,10 @@ def shareBlogView(request):
 @csrf_exempt
 def deleteCommentView(request):
     return BlogCommentServices.deleteBlogComments(request)  
+
 @csrf_exempt
 def updateCommentView(request):
     return BlogCommentServices.updateBlogComments(request)
+
+def clearSession(request):
+    return coreservices.clearsession(request)

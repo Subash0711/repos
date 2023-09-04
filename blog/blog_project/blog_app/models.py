@@ -25,7 +25,6 @@ class UserComments(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     isUpdate = models.BooleanField(default=False, blank=True, null=True)
 
-
     class Meta:
         managed = False
         db_table = 'blog_user_comments'
