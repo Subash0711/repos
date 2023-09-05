@@ -53,7 +53,7 @@ pip install -r requirements.txt
 
 ### Use the reference login credentials:
      Username: snow123
-     Password: 12345
+     Password: 1234
 
 
 
