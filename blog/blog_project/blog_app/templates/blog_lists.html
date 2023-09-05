@@ -28,9 +28,13 @@
                 </div>
                 <p style="font-size: 10px;color: white;">published {{ list.created_at }} by {{ list.userid__fullname }} {%if list.isUpdate %} - Edited{% endif %}</p>
                 <P style="font-size: 15px; text-indent: 50px;color: white; text-transform: capitalize;"> {{ list.blog_content|truncatewords:70 }}</P>
+                <p class="d-flex justify-content-center" ><a href="{% url 'Blog_Comments_View' blogid=list.blog_id userid=userid  %}" style="text-decoration: none;" class="link-light" >More<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="fill: white;"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></a></p>
             </div>
             <div>
                 <hr style="color: white;">
+                <!-- Add like button -->
+                <button class="btn btn-outline-light p-2 m-2 extendButton " data-listId="{{list.blog_id}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: white;"><path d="M8.834.066c.763.087 1.5.295 2.01.884.505.581.656 1.378.656 2.3 0 .467-.087 1.119-.157 1.637L11.328 5h1.422c.603 0 1.174.085 1.668.333.508.254.911.679 1.137 1.2.453.998.438 2.447.188 4.316l-.04.306c-.105.79-.195 1.473-.313 2.033-.131.63-.315 1.209-.668 1.672C13.97 15.847 12.706 16 11 16c-1.848 0-3.234-.333-4.388-.653-.165-.045-.323-.09-.475-.133-.658-.186-1.2-.34-1.725-.415A1.75 1.75 0 0 1 2.75 16h-1A1.75 1.75 0 0 1 0 14.25v-7.5C0 5.784.784 5 1.75 5h1a1.75 1.75 0 0 1 1.514.872c.258-.105.59-.268.918-.508C5.853 4.874 6.5 4.079 6.5 2.75v-.5c0-1.202.994-2.337 2.334-2.184ZM4.5 13.3c.705.088 1.39.284 2.072.478l.441.125c1.096.305 2.334.598 3.987.598 1.794 0 2.28-.223 2.528-.549.147-.193.276-.505.394-1.07.105-.502.188-1.124.295-1.93l.04-.3c.25-1.882.189-2.933-.068-3.497a.921.921 0 0 0-.442-.48c-.208-.104-.52-.174-.997-.174H11c-.686 0-1.295-.577-1.206-1.336.023-.192.05-.39.076-.586.065-.488.13-.97.13-1.328 0-.809-.144-1.15-.288-1.316-.137-.158-.402-.304-1.048-.378C8.357 1.521 8 1.793 8 2.25v.5c0 1.922-.978 3.128-1.933 3.825a5.831 5.831 0 0 1-1.567.81ZM2.75 6.5h-1a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h1a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></button>
                 <!-- Add comment Button -->
                 <button class="btn btn-outline-light p-2 m-2 commentButton" data-listId="{{list.blog_id}}"><svg
                         xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 24 24" width="24" height="24">
@@ -48,14 +52,6 @@
                             d="M15 3a3 3 0 0 1-5.175 2.066l-3.92 2.179a2.994 2.994 0 0 1 0 1.51l3.92 2.179a3 3 0 1 1-.73 1.31l-3.92-2.178a3 3 0 1 1 0-4.133l3.92-2.178A3 3 0 1 1 15 3Zm-1.5 10a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 13.5 13Zm-9-5a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 4.5 8Zm9-5a1.5 1.5 0 1 0-3.001.001A1.5 1.5 0 0 0 13.5 3Z">
                         </path>
                     </svg></button>
-                <!-- Add extend button -->
-                <button class="btn btn-outline-light p-2 m-2 extendButton" data-listId="{{list.blog_id}}">
-                    <a href="{% url 'Blog_Comments_View' blogid=list.blog_id userid=userid  %}"><svg
-                            xmlns="http://www.w3.org/2000/svg" style="fill: white;" viewBox="0 0 16 16" width="16" height="16">
-                            <path
-                                d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2Zm6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1Z">
-                            </path>
-                        </svg></a></button>
             </div>
             <!-- comment div -->
             <div class="m-2 commentDiv" style="display: none;" data-listId="{{list.blog_id}}">

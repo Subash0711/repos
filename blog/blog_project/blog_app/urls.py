@@ -10,5 +10,5 @@ urlpatterns = [
     path('ShareBlog/', views.shareBlogView,name='Share_Blog_View'),
     path('DeleteComment', views.deleteCommentView,name='BlogComment_delete_View'),
     path('UpdateComment', views.updateCommentView,name='BlogComment_update_View'),
-    path('clear',views.clearSession,name='clear_view')
+    path('clear',views.clearMessage,name='clear_view')
 ]

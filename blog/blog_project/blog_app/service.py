@@ -12,8 +12,9 @@ from django.http import HttpResponse
 
 class coreservices:
     @staticmethod
-    def clearsession(request):
-        request.session.clear()
+    def clearMessage(request):
+        if 'message' in request.session:
+            del request.session['message']
         return HttpResponse()
     
     @staticmethod
