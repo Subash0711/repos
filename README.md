@@ -20,6 +20,16 @@
 
       8. Authorizations: Implement user roles and permissions for different levels of access and control.
 
+## Prerequisites
+Before running the BlogNest application, make sure you have the following prerequisites installed on your system:
+
+      * PostgreSQL (or your preferred database)
+      * Django (Python web framework)
+
+  ```bash
+  python manage.py runserver
+  ```
+
 ## Requirements
 
       To run the BlogNest application on your system, please ensure the following:
@@ -44,15 +54,7 @@ Username: snow123
 Password: 12345
 ```
 
-## Prerequisites
-      Before running the BlogNest application, make sure you have the following prerequisites installed on your system:
 
-      * PostgreSQL (or your preferred database)
-      * Django (Python web framework)
-
-  ```bash
-  python manage.py runserver
-  ```
       Access the BlogNest application in your web browser at http://localhost:8000/.
 
       Use the reference login credentials provided earlier to access the application for testing and exploration.
