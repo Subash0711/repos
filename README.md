@@ -35,32 +35,31 @@ Before running the BlogNest application, make sure you have the following prereq
 
 ## Requirements
 
-      To run the BlogNest application on your system, please ensure the following:
+To run the BlogNest application on your system, please ensure the following:
 
-      Install Dependencies: Run the requirements.txt file to install all required Python packages. You can do this with the following command:
+Install Dependencies: Run the requirements.txt file to install all required Python packages. You can do this with the following command:
 
 ```bash
 pip install -r requirements.txt
 ```
 
 
-      1. Database Connection: BlogNest uses PostgreSQL as the default database. If you want to use a different database, make sure to install the appropriate database library and provide the necessary credentials in the Django settings.
+1. Database Connection: BlogNest uses PostgreSQL as the default database. If you want to use a different database, make sure to install the appropriate database library and provide the necessary credentials in the Django settings.
 
-      2. Mail Configuration: The application uses email functionality. If you want to use your own email for sending notifications, configure the SMTP email settings in the settings.py file. Replace the host email and password with your own.
+2. Mail Configuration: The application uses email functionality. If you want to use your own email for sending notifications, configure the SMTP email settings in the settings.py file. Replace the host email and password with your own.
 
-      3.Database Backup: Import the SQLBACKUP/data_backup.sql file into your database to populate it with predefined data.
+3.Database Backup: Import the SQLBACKUP/data_backup.sql file into your database to populate it with predefined data.
 
 
 ### Use the reference login credentials:
-```bash
-Username: snow123
-Password: 12345
-```
+     Username: snow123
+     Password: 12345
 
 
-      Access the BlogNest application in your web browser at http://localhost:8000/.
 
-      Use the reference login credentials provided earlier to access the application for testing and exploration.
+Access the BlogNest application in your web browser at http://localhost:8000/.
 
-      Start creating, sharing, and managing your blog content on BlogNest!
+Use the reference login credentials provided earlier to access the application for testing and exploration.
+
+Start creating, sharing, and managing your blog content on BlogNest!
 
