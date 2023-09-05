@@ -24,7 +24,7 @@ To run the BlogNest application on your system, please ensure the following:
 
 Install Dependencies: Run the requirements.txt file to install all required Python packages. You can do this with the following command:
 
-```bash
+
    pip install -r requirements.txt
 
 1.Database Connection: BlogNest uses PostgreSQL as the default database. If you want to use a different database, make sure to install the appropriate database library and provide the necessary credentials in the Django settings.
@@ -41,9 +41,9 @@ Password: 12345
 ## Prerequisites
 Before running the BlogNest application, make sure you have the following prerequisites installed on your system:
 
-PostgreSQL (or your preferred database)
-Django (Python web framework)
-Run the Django development server to start the application:
+$ PostgreSQL (or your preferred database)
+$ Django (Python web framework)
+
 
 ```bash
    python manage.py runserver
