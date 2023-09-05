@@ -4,21 +4,21 @@
 
 ## Key Features
 
-      1. Content Creation: Write and publish your blog posts with ease. The platform provides a user-friendly editor to craft your content.
+1. Content Creation: Write and publish your blog posts with ease. The platform provides a user-friendly editor to craft your content.
 
-      2. Sharing: Share your blog posts with your audience and on social media platforms to increase your reach.
+2. Sharing: Share your blog posts with your audience and on social media platforms to increase your reach.
 
-      3. Commenting: Engage with your readers through comments. Encourage discussions and gather feedback.
+3. Commenting: Engage with your readers through comments. Encourage discussions and gather feedback.
 
-      4. UserProfile Management: Customize your profile, add a bio, profile picture, and manage your blog posts.
+4. UserProfile Management: Customize your profile, add a bio, profile picture, and manage your blog posts.
 
-      5. Edit & Delete Blog Contents: Easily edit and delete your published blog posts to keep your content up to date.
+5. Edit & Delete Blog Contents: Easily edit and delete your published blog posts to keep your content up to date.
 
-      6. Edit & Delete Comments: Have control over the comments on your blog posts. Edit or remove them as needed.
+6. Edit & Delete Comments: Have control over the comments on your blog posts. Edit or remove them as needed.
 
-      7. likes: Keep track of the number of views on your blog posts to understand their popularity.
+7. likes: Keep track of the number of views on your blog posts to understand their popularity.
 
-      8. Authorizations: Implement user roles and permissions for different levels of access and control.
+8. Authorizations: Implement user roles and permissions for different levels of access and control.
 
 ## Prerequisites
 Before running the BlogNest application, make sure you have the following prerequisites installed on your system:
