@@ -1,6 +1,9 @@
+
 # BlogNest - Blogging Platform
+
 ## Summary
-      BlogNest is a versatile blogging platform that empowers bloggers to create and share their content effectively. It provides essential features for bloggers to streamline their blogging experience and grow their online presence. Whether you're a seasoned blogger or just starting, BlogNest has you covered.
+
+BlogNest is a versatile blogging platform that empowers bloggers to create and share their content effectively. It provides essential features for bloggers to streamline their blogging experience and grow their online presence. Whether you're a seasoned blogger or just starting, BlogNest has you covered.
 
 ## Key Features
 
