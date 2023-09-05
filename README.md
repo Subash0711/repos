@@ -25,8 +25,8 @@ BlogNest is a versatile blogging platform that empowers bloggers to create and s
 ## Prerequisites
 Before running the BlogNest application, make sure you have the following prerequisites installed on your system:
 
-      * PostgreSQL (or your preferred database)
-      * Django (Python web framework)
+1. PostgreSQL (or your preferred database)
+2. Django (Python web framework)
 
   ```bash
   python manage.py runserver
