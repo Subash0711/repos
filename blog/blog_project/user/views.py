@@ -27,8 +27,8 @@ def  signup_View(request):
 def logout_view(request):
     return userLoginService.logoutUser(request)
 
-@TokenService.validateToken
 @csrf_exempt
+@TokenService.validateToken
 def user_Profile_View(request,userid):
     if request.method == 'POST':
         return userProfileService.updateUser(request,userid)

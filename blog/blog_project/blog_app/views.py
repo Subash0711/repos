@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect
-from blog_app.service import (BlogListServices,BlogCommentServices,BlogShareServices)
+from blog_app.service import (BlogListServices,BlogCommentServices,BlogShareServices,BlogLikeService)
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from blog_app.service import coreservices
 from user.service import TokenService
+
 
 @TokenService.validateToken
 def blogList_View(request,userid):
@@ -74,3 +75,6 @@ def updateCommentView(request):
 
 def clearMessage(request):
     return coreservices.clearMessage(request)
+
+def likeBlogsView(request,userid,blogid):
+    return BlogLikeService.addlike(request,userid,blogid)

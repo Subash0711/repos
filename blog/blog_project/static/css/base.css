@@ -10,10 +10,10 @@
 .shareButton:hover svg path {
     fill: #191c27; 
 }
-.extendButton:hover {
+.likebutton:hover {
     background-color: #ffffff; 
 }
-.extendButton:hover svg path {
+.likebutton:hover svg path {
     fill: #191c27; 
 }
 
@@ -46,4 +46,8 @@
 }
 .base_text_color-2{
     color: whitesmoke;
+}
+
+.liked{
+    background-color: #b8cad9;
 }

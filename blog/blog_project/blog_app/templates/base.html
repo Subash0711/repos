@@ -56,39 +56,37 @@
             $(".commentDiv[data-listId='" + listid + "']").toggle()
             $(this).hide()
             $(this).siblings('.shareButton').hide()
-            $(this).siblings('.extendButton').hide()
+            $(this).siblings('.likebutton').hide()
         })
         $(".shareButton").click(function () {
             var listid = $(this).attr('data-listId');
             $(".shareDiv[data-listId='" + listid + "']").toggle()
             $(this).hide()
             $(this).siblings('.commentButton').hide()
-            $(this).siblings('.extendButton').hide()
+            $(this).siblings('.likebutton').hide()
         })
         $(".comment-cancel-btn").click(function () {
             var listid = $(this).attr('data-listId');
             $(".commentDiv[data-listId='" + listid + "']").hide()
             $(".commentButton[data-listId='" + listid + "']").show()
             $(".shareButton[data-listId='" + listid + "']").show()
-            $(".extendButton[data-listId='" + listid + "']").show()
+            $(".likebutton[data-listId='" + listid + "']").show()
         })
         $(".share-cancel-btn").click(function () {
             var listid = $(this).attr('data-listId');
             $(".shareDiv[data-listId='" + listid + "']").hide()
             $(".commentButton[data-listId='" + listid + "']").show()
             $(".shareButton[data-listId='" + listid + "']").show()
-            $(".extendButton[data-listId='" + listid + "']").show()
+            $(".likebutton[data-listId='" + listid + "']").show()
         })
         $("#commentButton").click(function () {
             $(this).hide()
             $('#shareButton').hide()
-            $('#backButton').hide()
             $('#commentDiv').toggle()
         })
         $("#shareButton").click(function () {
             $(this).hide()
             $('#commentButton').hide()
-            $('#backButton').hide()
             $('#shareDiv').toggle()
         })
         $("#comment-cancel-btn").click(function () {
@@ -103,6 +101,32 @@
             $('#commentButton').toggle()
             $('#backButton').toggle()
         })
+
+        $(".likebutton").click(function () {
+            var button = $(this)
+            var blogid = $(this).attr('data-listId')
+            var userid = $(this).attr('data-userid')
+            var like = $(this).attr('value')
+            var url='/Blog-nest/like/'+userid+'/'+blogid
+            
+            $.ajax({
+                type:'GET',
+                url:url,
+                success: function (data) {
+                    var isLiked = data.liked
+                    console.log(isLiked);
+                    if (isLiked){
+                        button.attr("value","1")
+                        button.addClass("liked")
+                    }
+                    else if(isLiked){
+                        button.attr("value","0")
+                        button.removeClass("liked")
+                    }
+                }
+            })
+        })
+        
         $(".cmt_delete_button").click(function() {
         var cmtId= $(this).data('id');
         var cmt_content=$(this).data('content');

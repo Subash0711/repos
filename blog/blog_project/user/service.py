@@ -2,7 +2,7 @@ import jwt
 import requests 
 import datetime
 from user.models import (BlogUsers)
-from blog_app.models import (BlogLists,UserComments)
+from blog_app.models import (BlogLists,BlogUserComments)
 from django.contrib.auth.hashers import make_password,check_password
 from django.urls import reverse
 from django.shortcuts import render,redirect
@@ -27,7 +27,7 @@ class userLoginService:
                     userid=existUser.id
                     token=RefreshToken.for_user(existUser)
                     payload={'user_id':userid}
-                    access_token=TokenService.genrateToken(data=payload,expiryin=120)
+                    access_token=TokenService.genrateToken(data=payload,expiryin=1)
                     request.session['access_token'] = access_token
                     url=reverse('BlogList_View',kwargs={'userid':userid})
                     return redirect(url)
@@ -61,9 +61,10 @@ class userProfileService:
         data=coreservices.getUser(userid)
         blogCount=blogCoreService.getBlogsCount(userid)
         blogcmtCount=blogCoreService.getCommentsCount(userid)
+        UserGetLikesCount=blogCoreService.getLikesCount(userid)
         title= (f"{data['userfullname']}| BlogNest")
         msg  = request.session.get('message')
-        return render (request=None,template_name='user_profile.html',context={'title':title,'userid':userid,'message':msg,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount})
+        return render (request=None,template_name='user_profile.html',context={'title':title,'userid':userid,'message':msg,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount,'userGetLikesCount':UserGetLikesCount['likes']})
      
     @classmethod
     def updateUser(cls,request,userid):
@@ -72,6 +73,7 @@ class userProfileService:
         data=coreservices.getUser(userid)
         blogCount=blogCoreService.getBlogsCount(userid)
         blogcmtCount=blogCoreService.getCommentsCount(userid)
+        UserGetLikesCount=blogCoreService.getLikesCount(userid)
         if columnName == 'password-col':
             oldPassword=request.POST.get('old-password')
             newPassword=request.POST.get('new-password')
@@ -83,7 +85,7 @@ class userProfileService:
                 url=reverse('User-Profile-View',kwargs={'userid':userid})
                 request.session['message'] = messages.PASSWORD_UPDATE_MSG
                 return redirect(url)
-            msg={'errormessage':messages.PASSWORD_CHECK_MSG,'userid':userid,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount}
+            msg={'errormessage':messages.PASSWORD_CHECK_MSG,'userid':userid,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount,'userGetLikesCount':UserGetLikesCount}
             return render(request=None,template_name='user_profile.html',context=msg)
         elif columnName == 'contact-col':
             updateName=request.POST.get('update-full-name')
@@ -106,7 +108,7 @@ class userProfileService:
                 url=reverse('User-Profile-View',kwargs={'userid':userid})
                 request.session['message'] = messages.USERNAME_UPDATE_MSG
                 return redirect(url)
-            msg={'errormessage':messages.USERNAME_UNAVAILABLE_MSG,'userid':userid,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount}
+            msg={'errormessage':messages.USERNAME_UNAVAILABLE_MSG,'userid':userid,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount,'userGetLikesCount':UserGetLikesCount}
             return render(request=None,template_name='user_profile.html',context=msg)
         
 class TokenService:
@@ -114,8 +116,8 @@ class TokenService:
     SECRET_KEY='djanagoblogNestSecretKeyIsopojjsjvdvdsvdvdvdsv'
 
     @staticmethod
-    def genrateToken(data,expiryin=120):
-        expiryTime=datetime.datetime.utcnow()+datetime.timedelta(minutes=expiryin)
+    def genrateToken(data,expiryin):
+        expiryTime=datetime.datetime.utcnow()+datetime.timedelta(hours=expiryin)
         payload={
             'exp':expiryTime,
             **data

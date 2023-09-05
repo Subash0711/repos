@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterModelTable(
-            name='usercomments',
-            table='blog_user_comments',
+            name='BlogUserComments',
+            table='BlogUserComments',
         ),
     ]

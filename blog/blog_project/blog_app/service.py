@@ -1,5 +1,5 @@
-from django.db.models import F
-from blog_app.models import (BlogLists,UserComments)
+from django.db.models import F,Count,Subquery
+from blog_app.models import (BlogLists,BlogUserComments,BlogUsersLikes)
 from user.models import (BlogUsers)
 from django.shortcuts import render,redirect
 from django.template.loader import render_to_string
@@ -8,7 +8,7 @@ from django.urls import reverse
 from urllib.parse import urlencode
 from django.core.paginator import Paginator
 from . import messages 
-from django.http import HttpResponse
+from django.http import JsonResponse,HttpResponse
 
 class coreservices:
     @staticmethod
@@ -21,19 +21,34 @@ class coreservices:
     def getUser(id):
         user=BlogUsers.objects.get(id=id)
         return {'userfullname':user.fullname,'username':user.username,'usermail':user.emailid,'userMobileNo':user.mobile_no,'userid':user.id,'usergender':user.gender}
+    
     @staticmethod
     def getBlog(id):
         blog=BlogLists.objects.get(blog_id=id)
         return {'blog_id':blog.blog_id,'blog_title':blog.blog_title,'blog_content':blog.blog_content,'blog_userid':blog.userid}
-
+    
+    @staticmethod
+    def getblogLikecount(blog):
+        likeCount=BlogUsersLikes.objects.filter(like_blog=blog,isLike=True).count()
+        return {'likecount':likeCount}
+    
+    @staticmethod
+    def getBlogCommentcount(blog):
+        commentCount=BlogUserComments.objects.filter(blog=blog,is_deleted=False).count()
+        return {'Commentcount':commentCount}
 
 class blogCoreService:
     def getBlogsCount(userid):
         userBlogCounts=BlogLists.objects.filter(userid=userid).count()
         return userBlogCounts
     def getCommentsCount(userid):
-        userCommentCounts=UserComments.objects.filter(user=userid).count()
+        userCommentCounts=BlogUserComments.objects.filter(user=userid).count()
         return userCommentCounts
+    
+    def getLikesCount(userid):
+        subquery = BlogLists.objects.filter(userid=userid).values('blog_id')
+        likeCount = BlogUsersLikes.objects.filter(isLike=True,like_blog__in=Subquery(subquery)).aggregate(likes=Count('like_id'))
+        return likeCount
 
 class BlogListServices:
         @classmethod
@@ -85,11 +100,12 @@ class BlogCommentServices:
             blogCtx=BlogLists.objects.select_related('userid').filter(blog_id=blogid).values(
                  'userid','blog_id','userid__fullname','blog_title','blog_content','created_at','isUpdate'
             ).order_by('-blog_id')
-                    
+            likes=coreservices.getblogLikecount(blogid)
+            comments=coreservices.getBlogCommentcount(blogid)
             userdata=coreservices.getUser(userid)
             title='Post | Blog | BlogNest'
             msg = request.session.get('message')
-            cmtdata=UserComments.objects.select_related('blog','user').filter(is_deleted=False,blog=blogid).prefetch_related('blog__userid').order_by('-cmt_id')
+            cmtdata=BlogUserComments.objects.select_related('blog','user').filter(is_deleted=False,blog=blogid).prefetch_related('blog__userid').order_by('-cmt_id')
             return render(request,'view_blog.html',
                           {'cmtCtx':cmtdata,
                            'bloglist':blogCtx,
@@ -97,7 +113,9 @@ class BlogCommentServices:
                            'user':userdata['userfullname'],
                            'usermail':userdata['usermail'],
                            'userid':userid,
-                           'title':title})
+                           'title':title,
+                           'bloglikes':likes['likecount'],
+                           'blogcomments':comments['Commentcount']})
         
         @classmethod
         def addBlogComment(cls,request):
@@ -107,7 +125,7 @@ class BlogCommentServices:
             CmtCont=request.POST.get('user_comment')
             blog_instances=BlogLists.objects.get(blog_id=blogid)
             user_instances=BlogUsers.objects.get(id=userid)
-            data=UserComments(blog=blog_instances,cmt_content=CmtCont,user=user_instances)
+            data=BlogUserComments(blog=blog_instances,cmt_content=CmtCont,user=user_instances)
             data.save()
             if int(id) == 0:
                 url=reverse('BlogList_View',kwargs={'userid':userid})
@@ -123,7 +141,7 @@ class BlogCommentServices:
             blogId=request.POST.get('blogid')
             userid=request.POST.get('userid')
             commentid=request.POST.get('deleteCommentId')
-            cmtdata=UserComments.objects.get(cmt_id=commentid)
+            cmtdata=BlogUserComments.objects.get(cmt_id=commentid)
             cmtdata.is_deleted=True
             cmtdata.save()
             url=reverse('Blog_Comments_View',kwargs={'userid':userid,'blogid':blogId})
@@ -136,7 +154,7 @@ class BlogCommentServices:
             userid=request.POST.get('userid')
             commentid=request.POST.get('editCommentId')
             updatecomment=request.POST.get('update_comment')
-            cmtdata=UserComments.objects.get(cmt_id=commentid)
+            cmtdata=BlogUserComments.objects.get(cmt_id=commentid)
             cmtdata.cmt_content=updatecomment
             cmtdata.isUpdate=True
             cmtdata.save()
@@ -163,3 +181,24 @@ class BlogShareServices:
             url=reverse('Blog_Comments_View',kwargs={'userid':userid,'blogid':blogId})
         request.session['message'] = messages.BLOG_SHARED_MESSAGE
         return redirect(url)
+
+class BlogLikeService:
+    def addlike(request,userid,blogid):
+        likedata=BlogUsersLikes.objects.filter(like_blog=blogid,like_user=userid).first()
+        user_instances=BlogUsers.objects.get(id=userid)
+        blog_instances=BlogLists.objects.get(blog_id=blogid)
+        if not likedata:
+            likedata=BlogUsersLikes(like_blog=blog_instances,like_user=user_instances,isLike=True)
+            likedata.save()
+            return JsonResponse({'liked':True}) 
+        elif likedata.isLike == False :
+            likedata.isLike=True
+            likedata.save()
+            return JsonResponse({'liked':True}) 
+        else:
+            likedata.isLike=False
+            likedata.save()
+            return JsonResponse({'liked':False}) 
+
+
+

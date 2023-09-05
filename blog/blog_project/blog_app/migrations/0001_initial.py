@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='UserComments',
+            name='BlogUserComments',
             fields=[
                 ('cmt_id', models.AutoField(primary_key=True, serialize=False)),
                 ('cmt_content', models.TextField(blank=True, null=True)),
