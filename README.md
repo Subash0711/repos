@@ -3,6 +3,7 @@
       BlogNest is a versatile blogging platform that empowers bloggers to create and share their content effectively. It provides essential features for bloggers to streamline their blogging experience and grow their online presence. Whether you're a seasoned blogger or just starting, BlogNest has you covered.
 
 ## Key Features
+
       1. Content Creation: Write and publish your blog posts with ease. The platform provides a user-friendly editor to craft your content.
 
       2. Sharing: Share your blog posts with your audience and on social media platforms to increase your reach.
@@ -20,6 +21,7 @@
       8. Authorizations: Implement user roles and permissions for different levels of access and control.
 
 ## Requirements
+
       To run the BlogNest application on your system, please ensure the following:
 
       Install Dependencies: Run the requirements.txt file to install all required Python packages. You can do this with the following command:
@@ -29,13 +31,13 @@ pip install -r requirements.txt
 ```
 
 
-1. Database Connection: BlogNest uses PostgreSQL as the default database. If you want to use a different database, make sure to install the appropriate database library and provide the necessary credentials in the Django settings.
+      1. Database Connection: BlogNest uses PostgreSQL as the default database. If you want to use a different database, make sure to install the appropriate database library and provide the necessary credentials in the Django settings.
 
-2. Mail Configuration: The application uses email functionality. If you want to use your own email for sending notifications, configure the SMTP email settings in the settings.py file. Replace the host email and password with your own.
+      2. Mail Configuration: The application uses email functionality. If you want to use your own email for sending notifications, configure the SMTP email settings in the settings.py file. Replace the host email and password with your own.
 
-3.Database Backup: Import the SQLBACKUP/data_backup.sql file into your database to populate it with predefined data.
+      3.Database Backup: Import the SQLBACKUP/data_backup.sql file into your database to populate it with predefined data.
 
-Use the reference login credentials:
+### Use the reference login credentials:
 ```bash
 Username: snow123
 Password: 12345
