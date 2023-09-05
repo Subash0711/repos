@@ -37,17 +37,18 @@ pip install -r requirements.txt
 
       3.Database Backup: Import the SQLBACKUP/data_backup.sql file into your database to populate it with predefined data.
 
+
 ### Use the reference login credentials:
 ```bash
 Username: snow123
 Password: 12345
 ```
+
 ## Prerequisites
       Before running the BlogNest application, make sure you have the following prerequisites installed on your system:
 
-* PostgreSQL (or your preferred database)
-* Django (Python web framework)
-
+      * PostgreSQL (or your preferred database)
+      * Django (Python web framework)
 
   ```bash
   python manage.py runserver
