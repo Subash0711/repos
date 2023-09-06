@@ -1,4 +1,4 @@
-from django.db.models import F,Count,Subquery
+from django.db.models import F,Count,Subquery,Q,Exists
 from blog_app.models import (BlogLists,BlogUserComments,BlogUsersLikes)
 from user.models import (BlogUsers)
 from django.shortcuts import render,redirect
@@ -13,9 +13,12 @@ from django.http import JsonResponse,HttpResponse
 class coreservices:
     @staticmethod
     def clearMessage(request):
-        if 'message' in request.session:
-            del request.session['message']
-        return HttpResponse()
+        try:
+            if 'message' in request.session:
+                request.session['message'] = None
+            return HttpResponse()
+        except:
+            return HttpResponse()
     
     @staticmethod
     def getUser(id):
@@ -28,9 +31,10 @@ class coreservices:
         return {'blog_id':blog.blog_id,'blog_title':blog.blog_title,'blog_content':blog.blog_content,'blog_userid':blog.userid}
     
     @staticmethod
-    def getblogLikecount(blog):
+    def getblogLikecount(blog,userid):
         likeCount=BlogUsersLikes.objects.filter(like_blog=blog,isLike=True).count()
-        return {'likecount':likeCount}
+        iscurrentUserLike=BlogUsersLikes.objects.filter(like_blog=blog,like_user=userid,isLike=True).exists()
+        return {'likecount':likeCount,'iscurrentUserLike':iscurrentUserLike}
     
     @staticmethod
     def getBlogCommentcount(blog):
@@ -56,18 +60,31 @@ class BlogListServices:
             blog_data=BlogLists.objects.select_related('userid').values(
                  'blog_id','userid__fullname','userid','blog_title','blog_content','created_at','isUpdate'
             ).order_by('-blog_id')
-            userdata=coreservices.getUser(userid)
-            item_per_page=5
-            title='Feed | BlogNest'
-            paginator=Paginator(blog_data,item_per_page)
-            page_number=request.GET.get('page')
-            page=paginator.get_page(page_number)
+            Count=BlogLists.objects.all().count()
+            # Count = 0
             msg = request.session.get('message')
-            ctxData={'bloglists':page,
-                     'user':userdata['userfullname'],
-                     'usermail':userdata['usermail'],
-                     'userid':userid,'message':msg,
-                     'title':title}
+            userdata=coreservices.getUser(userid)
+            title='Feed | BlogNest'
+            ctxData={'user':userdata['userfullname'],'usermail':userdata['usermail'],'userid':userid,'message':msg,'title':title,'blogCount':Count}
+
+            if Count != 0 :
+                update_Blog_data=[]
+                for blog in blog_data:
+                    blogid=blog['blog_id']
+                    LikeCounts=BlogUsersLikes.objects.filter(like_blog=blogid,isLike=True).count()
+                    iscurrentUserLike=BlogUsersLikes.objects.filter(like_blog=blogid,like_user=userid,isLike=True).exists()
+                    CommentCounts=BlogUserComments.objects.filter(blog=blogid,is_deleted=False).count()
+                    blog['LikeCounts']=LikeCounts
+                    blog['iscurrentUserLike']=iscurrentUserLike
+                    blog['CommentCounts']=CommentCounts
+                    update_Blog_data.append(blog)
+
+                item_per_page=5
+                paginator=Paginator(update_Blog_data,item_per_page)
+                page_number=request.GET.get('page')
+                page=paginator.get_page(page_number)
+                ctxData['bloglists']=page
+                
             return render(request=None,template_name='blog_lists.html',context=ctxData)
         
         @classmethod
@@ -100,7 +117,7 @@ class BlogCommentServices:
             blogCtx=BlogLists.objects.select_related('userid').filter(blog_id=blogid).values(
                  'userid','blog_id','userid__fullname','blog_title','blog_content','created_at','isUpdate'
             ).order_by('-blog_id')
-            likes=coreservices.getblogLikecount(blogid)
+            likes=coreservices.getblogLikecount(blogid,userid)
             comments=coreservices.getBlogCommentcount(blogid)
             userdata=coreservices.getUser(userid)
             title='Post | Blog | BlogNest'
@@ -115,6 +132,7 @@ class BlogCommentServices:
                            'userid':userid,
                            'title':title,
                            'bloglikes':likes['likecount'],
+                           'iscurrentUserLike':likes['iscurrentUserLike'],
                            'blogcomments':comments['Commentcount']})
         
         @classmethod

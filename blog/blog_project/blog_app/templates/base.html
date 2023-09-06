@@ -4,17 +4,12 @@
 <head>
     <title>{{ title }}</title>
     {% load static %}
-    
+
     <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
     <link rel="stylesheet" href="{% static 'css/base.css'%}">
     <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
     <script src="{% static 'js/jquery-3.7.0.min..js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
-
-
 </head>
 
 <body style="height: 100%; background-color: #14161f;">
@@ -43,6 +38,7 @@
                   </div>
             </div>
         </div>
+
         {% block content %}
         {% endblock %}
     </div>
@@ -106,25 +102,11 @@
             var button = $(this)
             var blogid = $(this).attr('data-listId')
             var userid = $(this).attr('data-userid')
-            var like = $(this).attr('value')
-            var url='/Blog-nest/like/'+userid+'/'+blogid
-            
+            var Likeurl='/Blog-nest/like/'+userid+'/'+blogid
+
             $.ajax({
                 type:'GET',
-                url:url,
-                success: function (data) {
-                    var isLiked = data.liked
-                    console.log(isLiked);
-                    if (isLiked){
-                        button.attr("value","1")
-                        button.addClass("liked")
-                    }
-                    else if(isLiked){
-                        button.attr("value","0")
-                        button.removeClass("liked")
-                    }
-                }
-            })
+                url:Likeurl});
         })
         
         $(".cmt_delete_button").click(function() {
@@ -142,22 +124,21 @@
         $('#dropdown-menu-btn').click(function () {  
             $('.dropdown-menu').toggle()
         })
-
         setTimeout(function() {
         $("#alert-box").fadeOut("slow");
         }, 3500); 
+
         var viewMsg = document.getElementById('add-success-msg-view');
         viewMsg.style.display = 'block';
         setTimeout(function () {
             viewMsg.style.display = 'none';
         }, 4000);
-
     });
+    
     $(window).on('load',function () {
         $.ajax({
-            type:'GET',
-            url:'/Blog-nest/clear',
-        })
+           type: 'GET',
+           url: '/Blog-nest/clear',});
         $('.page_loader').fadeOut(1000);
         $('.page_content').fadeIn(1000);
     })

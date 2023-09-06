@@ -1,5 +1,4 @@
 import jwt
-import requests 
 import datetime
 from user.models import (BlogUsers)
 from blog_app.models import (BlogLists,BlogUserComments)
@@ -25,7 +24,6 @@ class userLoginService:
             hashPassword=existUser.password
             if check_password(password,hashPassword):
                     userid=existUser.id
-                    token=RefreshToken.for_user(existUser)
                     payload={'user_id':userid}
                     access_token=TokenService.genrateToken(data=payload,expiryin=1)
                     request.session['access_token'] = access_token
@@ -85,7 +83,7 @@ class userProfileService:
                 url=reverse('User-Profile-View',kwargs={'userid':userid})
                 request.session['message'] = messages.PASSWORD_UPDATE_MSG
                 return redirect(url)
-            msg={'errormessage':messages.PASSWORD_CHECK_MSG,'userid':userid,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount,'userGetLikesCount':UserGetLikesCount}
+            msg={'errormessage':messages.PASSWORD_CHECK_MSG,'userid':userid,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount,'userGetLikesCount':UserGetLikesCount['likes']}
             return render(request=None,template_name='user_profile.html',context=msg)
         elif columnName == 'contact-col':
             updateName=request.POST.get('update-full-name')

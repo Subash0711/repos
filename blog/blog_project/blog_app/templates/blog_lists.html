@@ -1,24 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-    <div class="p-4 border-none " style="background-color: #191c27">
-        <div class="mx-auto col-md-10 d-flex flex-row-reverse">
-            <!-- Add Blog Button -->
-            <a class="btn m-2 p-2" id="add-Blog-btn" href="{% url 'AddBlog_View' userid=userid %}"
-                style="text-decoration: none; background-color: #52BEDB;"><svg xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16" width="16" height="16" style="fill: white;">
-                    <path
-                        d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177l-2.914-2.914a.25.25 0 0 0-.177-.073Zm4.48 3.758a.75.75 0 0 1 .755.745l.01 1.497h1.497a.75.75 0 0 1 0 1.5H9v1.507a.75.75 0 0 1-1.5 0V9.005l-1.502.01a.75.75 0 0 1-.01-1.5l1.507-.01-.01-1.492a.75.75 0 0 1 .745-.755Z">
-                    </path>
-                </svg></a>
-                {% if message %}
-                <div class="row mb-5 gx-5 rounded justify-content-md-end" style="position: fixed; top: 0; right: 0;width: 50rem;">
-                    <div class="col-md-12 m-5 p-3 rounded alert alert-success"  id="alert-box" style="display: inline-block;width: auto;">
-                        <svg  class="m-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><path d="M6 0a6 6 0 1 1 0 12A6 6 0 0 1 6 0Zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938Z"></path></svg>
-                        <strong>{{ message }}</strong>
+    {% if message %}
+    <div class="row mb-5 gx-5 rounded justify-content-md-end" style="position: fixed; top: 0; right: 0;width: 50rem;">
+            <div class="col-md-12 m-5 p-3 rounded alert alert-success"  id="alert-box" style="display: inline-block;width: auto;">
+                <svg  class="m-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><path d="M6 0a6 6 0 1 1 0 12A6 6 0 0 1 6 0Zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938Z"></path></svg>
+                <strong>{{ message }}</strong>
+            </div>
+    </div>
+    {% endif %}
+    {%if blogCount == 0 %} 
+        <div class="d-flex justify-content-center" style="height: 30rem;">
+            <div  style="background-color: #47a4be;" class="m-4 p-4 rounded h-75 w-75 ">
+                <div class="d-flex flex-column mb-3">
+                    <div class=" d-flex  justify-content-center m-2 p-2">
+                        <h2 style="color: white;">Sorry,Nothing To Show </h2>
+                    </div>
+                    <div class=" d-flex  justify-content-center m-2 p-2" >
+                        <h4 style="color: white;">Come on add yours thoughts with us </h4>
+                    </div>
+                    <div class=" d-flex  justify-content-center m-2 p-2"  >
+                        <!-- Add Blog Button -->
+                        <a class="btn m-2 p-2" id="add-Blog-btn" href="{% url 'AddBlog_View' userid=userid %}" style="text-decoration: none; background-color: #3f93ab; color: white;">POST YOUT BLOG</a>
                     </div>
                 </div>
-                {% endif %}
+            </div>
+        </div>
+    {% else %} 
+    <div class="p-4 border-none " style="background-color: #191c27">
+        <div class="mx-auto col-md-10 d-flex flex-row-reverse justify-content-between">
+            <!-- Add Blog Button -->
+            <a class="btn m-2 p-2" id="add-Blog-btn" href="{% url 'AddBlog_View' userid=userid %}"
+            style="text-decoration: none; background-color: #52BEDB;"><svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16" width="16" height="16" style="fill: white;">
+                <path
+                    d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h9.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177l-2.914-2.914a.25.25 0 0 0-.177-.073Zm4.48 3.758a.75.75 0 0 1 .755.745l.01 1.497h1.497a.75.75 0 0 1 0 1.5H9v1.507a.75.75 0 0 1-1.5 0V9.005l-1.502.01a.75.75 0 0 1-.01-1.5l1.507-.01-.01-1.492a.75.75 0 0 1 .745-.755Z">
+                </path>
+            </svg></a>
+            <div class="d-flex flex-row">
+                <form class="form-inline my-2 my-lg-0">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search" style="background-color: #47a4be;color: white;">
+                        <div class="input-group-append">
+                          <button class="input-group-text btn btn-outline "><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="fill: rgba(135, 211, 215, 0.834);"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2ZM3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0Z"></path></svg></button>
+                        </div>
+                      </div>
+                </form>
+            </div>
         </div>
         {% for list in bloglists %}
         <div class="border-none rounded col-md-10 p-3 m-4 mx-auto" style="background-color: #47a4be;">
@@ -26,14 +54,22 @@
                 <div class="d-flex flex-row justify-content-between">
                     <h2 style="color: white;">{{ list.blog_title }}</h2>
                 </div>
-                <p style="font-size: 10px;color: white;">published {{ list.created_at }} by {{ list.userid__fullname }} {%if list.isUpdate %} - Edited{% endif %}</p>
+                <p style="font-size: 10px;color: white;">Published {{ list.created_at|date:"d M y" }} by {{ list.userid__fullname }} {%if list.isUpdate %} - Edited{% endif %}</p>
                 <P style="font-size: 15px; text-indent: 50px;color: white; text-transform: capitalize;"> {{ list.blog_content|truncatewords:70 }}</P>
                 <p class="d-flex justify-content-center" ><a href="{% url 'Blog_Comments_View' blogid=list.blog_id userid=userid  %}" style="text-decoration: none;" class="link-light" >More<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" style="fill: white;"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></a></p>
+                <div class="d-flex flex-row mb-0">
+                    <div class="mx-2">
+                        <p style="font-size: 17px;color: white;">{{list.LikeCounts}} Likes</p>
+                    </div>
+                    <div class="mx-2">
+                        <p style="font-size: 17px;color: white;">{{list.CommentCounts}} Comment</p>
+                    </div>
+                </div>
             </div>
             <div>
                 <hr style="color: white;">
                 <!-- Add like button -->
-                <button class="btn btn-outline-light p-2 m-2 likebutton " data-listId="{{list.blog_id}}" data-userid="{{userid}}" value="0">
+                <button class="btn btn-outline-light p-2 m-2 likebutton " data-listId="{{list.blog_id}}" data-userid="{{userid}}" {% if list.iscurrentUserLike %} style="background-color: #84dee0;" {% endif %} >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: white;"><path d="M8.834.066c.763.087 1.5.295 2.01.884.505.581.656 1.378.656 2.3 0 .467-.087 1.119-.157 1.637L11.328 5h1.422c.603 0 1.174.085 1.668.333.508.254.911.679 1.137 1.2.453.998.438 2.447.188 4.316l-.04.306c-.105.79-.195 1.473-.313 2.033-.131.63-.315 1.209-.668 1.672C13.97 15.847 12.706 16 11 16c-1.848 0-3.234-.333-4.388-.653-.165-.045-.323-.09-.475-.133-.658-.186-1.2-.34-1.725-.415A1.75 1.75 0 0 1 2.75 16h-1A1.75 1.75 0 0 1 0 14.25v-7.5C0 5.784.784 5 1.75 5h1a1.75 1.75 0 0 1 1.514.872c.258-.105.59-.268.918-.508C5.853 4.874 6.5 4.079 6.5 2.75v-.5c0-1.202.994-2.337 2.334-2.184ZM4.5 13.3c.705.088 1.39.284 2.072.478l.441.125c1.096.305 2.334.598 3.987.598 1.794 0 2.28-.223 2.528-.549.147-.193.276-.505.394-1.07.105-.502.188-1.124.295-1.93l.04-.3c.25-1.882.189-2.933-.068-3.497a.921.921 0 0 0-.442-.48c-.208-.104-.52-.174-.997-.174H11c-.686 0-1.295-.577-1.206-1.336.023-.192.05-.39.076-.586.065-.488.13-.97.13-1.328 0-.809-.144-1.15-.288-1.316-.137-.158-.402-.304-1.048-.378C8.357 1.521 8 1.793 8 2.25v.5c0 1.922-.978 3.128-1.933 3.825a5.831 5.831 0 0 1-1.567.81ZM2.75 6.5h-1a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h1a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg></button>
                 <!-- Add comment Button -->
                 <button class="btn btn-outline-light p-2 m-2 commentButton" data-listId="{{list.blog_id}}"><svg
@@ -118,7 +154,8 @@
                 </ul>
             </nav>
         </div>
+
     </div>
-</div>
+    {% endif %}
 </div>
 {% endblock %}
