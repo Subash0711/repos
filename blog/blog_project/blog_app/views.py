@@ -8,9 +8,9 @@ from blog_app.service import coreservices
 from user.service import TokenService
 
 
+@csrf_exempt
 @TokenService.validateToken
 def blogList_View(request,userid):
-    access_token = request.session.get('access_token')
     return BlogListServices.getAllBlog(request,userid)
 
 @csrf_exempt

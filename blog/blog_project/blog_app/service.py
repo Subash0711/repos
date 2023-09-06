@@ -19,7 +19,6 @@ class coreservices:
             return HttpResponse()
         except:
             return HttpResponse()
-    
     @staticmethod
     def getUser(id):
         user=BlogUsers.objects.get(id=id)
@@ -56,16 +55,24 @@ class blogCoreService:
 
 class BlogListServices:
         @classmethod
-        def getAllBlog(cls,request,userid):
-            blog_data=BlogLists.objects.select_related('userid').values(
+        def getAllBlog(cls,request,userid=None):
+            issearch=False
+            if request.method == 'POST':
+                key_word=request.POST.get('key_word')
+                blog_data=BlogLists.objects.filter(blog_title__istartswith=key_word).select_related('userid').values(
                  'blog_id','userid__fullname','userid','blog_title','blog_content','created_at','isUpdate'
             ).order_by('-blog_id')
+                issearch=True
+            else:
+                blog_data=BlogLists.objects.select_related('userid').values(
+                 'blog_id','userid__fullname','userid','blog_title','blog_content','created_at','isUpdate'
+            ).order_by('-blog_id')
+                
             Count=BlogLists.objects.all().count()
-            # Count = 0
             msg = request.session.get('message')
             userdata=coreservices.getUser(userid)
             title='Feed | BlogNest'
-            ctxData={'user':userdata['userfullname'],'usermail':userdata['usermail'],'userid':userid,'message':msg,'title':title,'blogCount':Count}
+            ctxData={'user':userdata['userfullname'],'usermail':userdata['usermail'],'userid':userid,'message':msg,'title':title,'blogCount':Count,'isSearch':issearch}
 
             if Count != 0 :
                 update_Blog_data=[]

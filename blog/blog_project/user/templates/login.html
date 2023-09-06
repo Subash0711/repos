@@ -6,11 +6,12 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
     <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.7.0.min..js' %}"></script>
 </head>
 <body style="background-color: #14161f">
     <div class="container-fluid" style="background-color: #14161f;">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="card" style="margin-top: 35px; background-color: #1d1f2e;">
                     <div class="card-header" style="background-color: #303745;">
                         <h2 style="color: #66d9ef;">Login</h2>
@@ -46,18 +47,10 @@
                                         class="link-light mx-2">Create Now</a></label>
                             </div>
                             {% if exception %}
-                            <div class="d-flex justify-content-center">
-                                <div class="alert justify-content-center" role="alert" style="background-color: #3a3f54; color: #6be9ff;width:fit-content;">
-                                    <span class="m-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #6be9ff;"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg></span>
-                                    {{exception}}
-                                </div>
-                            </div>
-                            {% endif %}
-                            {% if message %}
                             <div class="row mb-5 gx-5 rounded justify-content-md-end" style="position: fixed; top: 0; right: 0;width: 50rem;">
-                                <div class="col-md-12 m-5 p-3 rounded alert alert-success"  id="alert-box" style="display: inline-block;width: auto;">
-                                    <svg  class="m-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="12" height="12"><path d="M6 0a6 6 0 1 1 0 12A6 6 0 0 1 6 0Zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938Z"></path></svg>
-                                    <strong>{{ message }}</strong>
+                                <div class="col-md-12 m-5 p-3 rounded alert alert-danger"  id="alert-box" style="display: inline-block;width: auto;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #a04d4d;"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>
+                                    <strong>{{exception}}</strong>
                                 </div>
                             </div>
                             {% endif %}
@@ -70,3 +63,10 @@
 </body>
 
 </html>
+<script>
+    $(document).ready(function () {
+        setTimeout(function() {
+        $("#alert-box").fadeOut("slow");
+        }, 3500); 
+    })
+</script>
