@@ -15,7 +15,7 @@
             </div>
             <div style="background-color: #4291a7;padding: 10px;" class="card-body">
                 <!-- <div style="font-size: 15px; text-indent: 50px; text-transform: capitalize;">{{ blog.blog_content }}</div> -->
-                <div class="form-control m-2" rows="50" cols="50" readonly style="color: #e5edef;border: none; font-size: 16px; text-indent: 50px; text-transform: capitalize;background-color: #4291a7; resize: none"> {{ blog.blog_content }}</div>
+                <textarea class="form-control m-2" rows="50" cols="50" readonly style="color: #e5edef;border: none; font-size: 16px; text-indent: 50px; text-transform: capitalize;background-color: #4291a7; resize: none" disabled> {{ blog.blog_content }}</textarea>
                 <br>
                 <p style="font-size: 15px;"><i>by</i></p>
                 <p class="mb-0">{{ blog.userid__fullname }}</p>

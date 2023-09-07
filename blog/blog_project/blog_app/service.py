@@ -91,7 +91,6 @@ class BlogListServices:
                 page_number=request.GET.get('page')
                 page=paginator.get_page(page_number)
                 ctxData['bloglists']=page
-                
             return render(request=None,template_name='blog_lists.html',context=ctxData)
         
         @classmethod

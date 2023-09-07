@@ -79,23 +79,25 @@
             $(this).hide()
             $('#shareButton').hide()
             $('#commentDiv').toggle()
+            $('#likebutton').hide()
         })
         $("#shareButton").click(function () {
             $(this).hide()
             $('#commentButton').hide()
             $('#shareDiv').toggle()
+            $('#likebutton').hide()
         })
         $("#comment-cancel-btn").click(function () {
             $('#commentDiv').hide()
             $('#shareButton').toggle()
             $('#commentButton').toggle()
-            $('#backButton').toggle()
+            $('#likebutton').toggle()
         })
         $("#share-cancel-btn").click(function () {
             $('#shareDiv').hide()
             $('#shareButton').toggle()
             $('#commentButton').toggle()
-            $('#backButton').toggle()
+            $('#likebutton').toggle()
         })
 
         $(".likebutton").click(function () {
@@ -108,7 +110,6 @@
                 type:'GET',
                 url:Likeurl,
                 success: function () {
-                console.log(button.hasClass('islikedbutton'),'------------')
                     if (button.hasClass('islikedbutton')) {
                         button.addClass('islikedbutton')
                     } else {
@@ -144,7 +145,6 @@
             viewMsg.style.display = 'none';
         }, 4000);
     });
-    
     $(window).on('load',function () {
         $.ajax({
            type: 'GET',

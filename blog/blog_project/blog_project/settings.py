@@ -93,6 +93,16 @@ DATABASES = {
         'PORT': '5433',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'bolgNestdb', 
+#         'USER': 'blogNest_db',
+#         'PASSWORD': 'blognest.123',
+#         'HOST': 'blognestdb.cphrtm5rjeej.eu-north-1.rds.amazonaws.com', 
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
