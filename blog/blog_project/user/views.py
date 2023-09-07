@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
-from user.service import (userLoginService,userProfileService,TokenService)
+from user.service import (userLoginService,userProfileService,TokenService,loginCoreService)
 
 
 def home_View(request):
@@ -12,7 +12,7 @@ def login_View(request):
         return userLoginService.userAuthentication(request)
     elif request.method == 'GET':
         title='BlogNest : Login'
-        msg = request.GET.get('message','')
+        msg = request.session.get('message')
         return render (request=None,template_name='login.html',context={'title':title,'message':msg})
     
 @csrf_exempt
@@ -26,6 +26,14 @@ def  signup_View(request):
     
 def logout_view(request):
     return userLoginService.logoutUser(request)
+
+@csrf_exempt
+def availablityUsername(request):
+    return loginCoreService.userNameAvailability(request)
+@csrf_exempt
+def availablitymail(request):
+    return loginCoreService.mailAvailability(request)
+
 
 @csrf_exempt
 @TokenService.validateToken

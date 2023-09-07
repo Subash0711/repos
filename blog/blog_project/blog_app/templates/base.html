@@ -106,7 +106,17 @@
 
             $.ajax({
                 type:'GET',
-                url:Likeurl});
+                url:Likeurl,
+                success: function () {
+                console.log(button.hasClass('islikedbutton'),'------------')
+                    if (button.hasClass('islikedbutton')) {
+                        button.addClass('islikedbutton')
+                    } else {
+                        button.removeClass('islikedbutton')
+                    }
+                }
+            });
+
         })
         
         $(".cmt_delete_button").click(function() {

@@ -5,14 +5,29 @@ from blog_app.models import (BlogLists,BlogUserComments)
 from django.contrib.auth.hashers import make_password,check_password
 from django.urls import reverse
 from django.shortcuts import render,redirect
-from django.contrib.auth import logout
-from django.contrib.auth import authenticate,login
 from blog_app.service import coreservices
-from urllib.parse import urlencode
+from django.db import IntegrityError
 from . import messages
-from rest_framework_simplejwt.tokens import RefreshToken
+from django.http import JsonResponse,HttpResponse
 from blog_app.service import blogCoreService
 
+class loginCoreService:
+    def userNameAvailability(request):
+        userVal= request.POST.get('username')
+        usernameCount=BlogUsers.objects.filter(username=userVal).count()
+        if usernameCount == 0:
+            return JsonResponse({'available':True})
+        else:
+            return JsonResponse({'available':False})
+    
+    def mailAvailability(request):
+        userVal= request.POST.get('email')
+        mailCount=BlogUsers.objects.filter(emailid=userVal).count()
+        if mailCount == 0:
+            return JsonResponse({'available':True})
+        else:
+            return JsonResponse({'available':False})
+    
 class userLoginService:
     @classmethod
     def userAuthentication(cls,request):
@@ -35,18 +50,21 @@ class userLoginService:
             
     @classmethod
     def adduser(cls,request):
-        fullname=request.POST.get('full_name')
-        emailId=request.POST.get('email_address')
-        gender=request.POST.get('usergender')
-        username=request.POST.get('user_name')
-        phonenumber=request.POST.get('phone_number')
-        password=request.POST.get('user_password')
-        encPassword=make_password(password=password)
-        data=BlogUsers(fullname=fullname,gender=gender,emailid=emailId,username=username,mobile_no=phonenumber,password=encPassword)
-        data.save()
-        url= reverse('Login-View')
-        request.session['message'] = messages.CREATE_USER_SUCCESS_MSG
-        return redirect(url)
+        try:
+            fullname=request.POST.get('full_name')
+            emailId=request.POST.get('email_address')
+            gender=request.POST.get('usergender')
+            username=request.POST.get('user_name')
+            phonenumber=request.POST.get('phone_number')
+            password=request.POST.get('user_password')
+            encPassword=make_password(password=password)
+            data=BlogUsers(fullname=fullname,gender=gender,emailid=emailId,username=username,mobile_no=phonenumber,password=encPassword)
+            # data.save()
+            url= reverse('Login-View')
+            request.session['message'] = messages.CREATE_USER_SUCCESS_MSG
+            return redirect(url)
+        except IntegrityError:
+            return HttpResponse()
         
     @classmethod
     def logoutUser(cls,request):
