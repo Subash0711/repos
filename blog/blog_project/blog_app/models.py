@@ -12,7 +12,7 @@ class BlogLists(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'blog_lists'
 
 
@@ -26,7 +26,7 @@ class BlogUserComments(models.Model):
     isUpdate = models.BooleanField(default=False, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'blog_user_comments'
 
 class BlogUsersLikes(models.Model):
@@ -37,5 +37,5 @@ class BlogUsersLikes(models.Model):
     isLike = models.BooleanField(blank=True, null=True) 
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'blog_users_likes'

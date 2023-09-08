@@ -1,9 +1,6 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render
 from blog_app.service import (BlogListServices,BlogCommentServices,BlogShareServices,BlogLikeService)
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
-from rest_framework.decorators import api_view,permission_classes
-from rest_framework.permissions import IsAuthenticated
 from blog_app.service import coreservices
 from user.service import TokenService
 
