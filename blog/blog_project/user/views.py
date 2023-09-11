@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
-from user.service import (userLoginService,userProfileService,TokenService,loginCoreService)
+from user.service import (userLoginService,userProfileService,validateToken,loginCoreService)
 
 
 def home_View(request):
@@ -36,7 +36,7 @@ def availablitymail(request):
 
 
 @csrf_exempt
-@TokenService.validateToken
+@validateToken
 def user_Profile_View(request,userid):
     if request.method == 'POST':
         return userProfileService.updateUser(request,userid)

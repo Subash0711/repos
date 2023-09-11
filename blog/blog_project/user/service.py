@@ -1,3 +1,4 @@
+from typing import Any
 import jwt
 import datetime
 from user.models import (BlogUsers)
@@ -59,7 +60,7 @@ class userLoginService:
             password=request.POST.get('user_password')
             encPassword=make_password(password=password)
             data=BlogUsers(fullname=fullname,gender=gender,emailid=emailId,username=username,mobile_no=phonenumber,password=encPassword)
-            # data.save()
+            data.save()
             url= reverse('Login-View')
             request.session['message'] = messages.CREATE_USER_SUCCESS_MSG
             return redirect(url)
@@ -140,18 +141,17 @@ class TokenService:
         }
         return jwt.encode(payload,TokenService.SECRET_KEY,algorithm='HS256')
     
-    @staticmethod
-    def validateToken(view_func):
-        def _wrapped_view(request,*args,**kwargs):
-            token=request.session.get('access_token')
-            try:
-                decode_token=jwt.decode(token,TokenService.SECRET_KEY,algorithms='HS256')
-                return view_func(request,*args,**kwargs)
-            except jwt.ExpiredSignatureError:
-                cntxdata={'title':'405 Method Not Allowed','content':'Request Time has been Expired','StatusCode':'405'}
-                return render(request=None,template_name='user_error.html',context=cntxdata)
-            except jwt.InvalidTokenError:
-                cntxdata={'title':'401 Unauthorized','content':'Unauthorized Request has been Found','StatusCode':'401'}
-                return render(request=None,template_name='user_error.html',context=cntxdata)
-        return _wrapped_view
+def validateToken(view_func):
+    def wrappedView(request,*args,**kwargs):
+        token = request.session.get('access_token')
+        try:
+            jwt.decode(token,TokenService.SECRET_KEY,algorithms='HS256')
+            return view_func(request,*args,**kwargs)
+        except jwt.ExpiredSignatureError:
+            cntxdata={'title':'405 Method Not Allowed','content':'Request Time has been Expired','StatusCode':'405'}
+            return render(request=None,template_name='user_error.html',context=cntxdata)
+        except jwt.InvalidTokenError:
+            cntxdata={'title':'401 Unauthorized','content':'Unauthorized Request has been Found','StatusCode':'401'}
+            return render(request=None,template_name='user_error.html',context=cntxdata)
+    return wrappedView
         

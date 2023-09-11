@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'blog_users_likes',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.AlterModelTable(

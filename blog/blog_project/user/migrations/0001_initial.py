@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'blog_users',
-                'managed': False,
+                'managed': True,
             },
         ),
     ]

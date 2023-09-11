@@ -2,16 +2,16 @@ from django.shortcuts import render
 from blog_app.service import (BlogListServices,BlogCommentServices,BlogShareServices,BlogLikeService)
 from django.views.decorators.csrf import csrf_exempt
 from blog_app.service import coreservices
-from user.service import TokenService
+from user.service import validateToken
 
 
 @csrf_exempt
-@TokenService.validateToken
+@validateToken
 def blogList_View(request,userid):
     return BlogListServices.getAllBlog(request,userid)
 
 @csrf_exempt
-@TokenService.validateToken
+@validateToken
 def addBlog_View(request,userid):
     if request.method == 'POST':
         return BlogListServices.addBlog(request,userid)
@@ -27,7 +27,7 @@ def addBlog_View(request,userid):
         return render (request=None,template_name='add_or_update_blog.html',context=contx)
 
 @csrf_exempt
-@TokenService.validateToken
+@validateToken
 def updateBlog_View(request,userid,blogid):
     if request.method == 'POST':
         return BlogListServices.updateBlog(request,userid,blogid)
@@ -45,33 +45,34 @@ def updateBlog_View(request,userid,blogid):
         }
         return render (request=None,template_name='add_or_update_blog.html',context=contx)
 
-@TokenService.validateToken    
+@validateToken    
 def commentView(request,blogid,userid):
     return BlogCommentServices.BlogComments(request,blogid,userid)
 
 @csrf_exempt
-@TokenService.validateToken
+@validateToken
 def addCommentView(request):
     return BlogCommentServices.addBlogComment(request)
 
 @csrf_exempt
-@TokenService.validateToken
+@validateToken
 def shareBlogView(request):
     if request.method == 'POST':
         return BlogShareServices.shareBlog(request)
 
 @csrf_exempt
-@TokenService.validateToken
+@validateToken
 def deleteCommentView(request):
     return BlogCommentServices.deleteBlogComments(request)  
 
 @csrf_exempt
-@TokenService.validateToken
+@validateToken
 def updateCommentView(request):
     return BlogCommentServices.updateBlogComments(request)
 
 def clearMessage(request):
     return coreservices.clearMessage(request)
 
+@validateToken
 def likeBlogsView(request,userid,blogid):
     return BlogLikeService.addlike(request,userid,blogid)
