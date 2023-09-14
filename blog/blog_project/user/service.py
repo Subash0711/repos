@@ -129,7 +129,6 @@ class userProfileService:
             return render(request=None,template_name='user_profile.html',context=msg)
         
 class TokenService:
-
     SECRET_KEY='djanagoblogNestSecretKeyIsopojjsjvdvdsvdvdvdsv'
 
     @staticmethod

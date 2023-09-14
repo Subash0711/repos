@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{title}}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
+    <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.7.0.min..js' %}"></script>
+</head>
+<body style="background-color: #191c27">
+    <div class="container-fluid" style="background-color: #191c27">
+        <div class="d-flex">
+            <div class="col-md-5 my-5">
+                <div class="d-flex align-content-center py-5">
+                    <div class="mx-auto my-5">
+                        <p style="color: #36c4e0;font-size: 4rem;">BlogNest</p>
+                        <p style ="color: #508d9a;">BlogNest helps to Share your thougths with people</p>
+                    </div>
+                </div>
+            </div>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function(){
+        registerbtn=$("#register-btn")
+        $("#confirm_password").on("input",function () {
+            var passwordVal=$("#user_password").val().trim()
+            var confPasswordVal=$("#confirm_password").val()
+            if (passwordVal != confPasswordVal ){
+                $("#paswrd_err_msg").show()
+                registerbtn.prop("disabled", true);
+            } else {
+                $("#paswrd_err_msg").hide()
+                registerbtn.prop("disabled", false);
+            }
+        })
+        $("#phone_number").on("input",function () {
+            var regex=/^\+?\d{1,4}\s?\d{8}$/;
+            var mobNo=$('#phone_number').val().trim();
+            if(regex.test(mobNo)){
+                $("#numer_err_msg").hide();
+                registerbtn.prop("disabled", false);
+            }else{
+                registerbtn.prop("disabled", true);
+                $("#numer_err_msg").show();
+            }
+        })
+        $("#email_address").on("input",function () {
+            var regex=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,7})+$/;
+            var email=$('#email_address').val().trim();
+            if(regex.test(email)){
+                $("#mail_err_msg").hide();
+                registerbtn.prop("disabled", false);
+                $.ajax({
+                    type:"POST",
+                    url:"{% url 'emailAvailable' %}",
+                    data:{'email':email},
+                    success:function (response) {
+                        if (response.available) {
+                            $("#mail_info_msg").hide();
+                            registerbtn.prop("disabled", false);     
+                        } else {
+                            registerbtn.prop("disabled", true);
+                            $("#mail_info_msg").show();
+                        }
+                    }
+                })
+            }else{
+                registerbtn.prop("disabled", true);
+                $("#mail_err_msg").show();
+            }
+        })
+        $("#user_name").on("input",function () {
+            var userVal=$('#user_name').val().trim();
+            if (userVal.length <= 5 ) {
+                registerbtn.prop("disabled", true);
+                $("#username_error_msg").show();                
+                
+            }else{
+                registerbtn.prop("disabled", false);
+                $("#username_error_msg").hide();   
+                $.ajax({
+                type:"POST",
+                url:"{% url 'UsernameAvailable' %}",
+                data:{'username':userVal},
+                success:function (response) {
+                    if (response.available) {
+                        $("#username_info_msg").hide();
+                        registerbtn.prop("disabled", false);        
+                    }else{
+                        registerbtn.prop("disabled", true);
+                        $("#username_info_msg").show();
+                    }                    
+                }
+            })
+            }
+
+        })
+        setTimeout(function () {
+            $("#alert-box").fadeOut("slow");
+        }, 3500);
+    })
+</script>

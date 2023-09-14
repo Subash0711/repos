@@ -8,14 +8,6 @@
     <link rel="stylesheet" href="{% static 'css/base.css'%}">
     <script src="{% static 'js/jquery-3.7.0.min..js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <style>
-        .base_text_color{
-            color:#66d9ef;
-        }
-        .base_text_color-2{
-            color: whitesmoke;
-        }
-    </style>
 </head>
 
 <body style="background-color: #1e212e">
@@ -73,7 +65,7 @@
                         <div class="col-xxl-8 mb-5 mb-xxl-0">
                             <div class="bg-secondary-soft px-4 py-5 rounded">
                                 <div class="row g-3">
-                                    <h4 class="mb-4 mt-0 base_text_color">Contact detail</h4>
+                                    <h4 class="mb-4 mt-0 base_text_color">Personal Details</h4>
                                     <!-- First Name -->
                                     <div class="col-md-6">
                                         <label class="form-label base_text_color">First Name *</label>
@@ -120,7 +112,7 @@
                                     <h4 class="my-4 base_text_color">Change Username</h4>
                                     <!-- Username -->
                                     <div class="col-md-8">
-                                        <label  class="form-label base_text_color">Username *</label>
+                                        <label  class="form-label base_text_color">Username </label>
                                         <input type="text" class="form-control" name="update-user-name" id="update-user-name" value="{{ user.username}}" data-list="2" disabled> 
                                         <input type="text" name="column-name" value="username-col" style="display: none;">
                                     </div>
@@ -161,7 +153,7 @@
                                     <div class="col-md-8">
                                         <label for="exampleInputPassword1" class="form-label base_text_color">Old password
                                             *</label>
-                                        <input type="password" class="form-control" id="old-password"  data-list="3" name="old-password" disabled>
+                                        <input type="password" class="form-control" id="old-password"  data-list="3" name="old-password" disabled required>
                                     </div>
                                     <!-- New password -->
                                     <div class="col-md-8">
@@ -175,11 +167,12 @@
                                             Password *</label>
                                         <input type="password" class="form-control " id="cnf-new-password" data-list="3" disabled> 
                                         <input type="text" name="column-name" value="password-col" style="display: none;">
+                                        <span class="error text-info" id="paswrd_err_msg" style="display: none;" >Password didn't Match</span>
                                     </div>
                                 </div>
                                 <div class="gap-3 d-md-flex justify-content-md-start text-center my-4">
                                     <button type="button" class="btn btn-outline-info btn-lg update-btn" data-list="3" >Update</button>
-                                    <button type="submit" class="btn btn-outline-success btn-lg save-btn" data-list="3" style="display: none;" disabled>Save</button>
+                                    <button type="submit" class="btn btn-outline-success btn-lg save-btn" id="pwd-save-btn" data-list="3" style="display: none;" >Save</button>
                                     <button type="button" class="btn btn-outline-danger btn-lg cancel-btn" data-list="3" style="display: none;">Cancel</button>
                                 </div>
                             </div>
@@ -211,24 +204,26 @@
             $(this).siblings('.save-btn').hide()
             $(this).siblings('.update-btn').toggle()
             if (val == '3') {
-                $(".form-control[data-list='" +val+ "']").val('')
+                $(".form-control[data-list='"+val+"']").val('')
             }
             $(".form-control[data-list='" +val+ "']").prop('disabled',true)
         })
+
+        $("#cnf-new-password").on("input",function () { 
+            var registerbtn=$("#pwd-save-btn")
+            var passwordVal=$("#new-password").val().trim()
+            var confPasswordVal=$("#cnf-new-password").val()
+            if (passwordVal != confPasswordVal){
+                $("#paswrd_err_msg").show()
+                registerbtn.prop("disabled", true);
+            } else {
+                $("#paswrd_err_msg").hide()
+                registerbtn.prop("disabled", false);
+            }
+        })
+
         setTimeout(function() {
         $("#alert-box").fadeOut("slow");
         }, 3500); 
-
-        $("#cnf-new-password").on("input",function () {
-            var val=$(this).attr('data-list')
-            old_password=$("#old-password").val()
-            new_password=$("#new-password").val()
-            conf_password=$("#cnf-new-password").val()
-            if (new_password == conf_password && new_password != "" && conf_password != "" && old_password != "" ){
-                $(".save-btn[data-list='"+val+"']").prop("disabled", false);
-            } else {
-                $("..save-btn[data-list='"+val+"']").prop("disabled", true);
-            }
-        })
     })
 </script>

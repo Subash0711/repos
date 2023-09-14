@@ -1,170 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>{{title}}</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/bootstrap-5.min.css'%}">
-    <script src="{% static 'js/bootstrap-5.min.js' %}"></script>
-    <script src="{% static 'js/jquery-3.7.0.min..js' %}"></script>
-</head>
-<body style="background-color: #14161f">
-    <div class="container-fluid" style="background-color: #14161f">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                    <div class="card" style="margin-top: 35px; border: none;">
-                        <div class="card-header" style="background-color: #303745;">
-                            <H2 style="color: #66d9ef;">Create Account</H2>
-                        </div>
-                        <div class="card-body" style="background-color: #21273a;">
-                            <form method="post">
-                                <div class="form-group row m-3">
-                                    <label for="full_name" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Name</label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="full_name" class="form-control" name="full_name" style="background-color: #2b3246; color: #ffffff;" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row m-3">
-                                    <label for="full_name" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Gender</label>
-                                    <div class="col-md-6">
-                                        <select class="form-select" name="usergender" aria-label="Default select example" style="background-color: #2b3246;color: #ffffff;" required> 
-                                            <option selected disabled> </option>
-                                            <option style="color: #ffffff;" value="male">Male</option>
-                                            <option style="color: #ffffff;" value="female">Female</option>
-                                            <option style="color: #ffffff;" value="transgender">Transgender</option>
-                                            <option style="color: #ffffff;" value="not_say">Prefer Not to Say</option>
-                                          </select>
-                                    </div>
-                                </div>
-    
-                                <div class="form-group row m-3">
-                                    <label for="email_address" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Email</label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="email_address" class="form-control" name="email_address" style="background-color: #2b3246; color: #ffffff;" required>
-                                        <span class="error text-info" id="mail_info_msg" style="display: none;">Email address is already registered</span>
-                                        <span class="error text-info" id="mail_err_msg" style="display: none;" >Invalid Emai Id</span>
-                                    </div>
-                                </div>
-    
-                                <div class="form-group row m-3">
-                                    <label for="user_name" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Username</label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="user_name" class="form-control p-1" name="user_name" style="background-color: #2b3246; color: #ffffff;" required>
-                                        <span class="error text-info" id="username_info_msg" style="display: none;">username already exists</span>
-                                        <span class="error text-info" id="username_error_msg" style="display: none;font-size: 15px;">Username must be at least 6 characters long.</span>
-                                    </div>
-                                </div>
-    
-                                <div class="form-group row m-3">
-                                    <label for="phone_number" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Phone Number</label>
-                                    <div class="col-md-6">
-                                        <input type="text" id="phone_number" name="phone_number" style="background-color: #2b3246; color: #ffffff;" class="form-control">
-                                        <span class="error text-info" id="numer_err_msg" style="display: none;" >Invalid Mobile Number</span>
-                                    </div>
-                                </div>
-                                <div class="form-group row m-3">
-                                    <label for="userpassword" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Password</label>
-                                    <div class="col-md-6">
-                                        <input type="password" class="form-control" name="user_password" id="user_password" style="background-color: #2b3246; color: #ffffff;" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row m-3">
-                                    <label for="userpassword" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Repeat Password</label>
-                                    <div class="col-md-6">
-                                        <input type="password" class="form-control" name="confirm_password" id="confirm_password" style="background-color: #2b3246; color: #ffffff;" required>
-                                        <span class="error text-info" id="paswrd_err_msg" style="display: none;" >Password didn't Match</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 offset-md-5">
-                                    <button type="submit" class="btn border-none" style="background-color: #36c4e0;  color: #ffffff;" id ="register-btn" required>
-                                    Register
-                                    </button>
-                                </div>
-                                <div class="form-group row m-3">
-                                    <label for="full_name" class="col-md-4 col-form-label text-md-right" style="font-size: smaller;color: #66d9ef;">Already a Member ?<a href="{% url 'Login-View' %}"  style="text-decoration: none;font-size: small;  color: #ffffff;"  class="link-light mx-2"> Login Now</a></label>   
-                                </div>
-                            </form>
-                        </div>
-                </div>
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-6">
+        <div class="card" style="margin-top: 35px; border: none; background-color: #303745;">
+            <div class="card-header" style="background-color: #303745;">
+                <H2 style="color: #66d9ef;">Create Account</H2>
             </div>
-        </div>
-    </div>
-</body>
-</html>
-<script>
-    $(document).ready(function(){
-        registerbtn=$("#register-btn")
-        $("#confirm_password").on("input",function () {
-            var passwordVal=$("#user_password").val().trim()
-            var confPasswordVal=$("#confirm_password").val()
-            if (passwordVal != confPasswordVal ){
-                $("#paswrd_err_msg").show()
-                registerbtn.prop("disabled", true);
-            } else {
-                $("#paswrd_err_msg").hide()
-                registerbtn.prop("disabled", false);
-            }
-        })
-        $("#phone_number").on("input",function () {
-            var regex=/^\+?\d{1,4}\s?\d{8}$/;
-            var mobNo=$('#phone_number').val().trim();
-            if(regex.test(mobNo)){
-                $("#numer_err_msg").hide();
-                registerbtn.prop("disabled", false);
-            }else{
-                registerbtn.prop("disabled", true);
-                $("#numer_err_msg").show();
-            }
-        })
-        $("#email_address").on("input",function () {
-            var regex=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,7})+$/;
-            var email=$('#email_address').val().trim();
-            if(regex.test(email)){
-                $("#mail_err_msg").hide();
-                registerbtn.prop("disabled", false);
-                $.ajax({
-                    type:"POST",
-                    url:"{% url 'emailAvailable' %}",
-                    data:{'email':email},
-                    success:function (response) {
-                        if (response.available) {
-                            $("#mail_info_msg").hide();
-                            registerbtn.prop("disabled", false);     
-                        } else {
-                            registerbtn.prop("disabled", true);
-                            $("#mail_info_msg").show();
-                        }
-                    }
-                })
-            }else{
-                registerbtn.prop("disabled", true);
-                $("#mail_err_msg").show();
-            }
-        })
-        $("#user_name").on("input",function () {
-            var userVal=$('#user_name').val().trim();
-            if (userVal.length <= 5 ) {
-                registerbtn.prop("disabled", true);
-                $("#username_error_msg").show();                
-                
-            }else{
-                registerbtn.prop("disabled", false);
-                $("#username_error_msg").hide();   
-                $.ajax({
-                type:"POST",
-                url:"{% url 'UsernameAvailable' %}",
-                data:{'username':userVal},
-                success:function (response) {
-                    if (response.available) {
-                        $("#username_info_msg").hide();
-                        registerbtn.prop("disabled", false);        
-                    }else{
-                        registerbtn.prop("disabled", true);
-                        $("#username_info_msg").show();
-                    }                    
-                }
-            })
-            }
+            <div class="card-body" style="background-color: #21273a;">
+                <form method="post">
+                    <div class="form-group row m-3">
+                        <label for="full_name" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Name</label>
+                        <div class="col-md-6">
+                            <input type="text" id="full_name" class="form-control" name="full_name" style="background-color: #2b3246; color: #ffffff;" required>
+                        </div>
+                    </div>
+                    <div class="form-group row m-3">
+                        <label for="full_name" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Gender</label>
+                        <div class="col-md-6">
+                            <select class="form-select" name="usergender" aria-label="Default select example" style="background-color: #2b3246;color: #ffffff;" required> 
+                                <option selected disabled> </option>
+                                <option style="color: #ffffff;" value="male">Male</option>
+                                <option style="color: #ffffff;" value="female">Female</option>
+                                <option style="color: #ffffff;" value="transgender">Transgender</option>
+                                <option style="color: #ffffff;" value="not_say">Prefer Not to Say</option>
+                                </select>
+                        </div>
+                    </div>
 
-        })
-    })
-</script>
+                    <div class="form-group row m-3">
+                        <label for="email_address" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Email</label>
+                        <div class="col-md-6">
+                            <input type="text" id="email_address" class="form-control" name="email_address" style="background-color: #2b3246; color: #ffffff;" required>
+                            <span class="error text-info" id="mail_info_msg" style="display: none;">Email address is already registered</span>
+                            <span class="error text-info" id="mail_err_msg" style="display: none;" >Invalid Emai Id</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row m-3">
+                        <label for="user_name" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Username</label>
+                        <div class="col-md-6">
+                            <input type="text" id="user_name" class="form-control p-1" name="user_name" style="background-color: #2b3246; color: #ffffff;" required>
+                            <span class="error text-info" id="username_info_msg" style="display: none;">username already exists</span>
+                            <span class="error text-info" id="username_error_msg" style="display: none;font-size: 15px;">Username must be at least 6 characters long.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row m-3">
+                        <label for="phone_number" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Phone Number</label>
+                        <div class="col-md-6">
+                            <input type="text" id="phone_number" name="phone_number" style="background-color: #2b3246; color: #ffffff;" class="form-control">
+                            <span class="error text-info" id="numer_err_msg" style="display: none;" >Invalid Mobile Number</span>
+                        </div>
+                    </div>
+                    <div class="form-group row m-3">
+                        <label for="userpassword" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" name="user_password" id="user_password" style="background-color: #2b3246; color: #ffffff;" required>
+                        </div>
+                    </div>
+                    <div class="form-group row m-3">
+                        <label for="userpassword" class="col-md-4 col-form-label text-md-right" style="color: #66d9ef;">Repeat Password</label>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" style="background-color: #2b3246; color: #ffffff;" required>
+                            <span class="error text-info" id="paswrd_err_msg" style="display: none;" >Password didn't Match</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 offset-md-5">
+                        <button type="submit" class="btn border-none" style="background-color: #36c4e0;  color: #ffffff;" id ="register-btn" required>
+                        Register
+                        </button>
+                    </div>
+                    <div class="form-group row m-3">
+                        <label class="col-md-6 col-form-label text-md-right" style="font-size: smaller;color: #66d9ef;">Already a Member ?<a href="{% url 'Login-View' %}"  style="text-decoration: none;font-size: small;  color: #ffffff;"  class="link-light mx-2"> Login Now</a></label>   
+                    </div>
+                </form>
+            </div>
+    </div>
+</div>
+{% endblock %}

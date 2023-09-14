@@ -59,7 +59,7 @@ class BlogListServices:
             issearch=False
             if request.method == 'POST':
                 key_word=request.POST.get('key_word')
-                blog_data=BlogLists.objects.filter(blog_title__istartswith=key_word).select_related('userid').values(
+                blog_data=BlogLists.objects.filter(blog_title__contains=key_word).select_related('userid').values(
                  'blog_id','userid__fullname','userid','blog_title','blog_content','created_at','isUpdate'
             ).order_by('-blog_id')
                 issearch=True
