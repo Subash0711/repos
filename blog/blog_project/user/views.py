@@ -55,7 +55,7 @@ def availablitymail(request):
     return loginCoreService.mailAvailability(request)
 
 
-
+@csrf_exempt
 @validateToken
 def user_Profile_View(request,userid):
     if request.method == 'POST':
