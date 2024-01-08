@@ -8,7 +8,7 @@
                     </div>
                     <div class="card-body" style="background-color: #21273a;">
                         <form method="post">
-
+                            {% csrf_token %}
                             <div class="form-group row m-3">
                                 <label for="username" class="col-md-4 col-form-label text-md-right"
                                     style="color: #66d9ef;">Username</label>

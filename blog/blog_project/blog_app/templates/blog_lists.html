@@ -100,6 +100,7 @@
             <!-- comment div -->
             <div class="m-2 commentDiv" style="display: none;" data-listId="{{list.blog_id}}">
                 <form method="post" action="{% url 'Add_Comment_View' %}">
+                    {% csrf_token %} 
                     <input type="text" class="form-control" id="user_comment" name="user_comment" placeholder="Your Opinion"
                         aria-label="user-opinion" aria-describedby="basic-addon2" required>
                     <input type="text" name="userId" value="{{ userid }}" style="display: none;">
@@ -115,6 +116,7 @@
             <!-- share div -->
             <div class="input-group m-2 shareDiv" style="display: none;" data-listId="{{list.blog_id}}">
                 <form method="post" action="{% url 'Share_Blog_View' %}" class="row g-3">
+                    {% csrf_token %} 
                     <div class="col-auto">
                         <input type="text" readonly class="form-control-plaintext" name="blogid"
                             value="{{list.blog_id}}" style="display: none;">

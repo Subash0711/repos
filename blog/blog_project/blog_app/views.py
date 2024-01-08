@@ -5,12 +5,12 @@ from blog_app.service import coreservices
 from user.service import validateToken
 
 
-@csrf_exempt
+
 @validateToken
 def blogList_View(request,userid):
     return BlogListServices.getAllBlog(request,userid)
 
-@csrf_exempt
+
 @validateToken
 def addBlog_View(request,userid):
     if request.method == 'POST':
@@ -24,9 +24,9 @@ def addBlog_View(request,userid):
             'headline':'What you want talk about?',
             'method':'Add'
         }
-        return render (request=None,template_name='add_or_update_blog.html',context=contx)
+        return render (request,template_name='add_or_update_blog.html',context=contx)
 
-@csrf_exempt
+
 @validateToken
 def updateBlog_View(request,userid,blogid):
     if request.method == 'POST':
@@ -43,29 +43,29 @@ def updateBlog_View(request,userid,blogid):
             'method':'Update',
             'headline':'You have anything better!',
         }
-        return render (request=None,template_name='add_or_update_blog.html',context=contx)
+        return render (request,template_name='add_or_update_blog.html',context=contx)
 
 @validateToken    
 def commentView(request,blogid,userid):
     return BlogCommentServices.BlogComments(request,blogid,userid)
 
-@csrf_exempt
+
 @validateToken
 def addCommentView(request):
     return BlogCommentServices.addBlogComment(request)
 
-@csrf_exempt
+
 @validateToken
 def shareBlogView(request):
     if request.method == 'POST':
         return BlogShareServices.shareBlog(request)
 
-@csrf_exempt
+
 @validateToken
 def deleteCommentView(request):
     return BlogCommentServices.deleteBlogComments(request)  
 
-@csrf_exempt
+
 @validateToken
 def updateCommentView(request):
     return BlogCommentServices.updateBlogComments(request)

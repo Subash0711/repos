@@ -8,7 +8,8 @@
             <form method="post" action="{% url 'AddBlog_View' userid=userid %}">
             {% elif method == 'Update' %}
             <form method="post" action="{% url 'UpdateBlog_View' userid=userid blogid=blogid %}">
-            {% endif %}  
+            {% endif %} 
+            {% csrf_token %}  
             <div class="form-row p-3 m-3" >
                 <div class="form-group col-md-10 mx-auto">
                     <label for="blog_title" class="m-2 fw-semibold" style="color: #66d9ef;">Title</label>

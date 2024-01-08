@@ -81,7 +81,7 @@ class userProfileService:
         UserGetLikesCount=blogCoreService.getLikesCount(userid)
         title= (f"{data['userfullname']}| BlogNest")
         msg  = request.session.get('message')
-        return render (request=None,template_name='user_profile.html',context={'title':title,'userid':userid,'message':msg,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount,'userGetLikesCount':UserGetLikesCount['likes']})
+        return render (request,template_name='user_profile.html',context={'title':title,'userid':userid,'message':msg,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount,'userGetLikesCount':UserGetLikesCount['likes']})
      
     @classmethod
     def updateUser(cls,request,userid):
@@ -103,7 +103,7 @@ class userProfileService:
                 request.session['message'] = messages.PASSWORD_UPDATE_MSG
                 return redirect(url)
             msg={'errormessage':messages.PASSWORD_CHECK_MSG,'userid':userid,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount,'userGetLikesCount':UserGetLikesCount['likes']}
-            return render(request=None,template_name='user_profile.html',context=msg)
+            return render(request,template_name='user_profile.html',context=msg)
         elif columnName == 'contact-col':
             updateName=request.POST.get('update-full-name')
             updateMobileNo=request.POST.get('update-mobile-no')
@@ -126,7 +126,7 @@ class userProfileService:
                 request.session['message'] = messages.USERNAME_UPDATE_MSG
                 return redirect(url)
             msg={'errormessage':messages.USERNAME_UNAVAILABLE_MSG,'userid':userid,'user':data,'userblogCount':blogCount,'userCmtsCount':blogcmtCount,'userGetLikesCount':UserGetLikesCount}
-            return render(request=None,template_name='user_profile.html',context=msg)
+            return render(request,template_name='user_profile.html',context=msg)
         
 class TokenService:
     SECRET_KEY='djanagoblogNestSecretKeyIsopojjsjvdvdsvdvdvdsv'
@@ -148,9 +148,9 @@ def validateToken(view_func):
             return view_func(request,*args,**kwargs)
         except jwt.ExpiredSignatureError:
             cntxdata={'title':'405 Method Not Allowed','content':'Request Time has been Expired','StatusCode':'405'}
-            return render(request=None,template_name='user_error.html',context=cntxdata)
+            return render(request,template_name='user_error.html',context=cntxdata)
         except jwt.InvalidTokenError:
             cntxdata={'title':'401 Unauthorized','content':'Unauthorized Request has been Found','StatusCode':'401'}
-            return render(request=None,template_name='user_error.html',context=cntxdata)
+            return render(request,template_name='user_error.html',context=cntxdata)
     return wrappedView
         

@@ -17,6 +17,7 @@
             {% for list in bloglist%}
             <!-- Edit Modal -->
             <form action="{% url 'BlogComment_update_View' %}" method="post">
+                {% csrf_token %}
                 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content" style="background-color: #191c27;">
@@ -37,6 +38,7 @@
             </form>
             <!-- Delete Modal -->
             <form action="{% url 'BlogComment_delete_View' %}" method="post">
+                {% csrf_token %}
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content" style="background-color: #191c27;">
@@ -130,6 +132,7 @@
             <!-- Share Div -->
             <div class="input-group m-2" id="shareDiv" style="display: none;" data-listId="{{list.blog_id}}">
                 <form method="post" action="{% url 'Share_Blog_View' %}" class="row g-3">
+                    {% csrf_token %} 
                     <div class="col-auto">
                         <input type="text" readonly class="form-control-plaintext" name="blogid"
                             value="{{list.blog_id}}" style="display: none;">
